@@ -1,0 +1,30 @@
+/* register.css */
+.root {
+    -fx-background-color: #f0f0f0; /* Màu nền sáng */
+}
+
+.text {
+    -fx-fill: #333; /* Màu chữ tối */
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field {
+    -fx-pref-height: 35px; /* Chiều cao của các trường nhập */
+    -fx-pref-width: 400px; /* Chiều rộng của các trường nhập */
+    -fx-padding: 5px;
+}
+
+.button {
+    -fx-background-color: #007bff; /* Màu nền của nút */
+    -fx-text-fill: white; /* Màu chữ của nút */
+    -fx-pref-height: 35px; /* Chiều cao của nút */
+    -fx-pref-width: 100px; /* Chiều rộng của nút */
+}
+
+.button:hover {
+    -fx-background-color: #0056b3; /* Màu nền khi hover */
+}
