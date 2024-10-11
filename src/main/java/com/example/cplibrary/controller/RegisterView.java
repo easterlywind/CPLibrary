@@ -1,4 +1,4 @@
-package com.example.cplibrary.view.common;
+package com.example.cplibrary.controller;
 
 import com.example.cplibrary.util.DatabaseConnection;
 import javafx.event.ActionEvent;

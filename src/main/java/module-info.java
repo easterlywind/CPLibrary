@@ -11,6 +11,6 @@ module com.example.cplibrary {
     requires java.desktop;
     requires java.sql;
 
-    opens com.example.cplibrary.view.common to javafx.fxml;
     exports com.example.cplibrary;
+    opens com.example.cplibrary.controller to javafx.fxml;
 }

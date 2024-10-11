@@ -1,4 +1,4 @@
 package com.example.cplibrary.service;
 
-public class ReservationService {
+public class LibraryService {
 }
