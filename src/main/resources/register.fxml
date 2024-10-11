@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.view.common.RegisterView">
+    <children>
+        <Label layoutX="256.0" layoutY="36.0" text="Register" textAlignment="CENTER" textFill="black">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <TextField fx:id="emailTextField" layoutX="169.0" layoutY="83.0" prefWidth="240.0" promptText="Email" />
+        <TextField fx:id="usernameTextField" layoutX="169.0" layoutY="137.0" prefWidth="240.0" promptText="User Name" />
+        <PasswordField fx:id="passwordTextField" layoutX="169.0" layoutY="192.0" prefWidth="240.0" promptText="Password" />
+      <PasswordField fx:id="confirmPasswordTextField" layoutX="169.0" layoutY="249.0" prefWidth="240.0" promptText="Confirm Password" />
+
+        <Button fx:id="registerButton" layoutX="316.0" layoutY="325.0" onAction="#registerButtonOnAction" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Register Now" />
+      <Label fx:id="registerMessageLabel" layoutX="190.0" layoutY="292.0" prefHeight="24.0" prefWidth="197.0" textFill="RED" />
+      <Button fx:id="backToLoginButton" layoutX="169.0" layoutY="325.0" mnemonicParsing="false" onAction="#backToLoginButtonOnAction" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Login" />
+    </children>
+</AnchorPane>

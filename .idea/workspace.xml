@@ -5,13 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc166405-eb01-42ed-98fe-6d9c4a08b32c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/util/DatabaseConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/login.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/register.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/register.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5d728c39-c5e2-476b-9b75-db3c6b4ca1c3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5d728c39-c5e2-476b-9b75-db3c6b4ca1c3/storage_v2/_src_/schema/cplibrary.rrPi0g.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/view/common/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/view/common/LoginView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/view/common/RegisterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/view/common/RegisterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +29,8 @@
       <list>
         <option value="JavaFXApplication" />
         <option value="Class" />
+        <option value="CSS File" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -40,6 +48,9 @@
         <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -62,6 +73,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Program Files/mysql-connector-j-9.0.0/mysql-connector-j-9.0.0.jar",
+    "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -70,7 +82,13 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "SQL Dialects",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -92,6 +110,14 @@
       <workItem from="1727939829415" duration="6941000" />
       <workItem from="1727956879833" duration="2738000" />
       <workItem from="1727968014865" duration="299000" />
+      <workItem from="1728486929869" duration="13000" />
+      <workItem from="1728488128286" duration="169000" />
+      <workItem from="1728548870749" duration="8143000" />
+      <workItem from="1728573820292" duration="1060000" />
+      <workItem from="1728575115801" duration="6012000" />
+      <workItem from="1728606613022" duration="1037000" />
+      <workItem from="1728607664347" duration="1522000" />
+      <workItem from="1728609196866" duration="3964000" />
     </task>
     <servers />
   </component>
@@ -108,5 +134,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

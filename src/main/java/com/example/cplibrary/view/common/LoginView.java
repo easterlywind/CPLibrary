@@ -3,22 +3,24 @@ package com.example.cplibrary.view.common;
 import com.example.cplibrary.util.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 
 public class LoginView {
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Button registerButton;
+
     @FXML
     public Label loginMessageLabel;
     @FXML
@@ -37,12 +39,21 @@ public class LoginView {
         }
     }
 
+    public void registerButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/register.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
     public void validateLogin() {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
+        if (connectDB == null) {
+            loginMessageLabel.setText("Connection Failed");
+        }
 
-        String verifyLogin = "select count(1) from login where userName = '" + usernameTextField.getText() + "' AND password = '" + passwordTextField.getText() + "'";
-
+        String verifyLogin = "select count(1) from login where userName = '" + usernameTextField.getText() + "'AND password = '" +passwordTextField.getText() + "'";
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);

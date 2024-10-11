@@ -1,94 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="MySQL Test Connection">
+<dataSource name="SQL TestConnection">
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.53">
     <root id="1">
       <DefaultCasing>lower/lower</DefaultCasing>
       <DefaultEngine>InnoDB</DefaultEngine>
       <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
-      <Grants>|root||root|localhost|ALTER|G
+      <Grants>|root||newuser|localhost|ALTER|G
+|root||root|localhost|ALTER|G
+|root||newuser|localhost|ALTER ROUTINE|G
 |root||root|localhost|ALTER ROUTINE|G
+|root||newuser|localhost|APPLICATION_PASSWORD_ADMIN|G
 |root||root|localhost|APPLICATION_PASSWORD_ADMIN|G
 |root||mysql.infoschema|localhost|AUDIT_ABORT_EXEMPT|G
 |root||mysql.session|localhost|AUDIT_ABORT_EXEMPT|G
 |root||mysql.sys|localhost|AUDIT_ABORT_EXEMPT|G
+|root||newuser|localhost|AUDIT_ABORT_EXEMPT|G
 |root||root|localhost|AUDIT_ABORT_EXEMPT|G
+|root||newuser|localhost|AUDIT_ADMIN|G
 |root||root|localhost|AUDIT_ADMIN|G
 |root||mysql.session|localhost|AUTHENTICATION_POLICY_ADMIN|G
+|root||newuser|localhost|AUTHENTICATION_POLICY_ADMIN|G
 |root||root|localhost|AUTHENTICATION_POLICY_ADMIN|G
 |root||mysql.session|localhost|BACKUP_ADMIN|G
+|root||newuser|localhost|BACKUP_ADMIN|G
 |root||root|localhost|BACKUP_ADMIN|G
+|root||newuser|localhost|BINLOG_ADMIN|G
 |root||root|localhost|BINLOG_ADMIN|G
+|root||newuser|localhost|BINLOG_ENCRYPTION_ADMIN|G
 |root||root|localhost|BINLOG_ENCRYPTION_ADMIN|G
 |root||mysql.session|localhost|CLONE_ADMIN|G
+|root||newuser|localhost|CLONE_ADMIN|G
 |root||root|localhost|CLONE_ADMIN|G
 |root||mysql.session|localhost|CONNECTION_ADMIN|G
+|root||newuser|localhost|CONNECTION_ADMIN|G
 |root||root|localhost|CONNECTION_ADMIN|G
+|root||newuser|localhost|CREATE|G
 |root||root|localhost|CREATE|G
+|root||newuser|localhost|CREATE ROLE|G
 |root||root|localhost|CREATE ROLE|G
+|root||newuser|localhost|CREATE ROUTINE|G
 |root||root|localhost|CREATE ROUTINE|G
+|root||newuser|localhost|CREATE TABLESPACE|G
 |root||root|localhost|CREATE TABLESPACE|G
+|root||newuser|localhost|CREATE TEMPORARY TABLES|G
 |root||root|localhost|CREATE TEMPORARY TABLES|G
+|root||newuser|localhost|CREATE USER|G
 |root||root|localhost|CREATE USER|G
+|root||newuser|localhost|CREATE VIEW|G
 |root||root|localhost|CREATE VIEW|G
+|root||newuser|localhost|DELETE|G
 |root||root|localhost|DELETE|G
+|root||newuser|localhost|DROP|G
 |root||root|localhost|DROP|G
+|root||newuser|localhost|DROP ROLE|G
 |root||root|localhost|DROP ROLE|G
+|root||newuser|localhost|ENCRYPTION_KEY_ADMIN|G
 |root||root|localhost|ENCRYPTION_KEY_ADMIN|G
+|root||newuser|localhost|EVENT|G
 |root||root|localhost|EVENT|G
+|root||newuser|localhost|EXECUTE|G
 |root||root|localhost|EXECUTE|G
+|root||newuser|localhost|FILE|G
 |root||root|localhost|FILE|G
 |root||mysql.infoschema|localhost|FIREWALL_EXEMPT|G
 |root||mysql.session|localhost|FIREWALL_EXEMPT|G
 |root||mysql.sys|localhost|FIREWALL_EXEMPT|G
+|root||newuser|localhost|FIREWALL_EXEMPT|G
 |root||root|localhost|FIREWALL_EXEMPT|G
+|root||newuser|localhost|FLUSH_OPTIMIZER_COSTS|G
 |root||root|localhost|FLUSH_OPTIMIZER_COSTS|G
+|root||newuser|localhost|FLUSH_STATUS|G
 |root||root|localhost|FLUSH_STATUS|G
+|root||newuser|localhost|FLUSH_TABLES|G
 |root||root|localhost|FLUSH_TABLES|G
+|root||newuser|localhost|FLUSH_USER_RESOURCES|G
 |root||root|localhost|FLUSH_USER_RESOURCES|G
+|root||newuser|localhost|GROUP_REPLICATION_ADMIN|G
 |root||root|localhost|GROUP_REPLICATION_ADMIN|G
+|root||newuser|localhost|GROUP_REPLICATION_STREAM|G
 |root||root|localhost|GROUP_REPLICATION_STREAM|G
+|root||newuser|localhost|INDEX|G
 |root||root|localhost|INDEX|G
+|root||newuser|localhost|INNODB_REDO_LOG_ARCHIVE|G
 |root||root|localhost|INNODB_REDO_LOG_ARCHIVE|G
+|root||newuser|localhost|INNODB_REDO_LOG_ENABLE|G
 |root||root|localhost|INNODB_REDO_LOG_ENABLE|G
+|root||newuser|localhost|INSERT|G
 |root||root|localhost|INSERT|G
+|root||newuser|localhost|LOCK TABLES|G
 |root||root|localhost|LOCK TABLES|G
+|root||newuser|localhost|PASSWORDLESS_USER_ADMIN|G
 |root||root|localhost|PASSWORDLESS_USER_ADMIN|G
 |root||mysql.session|localhost|PERSIST_RO_VARIABLES_ADMIN|G
+|root||newuser|localhost|PERSIST_RO_VARIABLES_ADMIN|G
 |root||root|localhost|PERSIST_RO_VARIABLES_ADMIN|G
+|root||newuser|localhost|PROCESS|G
 |root||root|localhost|PROCESS|G
+|root||newuser|localhost|REFERENCES|G
 |root||root|localhost|REFERENCES|G
+|root||newuser|localhost|RELOAD|G
 |root||root|localhost|RELOAD|G
+|root||newuser|localhost|REPLICATION CLIENT|G
 |root||root|localhost|REPLICATION CLIENT|G
+|root||newuser|localhost|REPLICATION SLAVE|G
 |root||root|localhost|REPLICATION SLAVE|G
+|root||newuser|localhost|REPLICATION_APPLIER|G
 |root||root|localhost|REPLICATION_APPLIER|G
+|root||newuser|localhost|REPLICATION_SLAVE_ADMIN|G
 |root||root|localhost|REPLICATION_SLAVE_ADMIN|G
+|root||newuser|localhost|RESOURCE_GROUP_ADMIN|G
 |root||root|localhost|RESOURCE_GROUP_ADMIN|G
+|root||newuser|localhost|RESOURCE_GROUP_USER|G
 |root||root|localhost|RESOURCE_GROUP_USER|G
+|root||newuser|localhost|ROLE_ADMIN|G
 |root||root|localhost|ROLE_ADMIN|G
 |root||mysql.infoschema|localhost|SELECT|G
+|root||newuser|localhost|SELECT|G
 |root||root|localhost|SELECT|G
+|root||newuser|localhost|SENSITIVE_VARIABLES_OBSERVER|G
 |root||root|localhost|SENSITIVE_VARIABLES_OBSERVER|G
+|root||newuser|localhost|SERVICE_CONNECTION_ADMIN|G
 |root||root|localhost|SERVICE_CONNECTION_ADMIN|G
 |root||mysql.session|localhost|SESSION_VARIABLES_ADMIN|G
+|root||newuser|localhost|SESSION_VARIABLES_ADMIN|G
 |root||root|localhost|SESSION_VARIABLES_ADMIN|G
+|root||newuser|localhost|SET_USER_ID|G
 |root||root|localhost|SET_USER_ID|G
+|root||newuser|localhost|SHOW DATABASES|G
 |root||root|localhost|SHOW DATABASES|G
+|root||newuser|localhost|SHOW VIEW|G
 |root||root|localhost|SHOW VIEW|G
+|root||newuser|localhost|SHOW_ROUTINE|G
 |root||root|localhost|SHOW_ROUTINE|G
 |root||mysql.session|localhost|SHUTDOWN|G
+|root||newuser|localhost|SHUTDOWN|G
 |root||root|localhost|SHUTDOWN|G
 |root||mysql.session|localhost|SUPER|G
+|root||newuser|localhost|SUPER|G
 |root||root|localhost|SUPER|G
 |root||mysql.infoschema|localhost|SYSTEM_USER|G
 |root||mysql.session|localhost|SYSTEM_USER|G
 |root||mysql.sys|localhost|SYSTEM_USER|G
+|root||newuser|localhost|SYSTEM_USER|G
 |root||root|localhost|SYSTEM_USER|G
 |root||mysql.session|localhost|SYSTEM_VARIABLES_ADMIN|G
+|root||newuser|localhost|SYSTEM_VARIABLES_ADMIN|G
 |root||root|localhost|SYSTEM_VARIABLES_ADMIN|G
+|root||newuser|localhost|TABLE_ENCRYPTION_ADMIN|G
 |root||root|localhost|TABLE_ENCRYPTION_ADMIN|G
+|root||newuser|localhost|TELEMETRY_LOG_ADMIN|G
 |root||root|localhost|TELEMETRY_LOG_ADMIN|G
+|root||newuser|localhost|TRIGGER|G
 |root||root|localhost|TRIGGER|G
+|root||newuser|localhost|UPDATE|G
 |root||root|localhost|UPDATE|G
+|root||newuser|localhost|XA_RECOVER_ADMIN|G
 |root||root|localhost|XA_RECOVER_ADMIN|G
 |root||root|localhost|grant option|G
 performance_schema|schema||mysql.session|localhost|SELECT|G
@@ -999,7 +1065,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="289" parent="1" name="cplibrary">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-10-08.04:43:43</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-10-11.01:34:58</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="information_schema">
@@ -1032,19 +1098,23 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="298" parent="1" name="root">
+    <user id="298" parent="1" name="newuser">
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <table id="299" parent="289" name="login">
+    <user id="299" parent="1" name="root">
+      <Host>localhost</Host>
+      <Plugin>caching_sha2_password</Plugin>
+    </user>
+    <table id="300" parent="289" name="login">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="300" parent="299" name="userName">
+    <column id="301" parent="300" name="userName">
       <Position>1</Position>
       <StoredType>varchar(10)|0s</StoredType>
     </column>
-    <column id="301" parent="299" name="password">
+    <column id="302" parent="300" name="password">
       <Position>2</Position>
       <StoredType>varchar(10)|0s</StoredType>
     </column>
