@@ -33,7 +33,6 @@ public class LoginView {
         if(usernameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
             loginMessageLabel.setText("Please enter your username and password");
         } else {
-            //loginMessageLabel.setText("Login successful");
             validateLogin();
         }
     }
