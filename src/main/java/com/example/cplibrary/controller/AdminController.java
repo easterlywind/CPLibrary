@@ -1,31 +1,25 @@
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+package com.example.cplibrary.controller;
+
+import com.example.cplibrary.model.User;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private ImageView adminImage;
@@ -43,6 +37,9 @@ public class AdminController implements Initializable {
     private Button userButton;
 
     @FXML
+    private Button logOutButton1;
+
+    @FXML
     private AnchorPane userPane;
 
     @FXML
@@ -52,16 +49,22 @@ public class AdminController implements Initializable {
     private TextField userSearchBar;
 
     @FXML
-    private TableView<user> userTable;
+    private TableView<User> userTable;
 
     @FXML
-    private TableColumn<user, Integer> userIDColumn;
+    private TableColumn<?, ?> userIDColumn;
 
     @FXML
-    private TableColumn<user, String> userNameColumn;
+    private TableColumn<?, ?> userNameColumn;
 
     @FXML
-    private TableColumn<user, String> userEmailColumn;
+    private TableColumn<?, ?> userEmailColumn;
+
+    @FXML
+    private TableColumn<?, ?> userPasswordColumn;
+
+    @FXML
+    private ComboBox<?> userSelectRole1;
 
     @FXML
     private TextField userIDText;
@@ -82,10 +85,13 @@ public class AdminController implements Initializable {
     private Button userUpdateBtton;
 
     @FXML
-    private ComboBox<String> userSelectRole2;
+    private ComboBox<?> userSelectRole2;
 
     @FXML
-    private ComboBox<String> userSelectRole1;
+    private TextField userIDText1;
+
+    @FXML
+    private Button userDeleteButton1;
 
     @FXML
     private AnchorPane bookPane;
@@ -133,205 +139,69 @@ public class AdminController implements Initializable {
     private TextField publishDateText;
 
     @FXML
-    private TableColumn<?, ?> userPasswordColumn;
+    private Button bookClearButton;
 
-    @FXML
-    private MenuItem userSelectionUser1;
+    public void setAdminNameText() {
 
-    @FXML
-    private MenuItem userSelectionStaff1;
-
-    @FXML
-    private MenuItem userSelectionUser2;
-
-    @FXML
-    private MenuItem userSelectionStaff2;
-
-    private Connection connection;
-    private Statement statement;
-    private PreparedStatement prepare;
-    private ResultSet result;
-
-    public ObservableList<user> userListData() {
-        ObservableList<user> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM users";
-
-        connection = DatabaseConnection.getConnection();
-
-        try{
-            prepare = connection.prepareStatement(sql);
-            result = prepare.executeQuery();
-            user user1;
-
-            while(result.next()) {
-                user1 = new user(result.getString("User ID")
-                        , result.getString("User name")
-                        , result.getString("Email")
-                        , result.getString("Password"));
-                listData.add(user1);
-            }
-
-        }catch (Exception e){e.printStackTrace();}
-        return listData;
     }
 
-    public void DisplayAdminName() {
-        adminNameText.setText(user.getName());
+    public void searchUser() {
+
     }
 
-    private ObservableList<user> userList;
-    public void UserShowListData(){
-        userList = userListData();
+    public void displayUserTable() {
 
-        userIDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        userNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        userEmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        userPasswordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-
-        userTable.setItems(userList);
     }
 
-    public void userSelect() {
-        user user1 = userTable.getSelectionModel().getSelectedItem();
-        int num = userTable.getSelectionModel().getSelectedIndex();
+    public void addUser() {
 
-        if((num - 1) < -1){return;}
-
-        userIDColumn.setText(String.valueOf(user1.getID()));
-        userNameColumn.setText(user.getName());
-        userEmailColumn.setText(user1.getEmail());
-        userPasswordColumn.setText(user1.getPassword());
     }
 
-    public void userAdd() {
+    public void deleteUser() {
 
-        String sql = "INSERT INTO user "
-                + "(userID,userName,email,password) "
-                + "VALUES(?,?,?,?)";
-
-        connection = DatabaseConnection.getConnection();
-
-        try{
-            Alert alert;
-            if(userIDText.getText().isEmpty() || userNameText.getText().isEmpty() || userEmailText.getText().isEmpty()) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error meassage");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all the blank fields");
-                alert.showAndWait();
-            }
-
-            else {
-                String check = "SELECT userID FROM users WHERE userID = '"
-                        + userIDText.getText() + "'";
-                statement = connection.createStatement();
-                result = statement.executeQuery(check);
-
-                if(result.next()) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error meassage");
-                    alert.setHeaderText(null);
-                    alert.setContentText("User ID already exist");
-                    alert.showAndWait();
-                }
-
-                prepare = connection.prepareStatement(sql);
-                prepare.setString(1, userIDText.getText());
-                prepare.setString(2, userNameText.getText());
-                prepare.setString(3, userEmailText.getText());
-
-                String uri = getData.path;
-                uri = uri.replace("\\", "\\\\");
-
-                prepare.setString(4, uri);
-                prepare.executeUpdate();
-
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information meassage");
-                alert.setHeaderText(null);
-                alert.setContentText("Successfully added");
-                alert.showAndWait();
-
-                UserShowListData();
-            }
-
-        }catch(Exception e){e.printStackTrace();}
     }
 
-    public void userUpdateUser() {
-        String sql = "UPDATE users SET ID = '"
-                + userIDText.getText() + "' , name = '"
-                + userNameText.getText() + "' , email = '"
-                + userPasswordColumn.getText() + "'";
+    public void updateUser() {
 
-        connection = DatabaseConnection.getConnection();
-
-        try {
-            Alert alert;
-            if(userIDText.getText().isEmpty() || userNameText.getText().isEmpty() || userEmailText.getText().isEmpty()) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error meassage");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all the blank fields");
-                alert.showAndWait();
-            }
-            else {
-                alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation meassage");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure want to UPDATE user information");
-                Optional<ButtonType> option = alert.showAndWait();
-
-                if(option.get().equals(ButtonType.OK)) {
-                    statement = connection.createStatement();
-                    statement.executeUpdate(sql);
-
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information meassage");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Sucessfully updated");
-                    alert.showAndWait();
-
-
-                }
-            }
-        } catch (Exception e) {throw new RuntimeException(e);}
     }
 
-    public void userDelete() {
-        String sql = "DELETE FROM users WHERE ID = '"
-                + userIDText.getText() + "'";
-        connection = DatabaseConnection.getConnection();
+    public void searchBook() {
 
-        try {
-            Alert alert;
-            if(userIDText.getText().isEmpty() || userNameText.getText().isEmpty() || userEmailText.getText().isEmpty()) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error meassage");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all the blank fields");
-                alert.showAndWait();
-            }
-            else {
-
-            }
-
-        } catch (Exception e) {throw new RuntimeException(e);}
     }
 
-    private String[] listRole = {"Staff", "User"};
-    public void userRoleList() {
-        List<String> listR = new ArrayList<>();
+    public void displayBookTable() {
 
-        for(String data : listRole) {
-            listR.add(data);
-        }
-        ObservableList listData = FXCollections.observableArrayList(listR);
-        userSelectRole2.setItems(listData);
-        userSelectRole1.setItems(listData);
     }
 
-    public void SwitchForm(ActionEvent event) throws IOException {
+    public void addBook() {
+
+    }
+
+    public void deleteBook() {
+
+    }
+
+    public void updateBook() {
+
+    }
+
+    public void roleSelection1(ActionEvent event) {
+
+    }
+
+    public void roleSelection2(ActionEvent event) {
+
+    }
+
+    public void clearUser() {
+
+    }
+
+    public void clearBook() {
+
+    }
+
+    public void switchForm(ActionEvent event) throws IOException {
         if(event.getSource() == bookButton) {
             bookPane.setVisible(true);
             userPane.setVisible(false);
@@ -343,10 +213,56 @@ public class AdminController implements Initializable {
         }
     }
 
+    public void switchToUser(ActionEvent event) throws IOException {
+        Alert alert;
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information meassage");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure want to switch to user UI?");
+
+        ButtonType buttonY = new ButtonType("Yes");
+        ButtonType buttonN = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonN, buttonY);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+
+        if (result.isPresent() && result.get() == buttonY) {
+            Parent root = FXMLLoader.load(getClass().getResource("/userView.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+    }
+
+    public void logOut(ActionEvent event) throws IOException {
+        Alert alert;
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information meassage");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure want to log out?");
+
+        ButtonType buttonY = new ButtonType("Yes");
+        ButtonType buttonN = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonN, buttonY);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+
+        if (result.isPresent() && result.get() == buttonY) {
+            Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+    }
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        UserShowListData();
-        userRoleList();
     }
 }

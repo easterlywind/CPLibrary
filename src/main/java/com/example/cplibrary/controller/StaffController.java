@@ -1,19 +1,28 @@
+package com.example.cplibrary.controller;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class StaffController implements Initializable{
@@ -45,7 +54,7 @@ public class StaffController implements Initializable{
     private TextField userSearchBar;
 
     @FXML
-    private TableView<user> userTable;
+    private TableView<?> userTable;
 
     @FXML
     private TableColumn<?, ?> userIDColumn;
@@ -128,127 +137,62 @@ public class StaffController implements Initializable{
     @FXML
     private TextField publishDateText;
 
-    private Connection connection;
-    private Statement statement;
-    private PreparedStatement prepare;
-    private ResultSet result;
+    @FXML
+    private Button bookClearButton;
 
-    public ObservableList<user> userListData() {
-        ObservableList<user> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM users";
+    public void setAdminNameText() {
 
-        connection = DatabaseConnection.getConnection();
-
-        try{
-            prepare = connection.prepareStatement(sql);
-            result = prepare.executeQuery();
-            user user1;
-
-            while(result.next()) {
-                user1 = new user(result.getString("User ID")
-                        , result.getString("User name")
-                        , result.getString("Email")
-                        , result.getString("Password"));
-                listData.add(user1);
-            }
-
-        }catch (Exception e){e.printStackTrace();}
-        return listData;
     }
 
-    public void DisplayAdminName() {
-        staffNameText.setText(user.getName());
+    public void searchUser() {
+
     }
 
-    private ObservableList<user> userList;
-    public void UserShowListData(){
-        userList = userListData();
+    public void displayUserTable() {
 
-        userIDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        userNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        userEmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        userPasswordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-
-        userTable.setItems(userList);
     }
 
-    public void userSelect() {
-        user user1 = userTable.getSelectionModel().getSelectedItem();
-        int num = userTable.getSelectionModel().getSelectedIndex();
+    public void addUser() {
 
-        if((num - 1) < -1){return;}
-
-        userIDColumn.setText(String.valueOf(user1.getID()));
-        userNameColumn.setText(user.getName());
-        userEmailColumn.setText(user1.getEmail());
-        userPasswordColumn.setText(user1.getPassword());
     }
 
-    public void userAdd() {
+    public void deleteUser() {
 
-        String sql = "INSERT INTO user "
-                + "(userID,userName,email,password) "
-                + "VALUES(?,?,?,?)";
-
-        connection = DatabaseConnection.getConnection();
-
-        try{
-            Alert alert;
-            if(userIDText.getText().isEmpty() || userNameText.getText().isEmpty() || userEmailText.getText().isEmpty()) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error meassage");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all the blank fields");
-                alert.showAndWait();
-            }
-
-            else {
-                String check = "SELECT userID FROM users WHERE userID = '"
-                        + userIDText.getText() + "'";
-                statement = connection.createStatement();
-                result = statement.executeQuery(check);
-
-                if(result.next()) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error meassage");
-                    alert.setHeaderText(null);
-                    alert.setContentText("User ID already exist");
-                    alert.showAndWait();
-                }
-
-                prepare = connection.prepareStatement(sql);
-                prepare.setString(1, userIDText.getText());
-                prepare.setString(2, userNameText.getText());
-                prepare.setString(3, userEmailText.getText());
-
-                String uri = getData.path;
-                uri = uri.replace("\\", "\\\\");
-
-                prepare.setString(4, uri);
-                prepare.executeUpdate();
-
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information meassage");
-                alert.setHeaderText(null);
-                alert.setContentText("Successfully added");
-                alert.showAndWait();
-
-                UserShowListData();
-            }
-
-        }catch(Exception e){e.printStackTrace();}
     }
 
-    public void userUpdate() {
-        String sql = "UPDATE users SET ID = '"
-                + userIDText.getText() + "' , name = '"
-                + userNameText.getText() + "' , email = '"
-                + userPasswordColumn.getText() + "'";
+    public void updateUser() {
 
-        connection = DatabaseConnection.getConnection();
     }
 
-    public void SwitchForm(ActionEvent event) throws IOException {
+    public void searchBook() {
+
+    }
+
+    public void displayBookTable() {
+
+    }
+
+    public void addBook() {
+
+    }
+
+    public void deleteBook() {
+
+    }
+
+    public void updateBook() {
+
+    }
+
+    public void clearUser() {
+
+    }
+
+    public void clearBook() {
+
+    }
+
+    public void switchForm(ActionEvent event) throws IOException {
         if(event.getSource() == bookButton) {
             bookPane.setVisible(true);
             userPane.setVisible(false);
@@ -257,6 +201,52 @@ public class StaffController implements Initializable{
         if(event.getSource() == userButton) {
             bookPane.setVisible(false);
             userPane.setVisible(true);
+        }
+    }
+
+    public void switchToUser(ActionEvent event) throws IOException {
+        Alert alert;
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information meassage");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure want to switch to user UI?");
+
+        ButtonType buttonY = new ButtonType("Yes");
+        ButtonType buttonN = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonN, buttonY);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+
+        if (result.isPresent() && result.get() == buttonY) {
+            Parent root = FXMLLoader.load(getClass().getResource("/userView.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+    }
+
+    public void logOut(ActionEvent event) throws IOException {
+        Alert alert;
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information meassage");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure want to log out?");
+
+        ButtonType buttonY = new ButtonType("Yes");
+        ButtonType buttonN = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonN, buttonY);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+
+        if (result.isPresent() && result.get() == buttonY) {
+            Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
         }
     }
 
