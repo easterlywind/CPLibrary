@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@user.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.main">
+    <children>
+        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.8000000000001819" AnchorPane.topAnchor="0.0">
+            <top>
+                <HBox prefHeight="100.0" prefWidth="200.0" styleClass="top-bar" stylesheets="@user.css" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="136.0" stylesheets="@user.css">
+                            <children>
+                                <ImageView fx:id="avatarImageView" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" styleClass="avatar">
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                           <image>
+                              <Image url="@../../../../Users/Admin/Downloads/cat.png" />
+                           </image>
+                                </ImageView>
+                            </children>
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" minWidth="200.0" prefHeight="100.0" prefWidth="200.0" stylesheets="@user.css">
+                            <children>
+                                <Label text="Nguyễn Tiến Dũng" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                  <HBox prefHeight="100.0" prefWidth="130.0" HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <TextField alignment="CENTER" prefHeight="46.0" prefWidth="500.0" promptText="Type here to search" styleClass="search-bar" stylesheets="@user.css" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font name="Cambria" size="24.0" />
+                                    </font>
+                                </TextField>
+                            </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                        </HBox>
+                  <HBox prefHeight="100.0" prefWidth="140.0" HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+            </top>
+         <left>
+            <AnchorPane prefHeight="607.0" prefWidth="290.0" styleClass="side-bar" stylesheets="@user.css" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="40.0" top="20.0" />
+               </BorderPane.margin>
+               <children>
+                  <Button layoutX="12.0" layoutY="21.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="265.0" text="Trang Chủ">
+                     <font>
+                        <Font name="Cambria" size="14.0" />
+                     </font></Button>
+                  <Button layoutX="12.0" layoutY="63.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="265.0" text="Yêu Thích">
+                     <font>
+                        <Font name="Cambria" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="12.0" layoutY="102.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="265.0" text="Nổi Bật">
+                     <font>
+                        <Font name="Cambria" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="12.0" layoutY="144.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="265.0" text="Đăng Xuất">
+                     <font>
+                        <Font name="Cambria" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </left>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ScrollPane layoutX="31.2" layoutY="103.0" prefHeight="620.0" prefWidth="937.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <AnchorPane prefHeight="903.0" prefWidth="907.0">
+                           <children>
+                              <Label layoutX="29.0" layoutY="24.0" text="Đã Xem">
+                                 <font>
+                                    <Font name="Calibri" size="22.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane layoutX="42.0" layoutY="68.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="215.0" layoutY="68.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="394.0" layoutY="68.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="567.0" layoutY="68.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="745.0" layoutY="68.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="40.0" layoutY="319.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="213.0" layoutY="319.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="392.0" layoutY="319.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="565.0" layoutY="319.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="743.0" layoutY="319.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <Label layoutX="29.0" layoutY="276.0" text="Sách Giáo Khoa">
+                                 <font>
+                                    <Font name="Calibri" size="22.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane layoutX="41.0" layoutY="578.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="214.0" layoutY="578.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="393.0" layoutY="578.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="566.0" layoutY="578.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <AnchorPane layoutX="744.0" layoutY="578.0" prefHeight="154.0" prefWidth="124.0" styleClass="item" stylesheets="@user.css" />
+                              <Label layoutX="19.0" layoutY="537.0" text="Truyện Trinh Thám">
+                                 <font>
+                                    <Font name="Calibri" size="22.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="796.0" layoutY="24.0" mnemonicParsing="false" text="Xem Thêm" />
+                              <Button layoutX="796.0" layoutY="276.0" mnemonicParsing="false" text="Xem Thêm" />
+                              <Button layoutX="796.0" layoutY="538.0" mnemonicParsing="false" text="Xem Thêm" />
+                           </children></AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </children></AnchorPane>
+         </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
