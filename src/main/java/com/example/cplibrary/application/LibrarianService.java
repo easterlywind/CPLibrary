@@ -9,7 +9,6 @@ public class LibrarianService {
         this.bookRepository = bookRepository;
     }
 
-    // Nghiệp vụ của thủ thư
     public void addBook(Book book) {
         bookRepository.addBook(book);
     }

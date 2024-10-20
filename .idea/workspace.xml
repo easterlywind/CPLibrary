@@ -4,45 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc166405-eb01-42ed-98fe-6d9c4a08b32c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/AdminService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/BookLendingService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/CatalogService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/NotificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/infrastructure/SQLBookRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/infrastructure/SQLUserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/LibraryCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Member.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/UserManagement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/adminView.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/adminView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/staffView.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/staffView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/user.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/user.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_09_10_2024_1_45_CH_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_09_10_2024_1_45_CH__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/LoginView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/RegisterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/RegisterView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/StaffController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/StaffController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Staff.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Staff.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/service/AdminService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/service/BookService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/service/LibraryService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/service/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/util/BookDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/util/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/DatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/util/GoogleAPIHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/util/QRCodeGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/util/UserDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/util/function/ThrowableFunction.java" beforeDir="false" />
-    </list>
+    <list default="true" id="fc166405-eb01-42ed-98fe-6d9c4a08b32c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -160,7 +122,7 @@
       <workItem from="1729157283300" duration="129000" />
       <workItem from="1729222647625" duration="11000" />
       <workItem from="1729222667660" duration="1769000" />
-      <workItem from="1729413412596" duration="2818000" />
+      <workItem from="1729413412596" duration="3134000" />
     </task>
     <servers />
   </component>
