@@ -1,4 +1,4 @@
-package com.example.cplibrary.util;
+package com.example.cplibrary;
 import java.sql.Connection;
 import java.sql.DriverManager;
 

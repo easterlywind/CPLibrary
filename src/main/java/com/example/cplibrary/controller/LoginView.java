@@ -1,6 +1,6 @@
 package com.example.cplibrary.controller;
 
-import com.example.cplibrary.util.DatabaseConnection;
+import com.example.cplibrary.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
