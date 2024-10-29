@@ -33,8 +33,9 @@ public class LoginView {
         if(usernameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
             loginMessageLabel.setText("Please enter your username and password");
         } else {
-            validateLogin();
+            validateLogin(event);
         }
+
     }
 
     public void registerButtonOnAction(ActionEvent event) throws IOException {
@@ -44,7 +45,8 @@ public class LoginView {
         stage.show();
     }
 
-    public void validateLogin() {
+
+    public void validateLogin(ActionEvent event) {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         if (connectDB == null) {
@@ -60,7 +62,10 @@ public class LoginView {
                 if(queryResult.getInt(1) == 0) {
                     loginMessageLabel.setText("Invalid username or password");
                 } else {
-                    loginMessageLabel.setText("Welcome " + usernameTextField.getText());
+                    Parent root = FXMLLoader.load(getClass().getResource("/user.fxml"));
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(new Scene(root, 1280, 720));
+                    stage.show();
                 }
             }
         } catch (Exception e) {
