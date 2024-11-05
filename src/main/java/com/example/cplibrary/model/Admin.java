@@ -26,4 +26,8 @@ public class Admin extends User implements UserManagement {
         return null; // Placeholder
     }
 
+    @Override
+    public void resetPassword() {
+
+    }
 }

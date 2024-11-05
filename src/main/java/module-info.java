@@ -10,6 +10,7 @@ module com.example.cplibrary {
     requires eu.hansolo.tilesfx;
     requires java.desktop;
     requires java.sql;
+    requires org.json;
 
     exports com.example.cplibrary;
     opens com.example.cplibrary.controller to javafx.fxml;

@@ -5,12 +5,16 @@ public class Book {
     private String title;
     private String author;
     private String subject;
+    private String publisher;
+    private String shelfLocation;
 
     public Book(String isbn, String title, String author, String subject) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.subject = subject;
+        this.publisher = "";
+        this.shelfLocation = "";
     }
 
     // Getter và Setter
@@ -44,5 +48,21 @@ public class Book {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getShelfLocation() {
+        return shelfLocation;
+    }
+
+    public void setShelfLocation(String shelfLocation) {
+        this.shelfLocation = shelfLocation;
     }
 }
