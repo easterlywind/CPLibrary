@@ -2,10 +2,10 @@ package com.example.cplibrary.application;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 
-public class LibrarianService {
+public class StaffService {
     private SQLBookRepository bookRepository;
 
-    public LibrarianService(SQLBookRepository bookRepository) {
+    public StaffService(SQLBookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
