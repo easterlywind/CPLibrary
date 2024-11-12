@@ -9,7 +9,7 @@ public class DatabaseConnection {
         String databaseName = "cplibrary";
         String databaseUserName = "root";
         String databasePassword = "123456";
-        String url = "jdbc:mysql://localhost/" + databaseName;
+        String url = "jdbc:mysql://localhost/" + databaseName + "?useSSL=false";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

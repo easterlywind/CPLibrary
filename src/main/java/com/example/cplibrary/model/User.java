@@ -1,22 +1,20 @@
 package com.example.cplibrary.model;
 
-public abstract class User {
+public class User {
     private String userId;
     private String name;
     private String email;
     private String password;
     private String phone;
     private String status;
-    private LibraryCard card;
 
-    public User(String userId, String name, String email, String password, String phone) {
+    public User(String userId, String name, String email, String password, String phone, String status) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone = phone;
-        this.status = "Available";
-        this.card = new LibraryCard();
+        this.status = status;
     }
 
     // Getter và Setter
@@ -60,22 +58,13 @@ public abstract class User {
         this.phone = phone;
     }
 
-    public LibraryCard getCard() {
-        return card;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setCard(LibraryCard card) {
-        this.card = card;
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public abstract void resetPassword();
 }
 

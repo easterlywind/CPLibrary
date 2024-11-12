@@ -6,8 +6,8 @@ import com.example.cplibrary.infrastructure.SQLUserRepository;
 public class AdminService {
     private SQLUserRepository userRepository;
 
-    public AdminService(SQLUserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AdminService() {
+        this.userRepository = new SQLUserRepository();
     }
 
     public void addMember(User member) {

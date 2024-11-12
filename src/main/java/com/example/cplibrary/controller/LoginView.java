@@ -23,14 +23,14 @@ public class LoginView {
     @FXML
     public Label loginMessageLabel;
     @FXML
-    private TextField usernameTextField;
+    private TextField emailTextField;
     @FXML
     private PasswordField passwordTextField;
 
     public void loginButtonOnAction(ActionEvent event) {
         //loginMessageLabel.setText("You try to login");
 
-        if(usernameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
+        if(emailTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
             loginMessageLabel.setText("Please enter your username and password");
         } else {
             validateLogin(event);
@@ -53,7 +53,7 @@ public class LoginView {
             loginMessageLabel.setText("Connection Failed");
         }
 
-        String verifyLogin = "select count(1) from login where userName = '" + usernameTextField.getText() + "'AND password = '" +passwordTextField.getText() + "'";
+        String verifyLogin = "select count(1) from login where email = '" + emailTextField.getText() + "'AND password = '" + passwordTextField.getText() + "'";
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
