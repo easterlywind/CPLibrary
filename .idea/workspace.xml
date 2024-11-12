@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc166405-eb01-42ed-98fe-6d9c4a08b32c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e2044bde-1a12-4b4b-80b2-c244d766b183.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e2044bde-1a12-4b4b-80b2-c244d766b183.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/DatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/AdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/controller/LoginView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/infrastructure/SQLUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/infrastructure/SQLUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/AdminService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/StaffService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/application/StaffService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/LibraryCard.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Staff.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Staff.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Admin.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +150,7 @@
       <workItem from="1731400450593" duration="701000" />
       <workItem from="1731401674314" duration="35000" />
       <workItem from="1731402038586" duration="2078000" />
-      <workItem from="1731426033505" duration="2270000" />
+      <workItem from="1731426033505" duration="6030000" />
     </task>
     <servers />
   </component>

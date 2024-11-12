@@ -1,12 +1,8 @@
 package com.example.cplibrary;
 
-import com.example.cplibrary.application.AdminService;
-import com.example.cplibrary.model.Admin;
+import com.example.cplibrary.application.StaffService;
 import com.example.cplibrary.model.User;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class main extends Application {
@@ -24,9 +20,12 @@ public class main extends Application {
 //            e.printStackTrace();
 //        }
 
-        User user = new User("001", "admin", "admin","admin","0123456789", "true");
-        AdminService adminService = new AdminService();
+        User user = new User("003", "admin", "admin","admin","0123456789", "true");
+        StaffService adminService = new StaffService();
         adminService.addMember(user);
+        User meo = new User();
+        meo = adminService.viewMemberDetails("002");
+        System.out.println(meo.getEmail());
     }
 
     public static void main(String[] args) {
