@@ -4,6 +4,8 @@ import com.example.cplibrary.model.Book;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.model.User;
 
+import java.util.List;
+
 public class StaffService {
     private SQLBookRepository bookRepository;
     private SQLUserRepository userRepository;
@@ -29,19 +31,32 @@ public class StaffService {
         bookRepository.updateBook(book);
     }
 
-    public void addMember(User member) {
-        userRepository.addUser(member);
+    public void addUser(User user) {
+        userRepository.addUser(user);
     }
 
-    public void deleteMember(String memberId) {
-        userRepository.deleteUser(memberId);
+    public void deleteUser(String userId) {
+        userRepository.deleteUser(userId);
     }
 
-    public User viewMemberDetails(String memberId) {
-        return userRepository.getUserById(memberId);
+    public User getUserById(String userId) {
+        return userRepository.getUserById(userId);
     }
 
-    public void updateMember(User member) {
-        userRepository.updateUser(member);
+    public void updateUser(User user) {
+        userRepository.updateUser(user);
     }
+
+    public User getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
+
+    public User getUserByPhone(String phone) {
+        return userRepository.getUserByPhone(phone);
+    }
+
+    public List<User> getUsersByStatus(String status) {
+        return userRepository.getUsersByStatus(status);
+    }
+
 }

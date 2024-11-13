@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLUserRepository {
 
@@ -42,10 +44,9 @@ public class SQLUserRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getPassword());
-            stmt.setString(4, user.getPhone());
-            stmt.setString(5, user.getStatus());
-            stmt.setString(6, user.getUserId());
+            stmt.setString(3, user.getPhone());
+            stmt.setString(4, user.getStatus());
+            stmt.setString(5, user.getUserId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,4 +87,77 @@ public class SQLUserRepository {
         }
         return null;
     }
+
+    public User getUserByEmail(String email) {
+        String sql = "SELECT u.id, u.name, u.email, u.phone, u.status, l.password " +
+                "FROM user u " +
+                "JOIN login l ON u.email = l.email " +
+                "WHERE u.email = ?";
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                String userEmail = rs.getString("email");
+                String password = rs.getString("password");
+                String phone = rs.getString("phone");
+                String status = rs.getString("status");
+                return new User(id, name, userEmail, password, phone, status);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User getUserByPhone(String phone) {
+        String sql = "SELECT u.id, u.name, u.email, u.phone, u.status, l.password " +
+                "FROM user u " +
+                "JOIN login l ON u.email = l.email " +
+                "WHERE u.phone = ?";
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, phone);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String userPhone = rs.getString("phone");
+                String status = rs.getString("status");
+                return new User(id, name, email, password, userPhone, status);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<User> getUsersByStatus(String status) {
+        String sql = "SELECT u.id, u.name, u.email, u.phone, u.status, l.password " +
+                "FROM user u " +
+                "JOIN login l ON u.email = l.email " +
+                "WHERE u.status = ?";
+        List<User> users = new ArrayList<>();
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, status);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String phone = rs.getString("phone");
+                users.add(new User(id, name, email, password, phone, status));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
 }

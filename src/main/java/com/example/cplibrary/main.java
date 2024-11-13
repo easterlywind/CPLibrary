@@ -22,9 +22,8 @@ public class main extends Application {
 
         User user = new User("003", "admin", "admin","admin","0123456789", "true");
         StaffService adminService = new StaffService();
-        adminService.addMember(user);
         User meo = new User();
-        meo = adminService.viewMemberDetails("002");
+        adminService.updateUser(new User("00", "meo meo","admin","admin","0123456789", "true" ));
         System.out.println(meo.getEmail());
     }
 
