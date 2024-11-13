@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc166405-eb01-42ed-98fe-6d9c4a08b32c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/cplibrary/model/Member.java" afterDir="false" />
-    </list>
+    <list default="true" id="fc166405-eb01-42ed-98fe-6d9c4a08b32c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,7 +143,7 @@
       <workItem from="1731400450593" duration="701000" />
       <workItem from="1731401674314" duration="35000" />
       <workItem from="1731402038586" duration="2078000" />
-      <workItem from="1731426033505" duration="8787000" />
+      <workItem from="1731426033505" duration="9092000" />
     </task>
     <servers />
   </component>
