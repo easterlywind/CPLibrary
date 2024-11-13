@@ -3,7 +3,7 @@ package com.example.cplibrary.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Member {
+public class Member  {
     private String memberId;
     private String libraryCard;
     private List<Book> borrowedBooks = new ArrayList<>();
