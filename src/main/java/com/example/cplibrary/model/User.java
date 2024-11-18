@@ -1,7 +1,7 @@
 package com.example.cplibrary.model;
 
 public class User {
-    private String userId;
+    private int userId;
     private String name;
     private String email;
     private String password;
@@ -12,7 +12,7 @@ public class User {
         super();
     }
 
-    public User(String userId, String name, String email, String password, String phone, String status) {
+    public User(int userId, String name, String email,String phone, String password, String status) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -22,11 +22,11 @@ public class User {
     }
 
     // Getter và Setter
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

@@ -1,15 +1,15 @@
 -- Tạo cơ sở dữ liệu nếu chưa tồn tại
 USE cplibrary;
 
--- Bảng Members
-CREATE TABLE IF NOT EXISTS Members (
-                                       member_id INT AUTO_INCREMENT PRIMARY KEY,
-                                       name VARCHAR(100) NOT NULL,
-                                       email VARCHAR(100) UNIQUE NOT NULL,
-                                       phone VARCHAR(15),
-                                       password VARCHAR(255) NOT NULL,
-                                       role ENUM('staff', 'member') NOT NULL,
-                                       status ENUM('active', 'banned') NOT NULL DEFAULT 'active'
+-- Bảng Users
+CREATE TABLE IF NOT EXISTS Users (
+                                     user_id INT AUTO_INCREMENT PRIMARY KEY,
+                                     name VARCHAR(100) NOT NULL,
+                                     email VARCHAR(100) UNIQUE NOT NULL,
+                                     phone VARCHAR(15),
+                                     password VARCHAR(255) NOT NULL,
+                                     role ENUM('staff', 'member') NOT NULL,
+                                     status ENUM('active', 'banned') NOT NULL DEFAULT 'active'
 );
 
 -- Bảng Books
@@ -21,51 +21,50 @@ CREATE TABLE IF NOT EXISTS Books (
                                      subject VARCHAR(100),
                                      publisher VARCHAR(100),
                                      shelf_location VARCHAR(50),
-                                     rating FLOAT DEFAULT 0
+                                     review TEXT
 );
 
 -- Bảng Loans
 CREATE TABLE IF NOT EXISTS Loans (
                                      loan_id INT AUTO_INCREMENT PRIMARY KEY,
                                      book_id INT NOT NULL,
-                                     member_id INT NOT NULL,
+                                     user_id INT NOT NULL,
                                      borrow_date DATE NOT NULL,
                                      due_date DATE NOT NULL,
                                      return_date DATE,
                                      FOREIGN KEY (book_id) REFERENCES Books(book_id) ON DELETE CASCADE,
-                                     FOREIGN KEY (member_id) REFERENCES Members(member_id) ON DELETE CASCADE
+                                     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 -- Bảng Reservations
 CREATE TABLE IF NOT EXISTS Reservations (
                                             reservation_id INT AUTO_INCREMENT PRIMARY KEY,
                                             book_id INT NOT NULL,
-                                            member_id INT NOT NULL,
+                                            user_id INT NOT NULL,
                                             reservation_date DATE NOT NULL,
-                                            status ENUM('pending', 'cancelled', 'fulfilled') NOT NULL DEFAULT 'pending',
+                                            status ENUM('pending', 'fulfilled') NOT NULL DEFAULT 'pending',
                                             FOREIGN KEY (book_id) REFERENCES Books(book_id) ON DELETE CASCADE,
-                                            FOREIGN KEY (member_id) REFERENCES Members(member_id) ON DELETE CASCADE
+                                            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 -- Bảng Reviews
 CREATE TABLE IF NOT EXISTS Reviews (
                                        review_id INT AUTO_INCREMENT PRIMARY KEY,
                                        book_id INT NOT NULL,
-                                       member_id INT NOT NULL,
+                                       user_id INT NOT NULL,
                                        review TEXT,
-                                       rating INT CHECK (rating BETWEEN 1 AND 5),
                                        review_date DATE NOT NULL,
                                        FOREIGN KEY (book_id) REFERENCES Books(book_id) ON DELETE CASCADE,
-                                       FOREIGN KEY (member_id) REFERENCES Members(member_id) ON DELETE CASCADE
+                                       FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 -- Bảng Notifications
 CREATE TABLE IF NOT EXISTS Notifications (
                                              notification_id INT AUTO_INCREMENT PRIMARY KEY,
-                                             member_id INT NOT NULL,
+                                             user_id INT NOT NULL,
                                              message TEXT NOT NULL,
                                              date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                             FOREIGN KEY (member_id) REFERENCES Members(member_id) ON DELETE CASCADE
+                                             FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 -- Chức năng đăng nhập
@@ -76,7 +75,7 @@ BEGIN
     DECLARE temp_status ENUM('active', 'banned');
 
     SELECT role, status INTO temp_role, temp_status
-    FROM Members
+    FROM Users
     WHERE email = p_email AND password = MD5(p_password);
 
     SET p_role = temp_role;

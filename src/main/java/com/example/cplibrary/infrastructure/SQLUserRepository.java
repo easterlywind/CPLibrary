@@ -1,12 +1,10 @@
 package com.example.cplibrary.infrastructure;
 
+import com.example.cplibrary.model.Member;
 import com.example.cplibrary.model.User;
 import com.example.cplibrary.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,97 +12,69 @@ public class SQLUserRepository {
 
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
+    // Thêm một user mới
     public void addUser(User user) {
-        String sql = "INSERT INTO user (id, name, email, phone, status) VALUES (?, ?, ?, ?, ?)";
-        String sqlLogin = "INSERT INTO login (email, password) VALUES (?, ?)";
+        String sqlUser = "INSERT INTO Users (user_id, name, email, phone, password,role, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = databaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, user.getUserId());
+             PreparedStatement stmt = conn.prepareStatement(sqlUser)) {
+            // Thêm user vào bảng Users
+            stmt.setInt(1, user.getUserId());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
-            stmt.setString(5, user.getStatus());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try (Connection conn = databaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sqlLogin)) {
-            stmt.setString(1, user.getEmail());
-            stmt.setString(2, user.getPassword());
+            stmt.setString(5, user.getPassword());
+            stmt.setString(6, "member");
+            stmt.setString(7, user.getStatus());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // Cập nhật thông tin user
     public void updateUser(User user) {
-        String sql = "UPDATE user SET name = ?, email = ?, phone = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE Users SET name = ?, email = ?, phone = ?, password = ?, status = ? WHERE user_id = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getPhone());
-            stmt.setString(4, user.getStatus());
-            stmt.setString(5, user.getUserId());
+            stmt.setString(1, user.getName()); // name
+            stmt.setString(2, user.getEmail()); // email
+            stmt.setString(3, user.getPhone()); // phone
+            stmt.setString(4, user.getPassword()); // password
+            stmt.setString(5, user.getStatus()); // status
+            stmt.setInt(6, user.getUserId()); // user_id (for WHERE clause)
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteUser(String userId) {
-        String sql = "DELETE FROM user WHERE id = ?";
+
+    // Xóa một user
+    public void deleteUser(int userId) {
+        String sql = "DELETE FROM Users WHERE user_id = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, userId);
+            stmt.setInt(1, userId);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public User getUserById(String userId) {
-        String sql = "SELECT u.id, u.name, u.email, u.phone, u.status, l.password " +
-                "FROM user u " +
-                "JOIN login l ON u.email = l.email " +
-                "WHERE u.id = ?";
+    private Member getUserByQuery(String query, String parameter) {
         try (Connection conn = databaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, userId);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, parameter);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                String id = rs.getString("id");
+                int userId = rs.getInt("user_id");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String phone = rs.getString("phone");
                 String status = rs.getString("status");
-                return new User(id, name, email, password, phone, status);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public User getUserByEmail(String email) {
-        String sql = "SELECT u.id, u.name, u.email, u.phone, u.status, l.password " +
-                "FROM user u " +
-                "JOIN login l ON u.email = l.email " +
-                "WHERE u.email = ?";
-        try (Connection conn = databaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                String id = rs.getString("id");
-                String name = rs.getString("name");
-                String userEmail = rs.getString("email");
                 String password = rs.getString("password");
-                String phone = rs.getString("phone");
-                String status = rs.getString("status");
-                return new User(id, name, userEmail, password, phone, status);
+                return new Member(userId, name, email, phone, password, status);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,47 +82,34 @@ public class SQLUserRepository {
         return null;
     }
 
-    public User getUserByPhone(String phone) {
-        String sql = "SELECT u.id, u.name, u.email, u.phone, u.status, l.password " +
-                "FROM user u " +
-                "JOIN login l ON u.email = l.email " +
-                "WHERE u.phone = ?";
-        try (Connection conn = databaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, phone);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                String id = rs.getString("id");
-                String name = rs.getString("name");
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String userPhone = rs.getString("phone");
-                String status = rs.getString("status");
-                return new User(id, name, email, password, userPhone, status);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Member getUserById(int userId) {
+        return getUserByQuery("SELECT user_id, name, email, phone, status, password FROM Users WHERE user_id = ?", String.valueOf(userId));
     }
 
-    public List<User> getUsersByStatus(String status) {
-        String sql = "SELECT u.id, u.name, u.email, u.phone, u.status, l.password " +
-                "FROM user u " +
-                "JOIN login l ON u.email = l.email " +
-                "WHERE u.status = ?";
-        List<User> users = new ArrayList<>();
+    public Member getUserByEmail(String email) {
+        return getUserByQuery("SELECT user_id, name, email, phone, status, password FROM Users WHERE email = ?", email);
+    }
+
+    public Member getUserByPhone(String phone) {
+        return getUserByQuery("SELECT user_id, name, email, phone, status, password FROM Users WHERE phone = ?", phone);
+    }
+
+
+    // Lấy tất cả users theo status
+    public List<Member> getUsersByStatus(String status) {
+        String sql = "SELECT user_id, name, email, phone, status, password FROM Users WHERE status = ?";
+        List<Member> users = new ArrayList<>();
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, status);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String id = rs.getString("id");
+                int userId = rs.getInt("user_id");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String phone = rs.getString("phone");
-                users.add(new User(id, name, email, password, phone, status));
+                String password = rs.getString("password");
+                users.add(new Member(userId, name, email, phone, password, status));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,4 +117,30 @@ public class SQLUserRepository {
         return users;
     }
 
+    // Đăng nhập người dùng
+    public User loginUser(String email, String password) {
+        String sql = "CALL LoginUser(?, ?, ?, ?)";
+        try (Connection conn = databaseConnection.getConnection();
+             CallableStatement stmt = conn.prepareCall(sql)) {
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            stmt.registerOutParameter(3, Types.OTHER);  // Role
+            stmt.registerOutParameter(4, Types.OTHER);  // Status
+            stmt.execute();
+
+            String role = stmt.getString(3);
+            String status = stmt.getString(4);
+
+            // Lấy thông tin user sau khi đăng nhập
+            User user = getUserByEmail(email);
+            if (user != null && role != null && status != null) {
+
+                user.setStatus(status);
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

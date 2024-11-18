@@ -2,6 +2,7 @@ package com.example.cplibrary.application;
 import com.example.cplibrary.infrastructure.SQLUserRepository;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
+import com.example.cplibrary.model.Member;
 import com.example.cplibrary.model.User;
 
 import java.util.List;
@@ -35,11 +36,11 @@ public class StaffService {
         userRepository.addUser(user);
     }
 
-    public void deleteUser(String userId) {
+    public void deleteUser(int userId) {
         userRepository.deleteUser(userId);
     }
 
-    public User getUserById(String userId) {
+    public Member getUserById(int userId) {
         return userRepository.getUserById(userId);
     }
 
@@ -47,15 +48,15 @@ public class StaffService {
         userRepository.updateUser(user);
     }
 
-    public User getUserByEmail(String email) {
+    public Member getUserByEmail(String email) {
         return userRepository.getUserByEmail(email);
     }
 
-    public User getUserByPhone(String phone) {
+    public Member getUserByPhone(String phone) {
         return userRepository.getUserByPhone(phone);
     }
 
-    public List<User> getUsersByStatus(String status) {
+    public List<Member> getUsersByStatus(String status) {
         return userRepository.getUsersByStatus(status);
     }
 
