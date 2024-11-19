@@ -1,6 +1,7 @@
 package com.example.cplibrary.model;
 
 public class Book {
+    private int book_id;
     private String isbn;
     private String title;
     private String author;
@@ -10,7 +11,8 @@ public class Book {
     private String review;
 
     // Constructor với đầy đủ thông tin
-    public Book(String isbn, String title, String author, String subject, String publisher, String shelfLocation, String review) {
+    public Book(int book_id, String isbn, String title, String author, String subject, String publisher, String shelfLocation, String review) {
+        this.book_id = book_id;
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -20,18 +22,16 @@ public class Book {
         this.review = review;
     }
 
-    // Constructor đơn giản cho trường hợp không có đầy đủ thông tin
-    public Book(String isbn, String title, String author, String subject) {
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
-        this.subject = subject;
-        this.publisher = "";
-        this.shelfLocation = "";
-        this.review = "";  // Mặc định là không có đánh giá
+    // Getters và Setters cho các thuộc tính
+
+    public int getBook_id() {
+        return book_id;
     }
 
-    // Getters và Setters cho các thuộc tính
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
+    }
+
     public String getIsbn() {
         return isbn;
     }

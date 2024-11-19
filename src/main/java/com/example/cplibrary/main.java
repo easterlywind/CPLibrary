@@ -1,10 +1,14 @@
 package com.example.cplibrary;
 
 import com.example.cplibrary.application.StaffService;
+import com.example.cplibrary.model.Book;
 import com.example.cplibrary.model.Member;
 import com.example.cplibrary.model.User;
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class main extends Application {
 
@@ -20,17 +24,14 @@ public class main extends Application {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-    StaffService staffService = new StaffService();
-    Member member = new Member(2, "nth", "nth", "110", "nth", "active");
-    Member member1 = new Member(4, "hello", "gekki", "210", "chiahi", "banned");
-    staffService.addUser(member);
-    staffService.addUser(member1);
-    Member res = new Member();
-    res = staffService.getUserById(4);
-        System.out.println(res.getName());
+        StaffService staffService = new StaffService();
+        Book book = new Book(001, "12345", "harry potter", "brandy love", "cucocu"
+                , "12/2/122", "A23", "sieu hay pro vip ");
+        staffService.deleteBook("12345");
     }
 
     public static void main(String[] args) {
         launch(args);
+
     }
 }
