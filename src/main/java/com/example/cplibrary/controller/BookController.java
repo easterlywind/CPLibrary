@@ -1,5 +1,8 @@
 package com.example.cplibrary.controller;
 
+import com.example.cplibrary.infrastructure.GoogleBooksAPI;
+import com.example.cplibrary.infrastructure.SQLBookRepository;
+import com.example.cplibrary.infrastructure.SQLReviewRepository;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.DatabaseConnection;
 import javafx.event.ActionEvent;
@@ -8,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -23,6 +23,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookController {
 
@@ -59,7 +61,14 @@ public class BookController {
     @FXML
     Button backButton;
 
+    @FXML
+    TextField quantityCopyInput;
+
+    private final SQLBookRepository bookRepository = new SQLBookRepository();
+    private final SQLReviewRepository reviewRepository = new SQLReviewRepository();
+
     private Book book;
+    private int currentUserId = 1;
 
     public void backButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/staffLib.fxml"));
@@ -78,112 +87,89 @@ public class BookController {
         shelfLocationLabel.setText(book.getShelfLocation());
         quantityLabel.setText(String.valueOf(book.getQuantity()));
 
-        Image image = new Image(getClass().getResource("/image/img.png").toExternalForm(),200,300,true,true);
+        List<String> isbnBookList = new ArrayList<>();
+        isbnBookList.add(book.getIsbn());
+
+        List<String> imageUrls = GoogleBooksAPI.fetchBookImageURLs(isbnBookList);
+        String imageUrl = imageUrls.get(0);
+        Image image = imageUrl != null && !imageUrl.isEmpty()
+                ? new Image(imageUrl, 200, 300, true, true)
+                : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
         bookImage.setImage(image);
 
         // Tải các review từ database
         loadReviews();
     }
-    private final DatabaseConnection databaseConnection = new DatabaseConnection();
     @FXML
     private void addReview() {
         String newReview = reviewInput.getText();
-        if (newReview.isEmpty()) {
-            return;
-        }
-
-        try (Connection connection = databaseConnection.getConnection()) {
-            String insertQuery = "INSERT INTO reviews (review_id, book_id, user_id, review, review_date) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement stmt = connection.prepareStatement(insertQuery)) {
-                stmt.setInt(1, book.getBook_id());
-                stmt.setInt(2, book.getBook_id()); // Giả sử user_id là 1 (cần thay đổi theo người dùng hiện tại)
-                stmt.setInt(3, 1);
-                stmt.setString(4, newReview);
-                stmt.setDate(5, java.sql.Date.valueOf(LocalDate.now()));
-                stmt.executeUpdate();
-            }
-            // Thêm review mới vào UI
-            reviewList.getChildren().add(createReviewBox(newReview, LocalDate.now().toString()));
-
-            // Xóa text area
+        if (!newReview.isEmpty()) {
+            // Lấy tên người review (giả sử là người dùng hiện tại)
+            String reviewerName = "admin"; // Bạn có thể thay bằng tên người dùng thực tế từ session hoặc login
+            reviewRepository.addReview(book.getBook_id(), currentUserId, newReview);
+            reviewList.getChildren().add(createReviewBox(newReview, LocalDate.now().toString(), reviewerName));
             reviewInput.clear();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
+
 
     private void loadReviews() {
-        try (Connection connection = databaseConnection.getConnection()) {
-            String query = "SELECT review, review_date FROM Reviews WHERE book_id = ?";
-            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setInt(1, book.getBook_id());
-                try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        String reviewText = rs.getString("review");
-                        String reviewDate = rs.getDate("review_date").toString();
-                        reviewList.getChildren().add(createReviewBox(reviewText, reviewDate));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        reviewList.getChildren().clear();
+        List<String[]> reviews = reviewRepository.getReviewsByBookId(book.getBook_id());
+        for (String[] reviewData : reviews) {
+            String reviewText = reviewData[0];
+            String reviewDate = reviewData[1];
+            String reviewName = reviewData[2];
+            reviewList.getChildren().add(createReviewBox(reviewText, reviewDate, reviewName));
         }
     }
 
-    private VBox createReviewBox(String reviewText, String reviewDate) {
+    private VBox createReviewBox(String reviewText, String reviewDate, String reviewerName) {
         VBox reviewBox = new VBox();
         reviewBox.setSpacing(5);
 
+        // Tạo Label cho tên người review
+        Label reviewerNameLabel = new Label("Reviewed by: " + reviewerName);
+        reviewerNameLabel.setStyle("-fx-font-weight: bold;");
+
+        // Tạo Label cho nội dung review
         Label reviewContent = new Label(reviewText);
         reviewContent.setWrapText(true);
 
+        // Tạo Label cho ngày review
         Label reviewDateLabel = new Label("Date: " + reviewDate);
         reviewDateLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: gray;");
 
-        reviewBox.getChildren().addAll(reviewContent, reviewDateLabel);
+        reviewBox.getChildren().addAll(reviewerNameLabel, reviewContent, reviewDateLabel);
         return reviewBox;
     }
 
+
+
     @FXML
     private void handleBorrowAction() {
-        try (Connection connection = databaseConnection.getConnection()) {
-            if (borrowButton.getText().equals("Borrow")) {
-                // Kiểm tra số lượng sách
-                if (book.getQuantity() > 0) {
-                    // Giảm quantity trong database
-                    String updateQuery = "UPDATE Books SET quantity = quantity - 1 WHERE book_id = ?";
-                    try (PreparedStatement stmt = connection.prepareStatement(updateQuery)) {
-                        stmt.setInt(1, book.getBook_id());
-                        stmt.executeUpdate();
-                    }
-
-                    // Cập nhật UI
-                    book.setQuantity(book.getQuantity() - 1);
-                    quantityLabel.setText(String.valueOf(book.getQuantity()));
-                    borrowButton.setText("Return");
-                } else {
-                    System.out.println("No books available for borrowing!");
-                }
-            } else if (borrowButton.getText().equals("Return")) {
-                // Tăng quantity trong database
-                String updateQuery = "UPDATE Books SET quantity = quantity + 1 WHERE book_id = ?";
-                try (PreparedStatement stmt = connection.prepareStatement(updateQuery)) {
-                    stmt.setInt(1, book.getBook_id());
-                    stmt.executeUpdate();
-                }
-
-                // Cập nhật UI
-                book.setQuantity(book.getQuantity() + 1);
-                quantityLabel.setText(String.valueOf(book.getQuantity()));
-                borrowButton.setText("Borrow");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (borrowButton.getText().equals("Borrow") && book.getQuantity() > 0) {
+            bookRepository.updateQuantity(book.getBook_id(), -1);
+            book.setQuantity(book.getQuantity() - 1);
+            quantityLabel.setText(String.valueOf(book.getQuantity()));
+            borrowButton.setText("Return");
+        } else if (borrowButton.getText().equals("Return")) {
+            bookRepository.updateQuantity(book.getBook_id(), 1);
+            book.setQuantity(book.getQuantity() + 1);
+            quantityLabel.setText(String.valueOf(book.getQuantity()));
+            borrowButton.setText("Borrow");
         }
+    }
+
+    public void addQuantity() {
+        int countOfCopy = Integer.parseInt(quantityCopyInput.getText());
+        bookRepository.updateQuantity(book.getBook_id(), countOfCopy);
+        book.setQuantity(book.getQuantity() + countOfCopy);
+        quantityLabel.setText(String.valueOf(book.getQuantity()));
     }
 
     @FXML
     public void initialize() {
-        borrowButton.setOnAction(event -> handleBorrowAction());
+//        borrowButton.setOnAction(event -> handleBorrowAction());
     }
 }

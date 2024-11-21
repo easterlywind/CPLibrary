@@ -94,8 +94,6 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <!-- Thanh tìm kiếm nếu cần -->
-                <TextField layoutX="294.0" layoutY="33.0" prefHeight="44.0" prefWidth="637.0" promptText="Start Searching..." />
 
                 <!-- Hiển thị ảnh sách -->
                 <ImageView fx:id="bookImage" fitHeight="256.0" fitWidth="202.0" layoutX="92.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true" />
@@ -117,7 +115,7 @@
                 <Label fx:id="quantityLabel" layoutX="460.0" layoutY="354.0" prefWidth="300.0" text="..." />
 
                 <!-- Nút Borrow -->
-                <Button fx:id="borrowButton" layoutX="398.0" layoutY="400.0" text="Borrow" />
+                <Button fx:id="borrowButton" layoutX="398.0" layoutY="400.0" onAction="#handleBorrowAction" text="Borrow" />
 
                 <!-- ScrollPane cho review -->
                 <ScrollPane fx:id="reviewPane" layoutX="850.0" layoutY="135.0" prefHeight="400.0" prefWidth="329.0">
@@ -133,8 +131,10 @@
 
                 <!-- Thêm review -->
                 <TextArea fx:id="reviewInput" layoutX="850.0" layoutY="554.0" prefHeight="100.0" prefWidth="329.0" promptText="Write your review here..." />
-                <Button fx:id="addReview" layoutX="850.0" layoutY="668.0" text="Add Review" />
-            <Button fx:id="backButton" layoutX="84.0" layoutY="90.0" mnemonicParsing="false" onAction="#backButtonOnAction" text="Button" />
+                <Button fx:id="addReview" layoutX="850.0" layoutY="668.0" onAction="#addReview" text="Add Review" />
+            <Button fx:id="backButton" layoutX="84.0" layoutY="90.0" mnemonicParsing="false" onAction="#backButtonOnAction" text="Back" />
+            <TextField fx:id="quantityCopyInput" layoutX="395.0" layoutY="451.0" prefHeight="31.0" prefWidth="49.0" />
+            <Button fx:id="addQuantity" layoutX="468.0" layoutY="451.0" mnemonicParsing="false" onAction="#addQuantity" text="Add Copy" />
             </children>
         </AnchorPane>
     </center>

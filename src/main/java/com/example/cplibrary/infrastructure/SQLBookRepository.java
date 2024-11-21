@@ -165,4 +165,16 @@ public class SQLBookRepository {
         }
         return books;
     }
+
+    public void updateQuantity(int bookId, int quantityChange) {
+        String query = "UPDATE Books SET quantity = quantity + ? WHERE book_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, quantityChange);
+            stmt.setInt(2, bookId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

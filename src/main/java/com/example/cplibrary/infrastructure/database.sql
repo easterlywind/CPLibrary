@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS Books (
 
 -- Bảng Loans
 CREATE TABLE IF NOT EXISTS Loans (
-                                     loan_id INT AUTO_INCREMENT PRIMARY KEY,
                                      book_id INT NOT NULL,
                                      user_id INT NOT NULL,
                                      borrow_date DATE NOT NULL,
@@ -40,7 +39,6 @@ CREATE TABLE IF NOT EXISTS Loans (
 
 -- Bảng Reservations
 CREATE TABLE IF NOT EXISTS Reservations (
-                                            reservation_id INT AUTO_INCREMENT PRIMARY KEY,
                                             book_id INT NOT NULL,
                                             user_id INT NOT NULL,
                                             reservation_date DATE NOT NULL,
@@ -51,7 +49,6 @@ CREATE TABLE IF NOT EXISTS Reservations (
 
 -- Bảng Reviews
 CREATE TABLE IF NOT EXISTS Reviews (
-                                       review_id INT AUTO_INCREMENT PRIMARY KEY,
                                        book_id INT NOT NULL,
                                        user_id INT NOT NULL,
                                        review TEXT,
@@ -60,27 +57,6 @@ CREATE TABLE IF NOT EXISTS Reviews (
                                        FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
--- Bảng Notifications
-CREATE TABLE IF NOT EXISTS Notifications (
-                                             notification_id INT AUTO_INCREMENT PRIMARY KEY,
-                                             user_id INT NOT NULL,
-                                             message TEXT NOT NULL,
-                                             date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                             FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
-);
 
--- Chức năng đăng nhập
-DELIMITER //
-CREATE PROCEDURE LoginUser(IN p_email VARCHAR(100), IN p_password VARCHAR(255), OUT p_role ENUM('staff', 'member'), OUT p_status ENUM('active', 'banned'))
-BEGIN
-    DECLARE temp_role ENUM('staff', 'member');
-    DECLARE temp_status ENUM('active', 'banned');
 
-    SELECT role, status INTO temp_role, temp_status
-    FROM Users
-    WHERE email = p_email AND password = MD5(p_password);
 
-    SET p_role = temp_role;
-    SET p_status = temp_status;
-END //
-DELIMITER ;
