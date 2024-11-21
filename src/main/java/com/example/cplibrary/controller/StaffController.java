@@ -1,8 +1,14 @@
 package com.example.cplibrary.controller;
 
+import com.example.cplibrary.application.StaffService;
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
+import com.example.cplibrary.model.Book;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,7 +16,10 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StaffController {
@@ -20,26 +29,13 @@ public class StaffController {
     @FXML
     private Label nameLabel;
 
-    // Danh sách mã ISBN để tìm kiếm
-    private final List<String> isbnList = List.of(
-            "9780201485677", "9780135166307", "9780131103627", "9780307905834", "9780439139601",
-            "9780375821977", "9780747532743", "9780525561021", "9780141187761", "9780140247745",
-            "9780679783268", "9780525564688", "9781449462711", "9780062457761", "9781484723055",
-            "9780307588354", "9780590353427", "9780151072552", "9781400078776", "9780061122415",
-            "9780452295260", "9780316769488", "9780743273565", "9780345391803", "9780316195685",
-            "9780393350420", "9780380730404", "9781250317793", "9781451673319", "9780060850524",
-            "9780374528379", "9780679760802", "9780151010263", "9780060850523", "9780679744758",
-            "9780525538085", "9780307464913", "9780143127781", "9781612192132", "9780316666340",
-            "9780553382563", "9780316131309", "9781451648547", "9780452295260", "9780395978039",
-            "9780061240081", "9780441013593", "9781439153910", "9781439147650", "9780062641541"
-    );
-
+    private final StaffService staffService = new StaffService(); // Tạo đối tượng StaffService
 
     @FXML
     public void initialize() {
         // Đặt số cột và hàng cho GridPane
         int numCols = 5; // 5 cột
-        int numRows = 21; // 10 hàng
+        int numRows = 0; // Sẽ tính toán số hàng sau
 
         nameLabel.setText("Admin");
 
@@ -58,24 +54,32 @@ public class StaffController {
             gridPane.getColumnConstraints().add(col);
         }
 
-        // Thêm RowConstraints (10 hàng)
+        // Lấy danh sách tất cả các sách từ cơ sở dữ liệu thông qua StaffService
+        List<Book> books = staffService.getAllBooks(); // Lấy tất cả sách
+
+        // Tính toán số hàng cần thiết
+        numRows = (int) Math.ceil(books.size() / (double) numCols);
+
+        // Thêm RowConstraints (số hàng tính toán từ books.size)
         for (int i = 0; i < numRows; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPercentHeight(100.0 / numRows); // Mỗi hàng chiếm 1/10 chiều cao
+            row.setPercentHeight(100.0 / numRows); // Mỗi hàng chiếm tỷ lệ chiều cao
             gridPane.getRowConstraints().add(row);
         }
 
-        // Danh sách URL ảnh từ API
-        List<String> imageUrls = GoogleBooksAPI.fetchBookImageURLs(isbnList);
+        // Danh sách URL ảnh từ Google Books API
+        List<String> isbns = new ArrayList<>();
+        for (Book book : books) {
+            isbns.add(book.getIsbn());
+        }
+        List<String> imageUrls = GoogleBooksAPI.fetchBookImageURLs(isbns);
 
-        // Danh sách Title từ API
-        List<String> titles = GoogleBooksAPI.fetchBookTitles(isbnList);
+        // Thêm sách vào GridPane
+        for (int i = 0; i < books.size(); i++) {
+            Book book = books.get(i);
 
-        // Thêm ảnh vào GridPane
-        for (int i = 0; i < imageUrls.size(); i++) {
-            // Tạo một ImageView từ URL
+            // Lấy ảnh từ Google API
             String imageUrl = imageUrls.get(i);
-            String title = titles.get(i);
             Image image = imageUrl != null && !imageUrl.isEmpty()
                     ? new Image(imageUrl, 200, 300, true, true)
                     : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
@@ -83,7 +87,7 @@ public class StaffController {
             ImageView imageView = new ImageView(image);
 
             // Tạo Label cho tên sách
-            Label titleLabel = new Label(title);
+            Label titleLabel = new Label(book.getTitle());
             titleLabel.setAlignment(Pos.CENTER);
 
             // Tạo VBox để chứa ImageView và Label
@@ -92,9 +96,21 @@ public class StaffController {
             vBox.getChildren().addAll(imageView, titleLabel);
 
             imageView.setOnMouseClicked(mouseEvent -> {
-                System.out.println("Clicked on book with ISBN: " + "hello");
-                System.out.println("Title: " + title);
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/BookDetails.fxml"));
+                    Parent root = loader.load();
+
+                    BookController controller = loader.getController();
+                    controller.setBookDetails(book);
+
+                    Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             });
+
 
             imageView.setOnMouseEntered(event -> {
                 imageView.setScaleX(1.1); // Tăng kích thước theo chiều ngang
@@ -116,5 +132,4 @@ public class StaffController {
             gridPane.add(vBox, col, row);
         }
     }
-
 }

@@ -94,13 +94,47 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
+                <!-- Thanh tìm kiếm nếu cần -->
                 <TextField layoutX="294.0" layoutY="33.0" prefHeight="44.0" prefWidth="637.0" promptText="Start Searching..." />
-            <ScrollPane layoutX="123.0" layoutY="481.0" prefHeight="273.0" prefWidth="996.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="202.0" prefWidth="247.0" />
-              </content>
-            </ScrollPane>
-            <ImageView fitHeight="256.0" fitWidth="202.0" layoutX="111.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" />
+
+                <!-- Hiển thị ảnh sách -->
+                <ImageView fx:id="bookImage" fitHeight="256.0" fitWidth="202.0" layoutX="92.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true" />
+
+                <!-- Hiển thị thông tin sách -->
+                <Label layoutX="391.0" layoutY="143.0" text="Title:" />
+                <Label fx:id="titleLabel" layoutX="450.0" layoutY="143.0" prefWidth="300.0" text="..." />
+
+                <Label layoutX="391.0" layoutY="196.0" text="Author:" />
+                <Label fx:id="authorLabel" layoutX="450.0" layoutY="196.0" prefWidth="300.0" text="..." />
+
+                <Label layoutX="391.0" layoutY="248.0" text="Subject:" />
+                <Label fx:id="subjectLabel" layoutX="450.0" layoutY="248.0" prefWidth="300.0" text="..." />
+
+                <Label layoutX="391.0" layoutY="303.0" text="Shelf Location:" />
+                <Label fx:id="shelfLocationLabel" layoutX="500.0" layoutY="303.0" prefWidth="300.0" text="..." />
+
+                <Label layoutX="391.0" layoutY="354.0" text="Quantity:" />
+                <Label fx:id="quantityLabel" layoutX="460.0" layoutY="354.0" prefWidth="300.0" text="..." />
+
+                <!-- Nút Borrow -->
+                <Button fx:id="borrowButton" layoutX="398.0" layoutY="400.0" text="Borrow" />
+
+                <!-- ScrollPane cho review -->
+                <ScrollPane fx:id="reviewPane" layoutX="850.0" layoutY="135.0" prefHeight="400.0" prefWidth="329.0">
+                    <content>
+                        <VBox fx:id="reviewList" alignment="TOP_LEFT" />
+                    </content>
+                </ScrollPane>
+                <Label layoutX="850.0" layoutY="105.0" style="-fx-font-weight: bold;" text="Reviews">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                </Label>
+
+                <!-- Thêm review -->
+                <TextArea fx:id="reviewInput" layoutX="850.0" layoutY="554.0" prefHeight="100.0" prefWidth="329.0" promptText="Write your review here..." />
+                <Button fx:id="addReview" layoutX="850.0" layoutY="668.0" text="Add Review" />
+            <Button fx:id="backButton" layoutX="84.0" layoutY="90.0" mnemonicParsing="false" onAction="#backButtonOnAction" text="Button" />
             </children>
         </AnchorPane>
     </center>

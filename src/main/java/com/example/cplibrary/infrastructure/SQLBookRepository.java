@@ -140,4 +140,29 @@ public class SQLBookRepository {
 
         return books;
     }
+
+    public List<Book> getAllBooks() {
+        List<Book> books = new ArrayList<>();
+        String sql = "SELECT * FROM Books";
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Book book = new Book();
+                book.setBook_id(rs.getInt("book_id"));
+                book.setIsbn(rs.getString("isbn"));
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setPublisher(rs.getString("publisher"));
+                book.setSubject(rs.getString("subject"));
+                book.setShelfLocation(rs.getString("shelf_location"));
+                book.setReview(rs.getString("review"));
+                book.setQuantity(rs.getInt("quantity"));
+                books.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
 }

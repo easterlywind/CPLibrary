@@ -1,4 +1,5 @@
 -- Tạo cơ sở dữ liệu nếu chưa tồn tại
+CREATE DATABASE cplibrary;
 USE cplibrary;
 
 -- Bảng Users
@@ -15,14 +16,14 @@ CREATE TABLE IF NOT EXISTS Users (
 -- Bảng Books
 CREATE TABLE IF NOT EXISTS Books (
                                      book_id INT AUTO_INCREMENT PRIMARY KEY,
+                                     quantity INT NOT NULL CHECK (quantity >= 0),
                                      isbn VARCHAR(20) UNIQUE NOT NULL,
                                      title VARCHAR(255) NOT NULL,
                                      author VARCHAR(255) NOT NULL,
                                      subject VARCHAR(100),
                                      publisher VARCHAR(100),
                                      shelf_location VARCHAR(50),
-                                     review TEXT,
-                                     quantity INT NOT NULL CHECK (quantity >= 0) -- Thêm thuộc tính số lượng sách, đảm bảo không âm
+                                     review TEXT
 );
 
 -- Bảng Loans

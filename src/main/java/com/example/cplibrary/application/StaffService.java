@@ -60,4 +60,7 @@ public class StaffService {
         return userRepository.getUsersByStatus(status);
     }
 
+    public List<Book> getAllBooks() {
+        return bookRepository.getAllBooks();
+    }
 }
