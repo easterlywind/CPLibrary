@@ -1,258 +1,120 @@
 package com.example.cplibrary.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 
-import javafx.event.ActionEvent;
-import javafx.stage.Stage;
+import java.util.List;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-public class StaffController implements Initializable{
-    @FXML
-    private ImageView adminImage;
+public class StaffController {
 
     @FXML
-    private Button logOutButton;
+    private GridPane gridPane;
+    @FXML
+    private Label nameLabel;
+
+    // Danh sách mã ISBN để tìm kiếm
+    private final List<String> isbnList = List.of(
+            "9780201485677", "9780135166307", "9780131103627", "9780307905834", "9780439139601",
+            "9780375821977", "9780747532743", "9780525561021", "9780141187761", "9780140247745",
+            "9780679783268", "9780525564688", "9781449462711", "9780062457761", "9781484723055",
+            "9780307588354", "9780590353427", "9780151072552", "9781400078776", "9780061122415",
+            "9780452295260", "9780316769488", "9780743273565", "9780345391803", "9780316195685",
+            "9780393350420", "9780380730404", "9781250317793", "9781451673319", "9780060850524",
+            "9780374528379", "9780679760802", "9780151010263", "9780060850523", "9780679744758",
+            "9780525538085", "9780307464913", "9780143127781", "9781612192132", "9780316666340",
+            "9780553382563", "9780316131309", "9781451648547", "9780452295260", "9780395978039",
+            "9780061240081", "9780441013593", "9781439153910", "9781439147650", "9780062641541"
+    );
+
 
     @FXML
-    private Label staffNameText;
+    public void initialize() {
+        // Đặt số cột và hàng cho GridPane
+        int numCols = 5; // 5 cột
+        int numRows = 21; // 10 hàng
 
-    @FXML
-    private Button bookButton;
+        nameLabel.setText("Admin");
 
-    @FXML
-    private Button userButton;
+        // Xóa ràng buộc cũ nếu có
+        gridPane.getColumnConstraints().clear();
+        gridPane.getRowConstraints().clear();
 
-    @FXML
-    private Button logOutButton1;
+        // Thêm khoảng cách giữa các hàng và cột
+        gridPane.setVgap(10); // 10px khoảng cách giữa các hàng
+        gridPane.setHgap(10); // 10px khoảng cách giữa các cột
 
-    @FXML
-    private AnchorPane userPane;
-
-    @FXML
-    private Button userSearchButton;
-
-    @FXML
-    private TextField userSearchBar;
-
-    @FXML
-    private TableView<?> userTable;
-
-    @FXML
-    private TableColumn<?, ?> userIDColumn;
-
-    @FXML
-    private TableColumn<?, ?> userNameColumn;
-
-    @FXML
-    private TableColumn<?, ?> userEmailColumn;
-
-    @FXML
-    private TableColumn<?, ?> userPasswordColumn;
-
-    @FXML
-    private TextField userIDText;
-
-    @FXML
-    private TextField userNameText;
-
-    @FXML
-    private TextField userEmailText;
-
-    @FXML
-    private Button userDeleteButton;
-
-    @FXML
-    private Button userAddButton;
-
-    @FXML
-    private Button userUpdateBtton;
-
-    @FXML
-    private TextField userIDText1;
-
-    @FXML
-    private Button userDeleteButton1;
-
-    @FXML
-    private AnchorPane bookPane;
-
-    @FXML
-    private Button bookSearchButton;
-
-    @FXML
-    private TextField bookSearchBar;
-
-    @FXML
-    private TableView<?> bookTable;
-
-    @FXML
-    private TableColumn<?, ?> isbnColumn;
-
-    @FXML
-    private TableColumn<?, ?> titleColumn;
-
-    @FXML
-    private TableColumn<?, ?> authorColumn;
-
-    @FXML
-    private TableColumn<?, ?> publishDateColumn;
-
-    @FXML
-    private TextField isbnText;
-
-    @FXML
-    private TextField titleText;
-
-    @FXML
-    private TextField authorText;
-
-    @FXML
-    private Button bookDeleteButton;
-
-    @FXML
-    private Button bookAddButton;
-
-    @FXML
-    private Button bookUpdateBotton;
-
-    @FXML
-    private TextField publishDateText;
-
-    @FXML
-    private Button bookClearButton;
-
-    public void setAdminNameText() {
-
-    }
-
-    public void searchUser() {
-
-    }
-
-    public void displayUserTable() {
-
-    }
-
-    public void addUser() {
-
-    }
-
-    public void deleteUser() {
-
-    }
-
-    public void updateUser() {
-
-    }
-
-    public void searchBook() {
-
-    }
-
-    public void displayBookTable() {
-
-    }
-
-    public void addBook() {
-
-    }
-
-    public void deleteBook() {
-
-    }
-
-    public void updateBook() {
-
-    }
-
-    public void clearUser() {
-
-    }
-
-    public void clearBook() {
-
-    }
-
-    public void switchForm(ActionEvent event) throws IOException {
-        if(event.getSource() == bookButton) {
-            bookPane.setVisible(true);
-            userPane.setVisible(false);
+        // Thêm ColumnConstraints (5 cột)
+        for (int i = 0; i < numCols; i++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setPercentWidth(100.0 / numCols); // Mỗi cột chiếm 1/5 chiều rộng
+            gridPane.getColumnConstraints().add(col);
         }
 
-        if(event.getSource() == userButton) {
-            bookPane.setVisible(false);
-            userPane.setVisible(true);
+        // Thêm RowConstraints (10 hàng)
+        for (int i = 0; i < numRows; i++) {
+            RowConstraints row = new RowConstraints();
+            row.setPercentHeight(100.0 / numRows); // Mỗi hàng chiếm 1/10 chiều cao
+            gridPane.getRowConstraints().add(row);
+        }
+
+        // Danh sách URL ảnh từ API
+        List<String> imageUrls = GoogleBooksAPI.fetchBookImageURLs(isbnList);
+
+        // Danh sách Title từ API
+        List<String> titles = GoogleBooksAPI.fetchBookTitles(isbnList);
+
+        // Thêm ảnh vào GridPane
+        for (int i = 0; i < imageUrls.size(); i++) {
+            // Tạo một ImageView từ URL
+            String imageUrl = imageUrls.get(i);
+            String title = titles.get(i);
+            Image image = imageUrl != null && !imageUrl.isEmpty()
+                    ? new Image(imageUrl, 200, 300, true, true)
+                    : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
+
+            ImageView imageView = new ImageView(image);
+
+            // Tạo Label cho tên sách
+            Label titleLabel = new Label(title);
+            titleLabel.setAlignment(Pos.CENTER);
+
+            // Tạo VBox để chứa ImageView và Label
+            VBox vBox = new VBox(5);  // Khoảng cách giữa Image và Label là 5px
+            vBox.setAlignment(Pos.CENTER); // Căn giữa ảnh và tên sách
+            vBox.getChildren().addAll(imageView, titleLabel);
+
+            imageView.setOnMouseClicked(mouseEvent -> {
+                System.out.println("Clicked on book with ISBN: " + "hello");
+                System.out.println("Title: " + title);
+            });
+
+            imageView.setOnMouseEntered(event -> {
+                imageView.setScaleX(1.1); // Tăng kích thước theo chiều ngang
+                imageView.setScaleY(1.1); // Tăng kích thước theo chiều dọc
+                imageView.setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);");
+            });
+
+            imageView.setOnMouseExited(event -> {
+                imageView.setScaleX(1.0); // Trở lại kích thước ban đầu
+                imageView.setScaleY(1.0); // Trở lại kích thước ban đầu
+                imageView.setStyle(""); // Xoá hiệu ứng
+            });
+
+            // Tính toán vị trí hàng và cột
+            int row = i / numCols; // Hàng
+            int col = i % numCols; // Cột
+
+            // Thêm VBox vào GridPane
+            gridPane.add(vBox, col, row);
         }
     }
 
-    public void switchToUser(ActionEvent event) throws IOException {
-        Alert alert;
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information meassage");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure want to switch to user UI?");
-
-        ButtonType buttonY = new ButtonType("Yes");
-        ButtonType buttonN = new ButtonType("No");
-
-        alert.getButtonTypes().setAll(buttonN, buttonY);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-
-        if (result.isPresent() && result.get() == buttonY) {
-            Parent root = FXMLLoader.load(getClass().getResource("/userView.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        }
-    }
-
-    public void logOut(ActionEvent event) throws IOException {
-        Alert alert;
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information meassage");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure want to log out?");
-
-        ButtonType buttonY = new ButtonType("Yes");
-        ButtonType buttonN = new ButtonType("No");
-
-        alert.getButtonTypes().setAll(buttonN, buttonY);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-
-        if (result.isPresent() && result.get() == buttonY) {
-            Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-    }
 }

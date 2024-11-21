@@ -1,30 +1,84 @@
-/* register.css */
+/* Tổng thể */
 .root {
-    -fx-background-color: #f0f0f0; /* Màu nền sáng */
-}
-
-.text {
-    -fx-fill: #333; /* Màu chữ tối */
-}
-
-.label {
+    -fx-font-family: 'Verdana';
     -fx-font-size: 14px;
+}
+
+/* AnchorPane */
+.anchor-pane {
+    -fx-background-color: #f4f7fa;
+}
+
+/* Tiêu đề "Register" */
+.label {
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.2, 2, 2);
 }
 
+/* TextField và PasswordField */
 .text-field, .password-field {
-    -fx-pref-height: 35px; /* Chiều cao của các trường nhập */
-    -fx-pref-width: 400px; /* Chiều rộng của các trường nhập */
-    -fx-padding: 5px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 3, 0.2, 1, 1);
 }
 
+.text-field:hover, .password-field:hover {
+    -fx-border-color: #4CAF50;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 2px;
+}
+
+/* Label hiển thị thông báo lỗi */
+#registerMessageLabel {
+    -fx-text-fill: #ff2323;
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+}
+
+/* Nút đăng ký */
 .button {
-    -fx-background-color: #007bff; /* Màu nền của nút */
-    -fx-text-fill: white; /* Màu chữ của nút */
-    -fx-pref-height: 35px; /* Chiều cao của nút */
-    -fx-pref-width: 100px; /* Chiều rộng của nút */
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-padding: 10px 15px;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.2, 1, 1);
 }
 
 .button:hover {
-    -fx-background-color: #0056b3; /* Màu nền khi hover */
+    -fx-background-color: #45a049;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.2, 2, 2);
 }
+
+.button:pressed {
+    -fx-background-color: #388e3c;
+    -fx-effect: none;
+}
+
+/* Nút "Back to Login" */
+#backToLoginButton {
+    -fx-background-color: #1e88e5;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+}
+
+#backToLoginButton:hover {
+    -fx-background-color: #1565c0;
+}
+
+#backToLoginButton:pressed {
+    -fx-background-color: #0d47a1;
+}
+
+

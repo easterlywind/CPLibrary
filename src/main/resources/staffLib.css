@@ -1,0 +1,42 @@
+/* Style tổng quan */
+.root {
+    -fx-font-family: "Arial";
+}
+
+/* Định dạng chung cho HBox */
+.hbox-menu {
+    -fx-background-color: lightgrey; /* Màu nền mặc định */
+    -fx-padding: 10;
+    -fx-alignment: center-left;
+    -fx-spacing: 10;
+    -fx-border-color: grey; /* Viền xung quanh */
+    -fx-border-width: 0 0 1 0; /* Chỉ viền dưới */
+    -fx-cursor: hand; /* Đổi con trỏ thành bàn tay khi di chuột */
+}
+
+/* Hiệu ứng hover */
+.hbox-menu:hover {
+    -fx-background-color: #d3d3d3; /* Màu nền khi hover */
+}
+
+/* Hiệu ứng khi click */
+.hbox-menu:pressed {
+    -fx-background-color: #a9a9a9; /* Màu nền khi nhấn giữ */
+    -fx-effect: innershadow(gaussian, black, 5, 0.5, 0, 0); /* Hiệu ứng bóng bên trong */
+}
+
+/* Định dạng cho Label trong HBox */
+.hbox-menu Label {
+    -fx-font-size: 16px; /* Kích thước chữ */
+    -fx-text-fill: black; /* Màu chữ */
+}
+
+/* Định dạng cho ImageView trong HBox */
+.hbox-menu ImageView {
+    -fx-opacity: 0.8; /* Độ trong suốt của ảnh */
+}
+
+/* Khi hover, tăng độ rõ của ImageView */
+.hbox-menu:hover ImageView {
+    -fx-opacity: 1;
+}

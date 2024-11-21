@@ -1,56 +1,88 @@
-/* General Styles */
+/* Tổng thể */
 .root {
-    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-family: 'Verdana';
+    -fx-font-size: 14px;
 }
 
-/* Left Pane */
-.left-pane {
+/* AnchorPane phía bên trái */
+.anchor-pane {
     -fx-background-color: #263F73;
 }
 
-.left-label {
-    -fx-font-size: 24px;
+/* Nhãn (Labels) */
+.label {
     -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 5, 0.2, 1, 1);
+    -fx-font-weight: bold;
 }
 
-/* Right Pane */
-.right-pane {
-    -fx-background-color: white;
-    -fx-padding: 20;
+/* Nhãn hiển thị thông báo lỗi */
+#loginMessageLabel {
+    -fx-text-fill: #ff2323;
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
 }
 
-.login-title {
-    -fx-font-size: 24px;
-    -fx-text-fill: black;
+/* Các TextField và PasswordField */
+.text-field, .password-field {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #c3c3c3;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
 }
 
-.label-text {
-    -fx-font-size: 18px;
-    -fx-text-fill: #555;
+.text-field:hover, .password-field:hover {
+    -fx-border-color: #263F73;
 }
 
-.input-field {
-    -fx-background-color: #E9ECEF;
-    -fx-border-radius: 5;
-    -fx-padding: 10 15;
-    -fx-font-size: 16px;
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #263F73;
+    -fx-border-width: 2px;
 }
 
-.action-button {
-    -fx-background-color: #007BFF;
+/* Nút bấm (Buttons) */
+.button {
+    -fx-background-color: #263F73;
     -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-border-radius: 5;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 3, 0.1, 1, 1);
 }
 
-.register-button {
-    -fx-background-color: #28A745;
-    -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-border-radius: 5;
+.button:hover {
+    -fx-background-color: #3e5b9a;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.2, 2, 2);
 }
 
-.error-message {
-    -fx-font-size: 16px;
-    -fx-text-fill: #E53935;
+.button:pressed {
+    -fx-background-color: #1d2c5c;
+    -fx-effect: none;
+}
+
+/* Nút Login */
+#loginButton {
+    -fx-background-color: #006400;
+}
+
+#loginButton:hover {
+    -fx-background-color: #228b22;
+}
+
+#loginButton:pressed {
+    -fx-background-color: #004d00;
+}
+
+/* Nút Register */
+#registerButton {
+    -fx-background-color: #8b0000;
+}
+
+#registerButton:hover {
+    -fx-background-color: #ff0000;
+}
+
+#registerButton:pressed {
+    -fx-background-color: #5a0000;
 }
