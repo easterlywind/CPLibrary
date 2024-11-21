@@ -2,6 +2,7 @@ package com.example.cplibrary.model;
 
 public class Book {
     private int book_id;
+    private int quantity;
     private String isbn;
     private String title;
     private String author;
@@ -11,8 +12,9 @@ public class Book {
     private String review;
 
     // Constructor với đầy đủ thông tin
-    public Book(int book_id, String isbn, String title, String author, String subject, String publisher, String shelfLocation, String review) {
+    public Book(int book_id, int quantity, String isbn, String title, String author, String subject, String publisher, String shelfLocation, String review) {
         this.book_id = book_id;
+        this.quantity = quantity;
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -20,6 +22,7 @@ public class Book {
         this.publisher = publisher;
         this.shelfLocation = shelfLocation;
         this.review = review;
+
     }
 
     // Getters và Setters cho các thuộc tính
@@ -86,5 +89,12 @@ public class Book {
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

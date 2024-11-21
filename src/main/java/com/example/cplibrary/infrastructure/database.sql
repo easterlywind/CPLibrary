@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS Books (
                                      subject VARCHAR(100),
                                      publisher VARCHAR(100),
                                      shelf_location VARCHAR(50),
-                                     review TEXT
+                                     review TEXT,
+                                     quantity INT NOT NULL CHECK (quantity >= 0) -- Thêm thuộc tính số lượng sách, đảm bảo không âm
 );
 
 -- Bảng Loans

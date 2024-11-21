@@ -16,27 +16,28 @@ public class SQLBookRepository {
 
     // Thêm sách vào bảng Books
     public void addBook(Book book) {
-        String sql = "INSERT INTO Books (book_id, isbn, title, author, subject, publisher, shelf_location, review) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Books (book_id, quantity, isbn, title, author, subject, publisher, shelf_location, review) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, book.getBook_id());
-            stmt.setString(2, book.getIsbn());
-            stmt.setString(3, book.getTitle());
-            stmt.setString(4, book.getAuthor());
-            stmt.setString(5, book.getSubject());
-            stmt.setString(6, book.getPublisher());
-            stmt.setString(7, book.getShelfLocation());
-            stmt.setString(8, book.getReview());
+            stmt.setInt(2, book.getQuantity());  // Lưu quantity
+            stmt.setString(3, book.getIsbn());
+            stmt.setString(4, book.getTitle());
+            stmt.setString(5, book.getAuthor());
+            stmt.setString(6, book.getSubject());
+            stmt.setString(7, book.getPublisher());
+            stmt.setString(8, book.getShelfLocation());
+            stmt.setString(9, book.getReview());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Cập nhật thông tin sách
+    // Cập nhật thông tin sách (bao gồm cả quantity)
     public void updateBook(Book book) {
-        String sql = "UPDATE Books SET title = ?, author = ?, subject = ?, publisher = ?, shelf_location = ?, review = ? " +
+        String sql = "UPDATE Books SET title = ?, author = ?, subject = ?, publisher = ?, shelf_location = ?, review = ?, quantity = ? " +
                 "WHERE isbn = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -46,7 +47,8 @@ public class SQLBookRepository {
             stmt.setString(4, book.getPublisher());
             stmt.setString(5, book.getShelfLocation());
             stmt.setString(6, book.getReview());
-            stmt.setString(7, book.getIsbn());
+            stmt.setInt(7, book.getQuantity());  // Cập nhật quantity
+            stmt.setString(8, book.getIsbn());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +69,7 @@ public class SQLBookRepository {
 
     // Lấy thông tin sách theo ISBN
     public Book getBookByIsbn(String isbn) {
-        String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review " +
+        String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity " +
                 "FROM Books WHERE isbn = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -76,6 +78,7 @@ public class SQLBookRepository {
             if (rs.next()) {
                 return new Book(
                         rs.getInt("book_id"),
+                        rs.getInt("quantity"),
                         rs.getString("isbn"),
                         rs.getString("title"),
                         rs.getString("author"),
@@ -93,7 +96,7 @@ public class SQLBookRepository {
 
     // Tìm kiếm sách theo tiêu chí người dùng chỉ định
     public List<Book> searchBooks(String title, String author, String subject) {
-        StringBuilder sql = new StringBuilder("SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review FROM Books WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity FROM Books WHERE 1=1");
         List<Book> books = new ArrayList<>();
         List<String> params = new ArrayList<>();
 
@@ -121,6 +124,7 @@ public class SQLBookRepository {
             while (rs.next()) {
                 books.add(new Book(
                         rs.getInt("book_id"),
+                        rs.getInt("quantity"),
                         rs.getString("isbn"),
                         rs.getString("title"),
                         rs.getString("author"),
