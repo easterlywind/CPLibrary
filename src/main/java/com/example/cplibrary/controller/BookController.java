@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -64,17 +65,39 @@ public class BookController {
     @FXML
     TextField quantityCopyInput;
 
+    @FXML
+    Label publisherLabel;
+
+    @FXML
+    Label isbnLabel;
+
+    @FXML
+    VBox descriptionList;
+
     private final SQLBookRepository bookRepository = new SQLBookRepository();
     private final SQLReviewRepository reviewRepository = new SQLReviewRepository();
 
     private Book book;
     private int currentUserId = 1;
 
-    public void backButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/staffLib.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+    public void backButtonOnAction(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/staffLib.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteButtonOnAction(ActionEvent event) {
+            bookRepository.deleteBook(book.getIsbn());
+            backButtonOnAction(event);
+    }
+
+    public void editButtonOnAction(ActionEvent event) {
+
     }
 
     public void setBookDetails(Book book) {
@@ -86,6 +109,11 @@ public class BookController {
         subjectLabel.setText(book.getSubject());
         shelfLocationLabel.setText(book.getShelfLocation());
         quantityLabel.setText(String.valueOf(book.getQuantity()));
+        isbnLabel.setText(book.getIsbn());
+        publisherLabel.setText(book.getPublisher());
+        Label reviewContent = new Label(book.getReview());
+        reviewContent.setWrapText(true);
+        descriptionList.getChildren().add(reviewContent);
 
         List<String> isbnBookList = new ArrayList<>();
         isbnBookList.add(book.getIsbn());
@@ -167,6 +195,7 @@ public class BookController {
         book.setQuantity(book.getQuantity() + countOfCopy);
         quantityLabel.setText(String.valueOf(book.getQuantity()));
     }
+
 
     @FXML
     public void initialize() {
