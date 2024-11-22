@@ -53,7 +53,8 @@ public class LoginView {
             loginMessageLabel.setText("Connection Failed");
         }
 
-        String verifyLogin = "select count(1) from login where email = '" + emailTextField.getText() + "'AND password = '" + passwordTextField.getText() + "'";
+        String verifyLogin = "select count(1) from users where email = '" + emailTextField.getText() + "'AND password = '" + passwordTextField.getText()
+                + "'AND role = 'staff'" ;
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
@@ -62,9 +63,10 @@ public class LoginView {
                 if(queryResult.getInt(1) == 0) {
                     loginMessageLabel.setText("Invalid username or password");
                 } else {
-                    Parent root = FXMLLoader.load(getClass().getResource("/user.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/staffLib.fxml"));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root, 1280, 720));
+                    stage.setScene(new Scene(root));
+                    stage.centerOnScreen();
                     stage.show();
                 }
             }
