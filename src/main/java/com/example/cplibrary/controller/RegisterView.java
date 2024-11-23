@@ -58,7 +58,7 @@ public class RegisterView {
             registerMessageLabel.setText("Please connect to the database");
             return;
         }
-        String verifyRegister = "insert into login (userName, password) values ('" + usernameTextField.getText() + "','" + passwordTextField.getText() +  "');";
+        String verifyRegister = "insert into users (userName, password) values ('" + usernameTextField.getText() + "','" + passwordTextField.getText() +  "');";
 
         Statement statement = connect.createStatement();
         int queryResult = statement.executeUpdate(verifyRegister);

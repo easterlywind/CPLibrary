@@ -30,19 +30,8 @@ import java.util.List;
 public class BookController {
 
     @FXML
-    private Label titleLabel;
-
-    @FXML
-    private Label authorLabel;
-
-    @FXML
-    private Label subjectLabel;
-
-    @FXML
-    private Label shelfLocationLabel;
-
-    @FXML
-    private Label quantityLabel;
+    private Label titleLabel, authorLabel, subjectLabel, shelfLocationLabel,
+            quantityLabel, nameLabel, publisherLabel, isbnLabel, descriptionLabel;
 
     @FXML
     private VBox reviewList;
@@ -51,34 +40,24 @@ public class BookController {
     private TextArea reviewInput;
 
     @FXML
-    private Button borrowButton;
+    private Button borrowButton, backButton, saveButton, editButton, addQuantityButton;
+
+    @FXML
+    private TextArea titleInput, authorInput, subjectInput, shelfLocationInput, isbnInput, publisherInput, descriptionInput, quantityInput;
 
     @FXML
     ImageView bookImage;
 
     @FXML
-    Label nameLabel;
-
-    @FXML
-    Button backButton;
-
-    @FXML
     TextField quantityCopyInput;
 
-    @FXML
-    Label publisherLabel;
-
-    @FXML
-    Label isbnLabel;
-
-    @FXML
-    VBox descriptionList;
 
     private final SQLBookRepository bookRepository = new SQLBookRepository();
     private final SQLReviewRepository reviewRepository = new SQLReviewRepository();
 
     private Book book;
     private int currentUserId = 1;
+    public boolean isEditing = false;
 
     public void backButtonOnAction(ActionEvent event) {
         try {
@@ -96,9 +75,6 @@ public class BookController {
             backButtonOnAction(event);
     }
 
-    public void editButtonOnAction(ActionEvent event) {
-
-    }
 
     public void setBookDetails(Book book) {
         this.book = book;
@@ -111,9 +87,7 @@ public class BookController {
         quantityLabel.setText(String.valueOf(book.getQuantity()));
         isbnLabel.setText(book.getIsbn());
         publisherLabel.setText(book.getPublisher());
-        Label reviewContent = new Label(book.getReview());
-        reviewContent.setWrapText(true);
-        descriptionList.getChildren().add(reviewContent);
+        descriptionLabel.setText(book.getReview());
 
         List<String> isbnBookList = new ArrayList<>();
         isbnBookList.add(book.getIsbn());
@@ -196,9 +170,102 @@ public class BookController {
         quantityLabel.setText(String.valueOf(book.getQuantity()));
     }
 
+    public void editButtonOnAction() {
+        toggleEditing(true);
+    }
+
+
+    public void saveButtonOnAction() {
+
+        // Lấy dữ liệu từ TextArea
+        String newTitle = titleInput.getText();
+        String newAuthor = authorInput.getText();
+        String newSubject = subjectInput.getText();
+        String newShelfLocation = shelfLocationInput.getText();
+        String newIsbn = isbnInput.getText();
+        String newPublisher = publisherInput.getText();
+        String newDescription = descriptionInput.getText();
+        String newQuantity = quantityInput.getText();
+
+        if (newTitle.isEmpty() || newAuthor.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Title and Author cannot be empty!");
+            alert.show();
+            return;
+        }
+
+        // Cập nhật đối tượng Book
+        book.setTitle(newTitle);
+        book.setAuthor(newAuthor);
+        book.setSubject(newSubject);
+        book.setShelfLocation(newShelfLocation);
+        book.setIsbn(newIsbn);
+        book.setPublisher(newPublisher);
+        book.setReview(newDescription);
+        book.setQuantity(Integer.parseInt(newQuantity));
+
+
+        // Lưu vào cơ sở dữ liệu
+        bookRepository.updateBook(book);
+
+        // Hiển thị dữ liệu mới trên giao diện
+        titleLabel.setText(newTitle);
+        authorLabel.setText(newAuthor);
+        subjectLabel.setText(newSubject);
+        shelfLocationLabel.setText(newShelfLocation);
+        isbnLabel.setText(newIsbn);
+        publisherLabel.setText(newPublisher);
+        descriptionLabel.setText(newDescription);
+        quantityLabel.setText(String.valueOf(book.getQuantity()));
+
+        // Tắt chế độ chỉnh sửa
+        toggleEditing(false);
+    }
+
+    private void toggleEditing(boolean enable) {
+        isEditing = enable;
+
+        // Chuyển trạng thái giữa Label và TextArea
+        titleLabel.setVisible(!enable);
+        authorLabel.setVisible(!enable);
+        subjectLabel.setVisible(!enable);
+        shelfLocationLabel.setVisible(!enable);
+        isbnLabel.setVisible(!enable);
+        publisherLabel.setVisible(!enable);
+        descriptionLabel.setVisible(!enable);
+        quantityLabel.setVisible(!enable);
+
+        titleInput.setVisible(enable);
+        authorInput.setVisible(enable);
+        subjectInput.setVisible(enable);
+        shelfLocationInput.setVisible(enable);
+        isbnInput.setVisible(enable);
+        publisherInput.setVisible(enable);
+        descriptionInput.setVisible(enable);
+        quantityInput.setVisible(enable);
+
+        // Hiển thị nút phù hợp
+        editButton.setVisible(!enable);
+        saveButton.setVisible(enable);
+        borrowButton.setDisable(enable);
+        addQuantityButton.setDisable(enable);
+        quantityCopyInput.setDisable(enable);
+
+        if (enable) {
+            // Sao chép giá trị từ Label sang TextArea khi bắt đầu chỉnh sửa
+            titleInput.setText(titleLabel.getText());
+            authorInput.setText(authorLabel.getText());
+            subjectInput.setText(subjectLabel.getText());
+            shelfLocationInput.setText(shelfLocationLabel.getText());
+            isbnInput.setText(isbnLabel.getText());
+            publisherInput.setText(publisherLabel.getText());
+            descriptionInput.setText(descriptionLabel.getText());
+            quantityInput.setText(String.valueOf(book.getQuantity()));
+        }
+    }
 
     @FXML
     public void initialize() {
 //        borrowButton.setOnAction(event -> handleBorrowAction());
+        toggleEditing(false);
     }
 }
