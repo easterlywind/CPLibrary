@@ -63,11 +63,13 @@ public class LoginView {
                 if(queryResult.getInt(1) == 0) {
                     loginMessageLabel.setText("Invalid username or password");
                 } else {
-                    Parent root = FXMLLoader.load(getClass().getResource("/staffLib.fxml"));
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.centerOnScreen();
-                    stage.show();
+//                    Parent root = FXMLLoader.load(getClass().getResource("/staffLib.fxml"));
+//                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                    stage.setScene(new Scene(root));
+//                    stage.centerOnScreen();
+//                    stage.show();
+//
+                    NavigationManager.switchScene("/staffLib.fxml");
                 }
             }
         } catch (Exception e) {

@@ -60,14 +60,7 @@ public class BookController {
     public boolean isEditing = false;
 
     public void backButtonOnAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/staffLib.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationManager.switchScene("/staffLib.fxml");
     }
 
     public void deleteButtonOnAction(ActionEvent event) {

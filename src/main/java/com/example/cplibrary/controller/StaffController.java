@@ -3,6 +3,7 @@ package com.example.cplibrary.controller;
 import com.example.cplibrary.application.StaffService;
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.model.Book;
+import com.example.cplibrary.controller.NavigationManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -29,7 +30,7 @@ public class StaffController {
     @FXML
     private Label nameLabel;
 
-    private final StaffService staffService = new StaffService(); // Tạo đối tượng StaffService
+    private final StaffService staffService = new StaffService();
 
     @FXML
     public void initialize() {
@@ -96,19 +97,13 @@ public class StaffController {
             vBox.getChildren().addAll(imageView, titleLabel);
 
             imageView.setOnMouseClicked(mouseEvent -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/BookDetails.fxml"));
-                    Parent root = loader.load();
-
-                    BookController controller = loader.getController();
-                    controller.setBookDetails(book);
-
-                    Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                NavigationManager.switchSceneWithData("/BookDetails.fxml",
+                        (controller,selectedBook) -> {
+                            BookController bookController = (BookController) controller;
+                            bookController.setBookDetails((Book) selectedBook);
+                        },
+                        book
+                );
             });
 
 
