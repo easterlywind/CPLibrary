@@ -43,7 +43,7 @@ public class BookController {
     private Button borrowButton, backButton, saveButton, editButton, addQuantityButton;
 
     @FXML
-    private TextArea titleInput, authorInput, subjectInput, shelfLocationInput, isbnInput, publisherInput, descriptionInput, quantityInput;
+    private TextArea titleInput, authorInput, subjectInput, shelfLocationInput, publisherInput, descriptionInput, quantityInput;
 
     @FXML
     ImageView bookImage;
@@ -182,7 +182,6 @@ public class BookController {
         String newAuthor = authorInput.getText();
         String newSubject = subjectInput.getText();
         String newShelfLocation = shelfLocationInput.getText();
-        String newIsbn = isbnInput.getText();
         String newPublisher = publisherInput.getText();
         String newDescription = descriptionInput.getText();
         String newQuantity = quantityInput.getText();
@@ -198,7 +197,6 @@ public class BookController {
         book.setAuthor(newAuthor);
         book.setSubject(newSubject);
         book.setShelfLocation(newShelfLocation);
-        book.setIsbn(newIsbn);
         book.setPublisher(newPublisher);
         book.setReview(newDescription);
         book.setQuantity(Integer.parseInt(newQuantity));
@@ -212,7 +210,6 @@ public class BookController {
         authorLabel.setText(newAuthor);
         subjectLabel.setText(newSubject);
         shelfLocationLabel.setText(newShelfLocation);
-        isbnLabel.setText(newIsbn);
         publisherLabel.setText(newPublisher);
         descriptionLabel.setText(newDescription);
         quantityLabel.setText(String.valueOf(book.getQuantity()));
@@ -229,7 +226,6 @@ public class BookController {
         authorLabel.setVisible(!enable);
         subjectLabel.setVisible(!enable);
         shelfLocationLabel.setVisible(!enable);
-        isbnLabel.setVisible(!enable);
         publisherLabel.setVisible(!enable);
         descriptionLabel.setVisible(!enable);
         quantityLabel.setVisible(!enable);
@@ -238,7 +234,6 @@ public class BookController {
         authorInput.setVisible(enable);
         subjectInput.setVisible(enable);
         shelfLocationInput.setVisible(enable);
-        isbnInput.setVisible(enable);
         publisherInput.setVisible(enable);
         descriptionInput.setVisible(enable);
         quantityInput.setVisible(enable);
@@ -256,7 +251,6 @@ public class BookController {
             authorInput.setText(authorLabel.getText());
             subjectInput.setText(subjectLabel.getText());
             shelfLocationInput.setText(shelfLocationLabel.getText());
-            isbnInput.setText(isbnLabel.getText());
             publisherInput.setText(publisherLabel.getText());
             descriptionInput.setText(descriptionLabel.getText());
             quantityInput.setText(String.valueOf(book.getQuantity()));

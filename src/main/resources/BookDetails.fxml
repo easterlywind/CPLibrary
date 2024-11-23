@@ -146,12 +146,11 @@
             <TextArea fx:id="authorInput" layoutX="450.0" layoutY="179.0" prefHeight="21.0" prefWidth="300.0" visible="false" />
             <TextArea fx:id="subjectInput" layoutX="450.0" layoutY="214.0" prefHeight="23.0" prefWidth="300.0" visible="false" />
             <TextArea fx:id="shelfLocationInput" layoutX="500.0" layoutY="249.0" prefHeight="26.0" prefWidth="300.0" visible="false" />
-            <TextArea fx:id="isbnInput" layoutX="491.0" layoutY="325.0" prefHeight="27.0" prefWidth="300.0" visible="false" />
-            <TextArea fx:id="publisherInput" layoutX="477.0" layoutY="361.0" prefWidth="300.0" visible="false" />
+            <TextArea fx:id="publisherInput" layoutX="477.0" layoutY="361.0" prefHeight="26.0" prefWidth="300.0" visible="false" />
             <Button fx:id="saveButton" layoutX="420.0" layoutY="90.0" mnemonicParsing="false" onAction="#saveButtonOnAction" text="Save" visible="false" />
             <Label fx:id="descriptionLabel" layoutX="97.0" layoutY="447.0" prefHeight="222.0" prefWidth="703.0" text="Label" wrapText="true" />
-            <TextArea fx:id="descriptionInput" layoutX="98.0" layoutY="457.0" prefHeight="227.0" prefWidth="701.0" />
-            <TextArea fx:id="quantityInput" layoutX="471.0" layoutY="281.0" prefHeight="29.0" prefWidth="200.0" />
+            <TextArea fx:id="descriptionInput" layoutX="98.0" layoutY="457.0" prefHeight="227.0" prefWidth="701.0" visible="false" />
+            <TextArea fx:id="quantityInput" layoutX="471.0" layoutY="281.0" prefHeight="29.0" prefWidth="200.0" visible="false" />
 
             </children>
         </AnchorPane>
