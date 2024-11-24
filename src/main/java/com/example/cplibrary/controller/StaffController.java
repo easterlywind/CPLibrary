@@ -68,19 +68,12 @@ public class StaffController {
             gridPane.getRowConstraints().add(row);
         }
 
-        // Danh sách URL ảnh từ Google Books API
-        List<String> isbns = new ArrayList<>();
-        for (Book book : books) {
-            isbns.add(book.getIsbn());
-        }
-        List<String> imageUrls = GoogleBooksAPI.fetchBookImageURLs(isbns);
-
         // Thêm sách vào GridPane
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
 
             // Lấy ảnh từ Google API
-            String imageUrl = imageUrls.get(i);
+            String imageUrl = GoogleBooksAPI.fetchBookDetails(book.getIsbn())[5];
             Image image = imageUrl != null && !imageUrl.isEmpty()
                     ? new Image(imageUrl, 200, 300, true, true)
                     : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);

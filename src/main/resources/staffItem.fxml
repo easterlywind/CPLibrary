@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane prefHeight="824.0" prefWidth="1536.0" stylesheets="staffLib.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.StaffAddItemsController">
+<BorderPane prefHeight="824.0" prefWidth="1536.0" stylesheets="staffLib.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.StaffItemController">
     <left>
         <AnchorPane prefHeight="800.0" prefWidth="255.0" stylesheets="@staffLib.css" BorderPane.alignment="CENTER">
             <children>
@@ -94,8 +94,22 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <TextField layoutX="99.0" layoutY="183.0" prefHeight="44.0" prefWidth="637.0" promptText="Start Searching..." />
-                <ScrollPane layoutY="289.0" prefHeight="536.0" prefWidth="1256.0" />
+                <TextField fx:id="searchField" layoutX="90.0" layoutY="122.0" prefHeight="44.0" prefWidth="637.0" promptText="Start Searching..." />
+                <ScrollPane layoutY="289.0" prefHeight="536.0" prefWidth="1256.0">
+               <content>
+                  <VBox fx:id="booksListContainer" prefHeight="522.0" prefWidth="1255.0" spacing="10.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content></ScrollPane>
+                <Label layoutX="90.0" layoutY="81.0" prefHeight="21.0" prefWidth="127.0" text="Search for books" />
+                <Label layoutX="90.0" layoutY="175.0" prefHeight="21.0" prefWidth="425.0" text="Search by ISBN or keyword. ISBN search will auto-add an book.">
+                    <font>
+                        <Font name="System Italic" size="15.0" />
+                    </font>
+                </Label>
+                <Button layoutX="90.0" layoutY="211.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
             </children>
         </AnchorPane>
     </center>

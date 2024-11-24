@@ -94,30 +94,20 @@ public class SQLBookRepository {
         return null;
     }
 
-    // Tìm kiếm sách theo tiêu chí người dùng chỉ định
-    public List<Book> searchBooks(String title, String author, String subject) {
-        StringBuilder sql = new StringBuilder("SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity FROM Books WHERE 1=1");
+    // Tìm kiếm sách theo từ khóa (search word)
+    public List<Book> searchBooks(String keyword) {
+        String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity " +
+                "FROM Books " +
+                "WHERE title LIKE ? OR author LIKE ? OR subject LIKE ? OR isbn LIKE ? OR publisher LIKE ?";
         List<Book> books = new ArrayList<>();
-        List<String> params = new ArrayList<>();
-
-        if (title != null && !title.isEmpty()) {
-            sql.append(" AND title LIKE ?");
-            params.add("%" + title + "%");
-        }
-        if (author != null && !author.isEmpty()) {
-            sql.append(" AND author LIKE ?");
-            params.add("%" + author + "%");
-        }
-        if (subject != null && !subject.isEmpty()) {
-            sql.append(" AND subject LIKE ?");
-            params.add("%" + subject + "%");
-        }
 
         try (Connection conn = databaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            for (int i = 0; i < params.size(); i++) {
-                stmt.setString(i + 1, params.get(i));
+            // Set cùng một giá trị cho tất cả các trường
+            String searchPattern = "%" + keyword + "%";
+            for (int i = 1; i <= 5; i++) {
+                stmt.setString(i, searchPattern);
             }
 
             ResultSet rs = stmt.executeQuery();
@@ -140,6 +130,7 @@ public class SQLBookRepository {
 
         return books;
     }
+
 
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();

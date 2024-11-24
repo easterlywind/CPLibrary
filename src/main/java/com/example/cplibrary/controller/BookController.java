@@ -82,11 +82,8 @@ public class BookController {
         publisherLabel.setText(book.getPublisher());
         descriptionLabel.setText(book.getReview());
 
-        List<String> isbnBookList = new ArrayList<>();
-        isbnBookList.add(book.getIsbn());
 
-        List<String> imageUrls = GoogleBooksAPI.fetchBookImageURLs(isbnBookList);
-        String imageUrl = imageUrls.get(0);
+        String imageUrl = GoogleBooksAPI.fetchBookDetails(book.getIsbn())[5];
         Image image = imageUrl != null && !imageUrl.isEmpty()
                 ? new Image(imageUrl, 200, 300, true, true)
                 : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
