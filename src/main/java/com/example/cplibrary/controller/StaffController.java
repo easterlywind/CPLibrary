@@ -73,7 +73,7 @@ public class StaffController {
             Book book = books.get(i);
 
             // Lấy ảnh từ Google API
-            String imageUrl = GoogleBooksAPI.fetchBookDetails(book.getIsbn())[5];
+            String imageUrl = GoogleBooksAPI.fetchBookDetails(book.getIsbn(),false)[6];
             Image image = imageUrl != null && !imageUrl.isEmpty()
                     ? new Image(imageUrl, 200, 300, true, true)
                     : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);

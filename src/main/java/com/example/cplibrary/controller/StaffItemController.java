@@ -3,8 +3,10 @@ package com.example.cplibrary.controller;
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.model.Book;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,7 +25,8 @@ public class StaffItemController {
     @FXML
     private VBox booksListContainer;
 
-    private final SQLBookRepository bookRepository = new SQLBookRepository();
+    @FXML
+    private ProgressIndicator loadingSpinner;
 
     @FXML
     private void onSearch() {
@@ -33,50 +36,78 @@ public class StaffItemController {
             return;
         }
 
-//        List<Book> books = bookRepository.searchBooks(keyword);
-        List<Book> books = new ArrayList<>();
 
-        booksListContainer.getChildren().clear();
-        for (Book book : books) {
-            HBox bookItem = createBookItem(book);
-            booksListContainer.getChildren().add(bookItem);
-        }
+        loadingSpinner.setVisible(true);
+
+
+        Task<Book> searchTask = new Task<>() {
+            @Override
+            protected Book call() {
+                updateProgress(0, 1);
+
+                String[] bookDetails = keyword.chars().anyMatch(Character::isDigit)
+                        ? GoogleBooksAPI.fetchBookDetails(keyword, false)
+                        : GoogleBooksAPI.fetchBookDetails(keyword, true);
+                updateProgress(1, 1);
+
+//                System.out.println(bookDetails[0]);
+
+                return new Book(
+                        0,
+                        0,
+                        bookDetails[0],
+                        bookDetails[1],
+                        bookDetails[2],
+                        bookDetails[3],
+                        bookDetails[4],
+                        "N/A",
+                        bookDetails[5]
+                );
+            }
+        };
+
+
+        loadingSpinner.progressProperty().bind(searchTask.progressProperty());
+
+
+        searchTask.setOnSucceeded(event -> {
+            loadingSpinner.setVisible(false);
+            loadingSpinner.progressProperty().unbind();
+
+            Book book = searchTask.getValue();
+
+            booksListContainer.getChildren().clear();
+            booksListContainer.getChildren().add(createBookItem(book));
+        });
+
+        searchTask.setOnFailed(event -> {
+            loadingSpinner.setVisible(false);
+            loadingSpinner.progressProperty().unbind();
+            System.err.println("Failed to fetch book details: " + searchTask.getException());
+        });
+
+        new Thread(searchTask).start();
     }
 
 
-    private HBox createBookItem(Book book) {
-        HBox bookItem = new HBox(10);
+    private VBox createBookItem(Book book) {
+        VBox bookItem = new VBox(10);
         bookItem.setStyle("-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;");
 
-        String imageUrl = GoogleBooksAPI.fetchBookDetails(book.getIsbn())[5];
-        Image image = imageUrl != null && !imageUrl.isEmpty()
+        String imageUrl = GoogleBooksAPI.fetchBookDetails(book.getIsbn(), false)[6];
+        Image bookImage = imageUrl != null
                 ? new Image(imageUrl, 200, 300, true, true)
                 : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
 
-        ImageView bookImage = new ImageView(image);
-
-        // Add details
-        VBox bookDetails = new VBox(5);
-        bookDetails.getChildren().addAll(
-                new Text("Title: " + book.getTitle()),
-                new Text("Author: " + book.getAuthor()),
-                new Text("ISBN: " + book.getIsbn()),
-                new Text("Subject: " + book.getSubject()),
-                new Text("Publisher: " + book.getPublisher())
+        bookItem.getChildren().addAll(
+                new ImageView(bookImage),
+                new javafx.scene.text.Text("ISBN: " + book.getIsbn()),
+                new javafx.scene.text.Text("Title: " + book.getTitle()),
+                new javafx.scene.text.Text("Author: " + book.getAuthor()),
+                new javafx.scene.text.Text("Subject: " + book.getSubject()),
+                new javafx.scene.text.Text("Publisher: " + book.getPublisher()),
+                new javafx.scene.text.Text("Review: " + book.getReview())
         );
-
-        // Add buttons
-        Button addButton = new Button("Add Book");
-        addButton.setOnAction(event -> {
-            bookDetails.getChildren().addAll(
-                    createDeleteButton(book),
-                    createViewButton(book)
-            );
-            addButton.setDisable(true); // Disable Add Button
-        });
-
-        bookDetails.getChildren().add(addButton);
-        bookItem.getChildren().addAll(bookImage, bookDetails);
 
         return bookItem;
     }

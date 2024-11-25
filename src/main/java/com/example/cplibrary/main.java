@@ -24,7 +24,7 @@ public class main extends Application {
 //            e.printStackTrace();
 //        }
         NavigationManager.setPrimaryStage(primaryStage);
-        NavigationManager.switchScene("/login.fxml");
+        NavigationManager.switchScene("/staffItem.fxml");
 
     }
 
