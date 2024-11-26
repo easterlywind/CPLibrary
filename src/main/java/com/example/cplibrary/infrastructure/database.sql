@@ -7,9 +7,8 @@ CREATE TABLE IF NOT EXISTS Users (
                                      user_id INT AUTO_INCREMENT PRIMARY KEY,
                                      name VARCHAR(100) NOT NULL,
                                      email VARCHAR(100) UNIQUE NOT NULL,
-                                     phone VARCHAR(15),
                                      password VARCHAR(255) NOT NULL,
-                                     role ENUM('staff', 'member') NOT NULL,
+                                     role ENUM('staff', 'member') NOT NULL DEFAULT 'member',
                                      status ENUM('active', 'banned') NOT NULL DEFAULT 'active'
 );
 
@@ -23,7 +22,8 @@ CREATE TABLE IF NOT EXISTS Books (
                                      subject VARCHAR(100),
                                      publisher VARCHAR(100),
                                      shelf_location VARCHAR(50),
-                                     review TEXT
+                                     review TEXT,
+                                     image_url VARCHAR(300)
 );
 
 -- Bảng Loans

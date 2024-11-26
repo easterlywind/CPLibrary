@@ -4,15 +4,20 @@ import com.example.cplibrary.application.StaffService;
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.controller.NavigationManager;
+import com.example.cplibrary.model.User;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -23,15 +28,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class StaffController {
 
     @FXML
     private GridPane gridPane;
+
     @FXML
     private Label nameLabel;
 
     private final StaffService staffService = new StaffService();
+
+    private User currenUser = new User();
+
+    public void initializeData(User user) {
+        currenUser = user;
+    }
 
     @FXML
     public void initialize() {
@@ -39,7 +52,7 @@ public class StaffController {
         int numCols = 5; // 5 cột
         int numRows = 0; // Sẽ tính toán số hàng sau
 
-        nameLabel.setText("Admin");
+        nameLabel.setText(currenUser.getName());
 
         // Xóa ràng buộc cũ nếu có
         gridPane.getColumnConstraints().clear();
@@ -119,6 +132,30 @@ public class StaffController {
 
             // Thêm VBox vào GridPane
             gridPane.add(vBox, col, row);
+        }
+    }
+
+    public void switchSceneLibrary(MouseEvent event) {
+        NavigationManager.switchScene("/staffLib.fxml");
+    }
+
+    public void switchSceneItems(MouseEvent event) {
+        NavigationManager.switchScene("/staffItem.fxml");
+    }
+
+    public void switchSceneUser(MouseEvent event) {
+        NavigationManager.switchScene("/login.fxml");
+    }
+
+    public void switchSceneLogout(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout Confirmation");
+        alert.setHeaderText("Are you sure you want to logout?");
+        alert.setContentText("All unsaved changes will be lost.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Platform.exit();
         }
     }
 }

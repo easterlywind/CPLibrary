@@ -5,6 +5,7 @@ import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.infrastructure.SQLReviewRepository;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.DatabaseConnection;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.w3c.dom.Text;
@@ -27,6 +29,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class BookController {
 
@@ -247,6 +250,29 @@ public class BookController {
             publisherInput.setText(publisherLabel.getText());
             descriptionInput.setText(descriptionLabel.getText());
             quantityInput.setText(String.valueOf(book.getQuantity()));
+        }
+    }
+    public void switchSceneLibrary(MouseEvent event) {
+        NavigationManager.switchScene("/staffLib.fxml");
+    }
+
+    public void switchSceneItems(MouseEvent event) {
+        NavigationManager.switchScene("/staffItem.fxml");
+    }
+
+    public void switchSceneUser(MouseEvent event) {
+        NavigationManager.switchScene("/login.fxml");
+    }
+
+    public void switchSceneLogout(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout Confirmation");
+        alert.setHeaderText("Are you sure you want to logout?");
+        alert.setContentText("All unsaved changes will be lost.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Platform.exit();
         }
     }
 

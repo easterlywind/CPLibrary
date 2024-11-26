@@ -3,68 +3,69 @@ package com.example.cplibrary.controller;
 import com.example.cplibrary.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 
 public class RegisterView {
+
     @FXML
-    private TextField emailTextField;
+    private TextField emailTextField, usernameTextField;
+
     @FXML
-    private PasswordField passwordTextField;
-    @FXML
-    private PasswordField confirmPasswordTextField;
-    @FXML
-    private TextField usernameTextField;
+    private PasswordField passwordTextField, confirmPasswordTextField;
+
     @FXML
     private Label registerMessageLabel;
 
+    public void registerButtonOnAction(ActionEvent event) {
+        String email = emailTextField.getText().trim();
+        String name = usernameTextField.getText().trim();
+        String password = passwordTextField.getText();
+        String confirmPassword = confirmPasswordTextField.getText();
 
-    public void registerButtonOnAction(ActionEvent event)  {
-        if (emailTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()
-                || confirmPasswordTextField.getText().isEmpty() || usernameTextField.getText().isEmpty()) {
-            registerMessageLabel.setText("Please fill all the fields");
-        } else {
-            try {
-                validateRegister();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void backToLoginButtonOnAction(ActionEvent event) throws IOException {
-        NavigationManager.switchScene("/login.fxml");
-    }
-
-    public void validateRegister() throws SQLException {
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connect = connectNow.getConnection();
-        if (connect == null) {
-            registerMessageLabel.setText("Please connect to the database");
+        if (email.isEmpty() || name.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            registerMessageLabel.setText("Please fill in all fields");
             return;
         }
-        String verifyRegister = "insert into users (userName, password) values ('" + usernameTextField.getText() + "','" + passwordTextField.getText() +  "');";
 
-        Statement statement = connect.createStatement();
-        int queryResult = statement.executeUpdate(verifyRegister);
+        if (!password.equals(confirmPassword)) {
+            registerMessageLabel.setText("Passwords do not match");
+            return;
+        }
 
-        if (queryResult > 0) {
-            registerMessageLabel.setText("Register successful");
-        } else {
-            registerMessageLabel.setText("Register failed");
+        String insertUserSQL = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+
+        try (Connection connect = new DatabaseConnection().getConnection();
+             PreparedStatement stmt = connect.prepareStatement(insertUserSQL)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, name);
+            stmt.setString(3, password);
+
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                registerMessageLabel.setText("Register successful");
+            } else {
+                registerMessageLabel.setText("Register failed");
+            }
+
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) { // Duplicate entry
+                registerMessageLabel.setText("Email or username already exists");
+            } else {
+                registerMessageLabel.setText("Database error occurred");
+            }
+            e.printStackTrace();
         }
     }
-}
 
+    public void backToLoginButtonOnAction(ActionEvent event) {
+        NavigationManager.switchScene("/login.fxml");
+    }
+}

@@ -52,9 +52,6 @@ public class StaffService {
         return userRepository.getUserByEmail(email);
     }
 
-    public Member getUserByPhone(String phone) {
-        return userRepository.getUserByPhone(phone);
-    }
 
     public List<Member> getUsersByStatus(String status) {
         return userRepository.getUsersByStatus(status);

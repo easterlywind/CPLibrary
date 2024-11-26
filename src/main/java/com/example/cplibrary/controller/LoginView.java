@@ -1,6 +1,7 @@
 package com.example.cplibrary.controller;
 
 import com.example.cplibrary.DatabaseConnection;
+import com.example.cplibrary.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class LoginView {
@@ -38,42 +37,55 @@ public class LoginView {
 
     }
 
-    public void registerButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/register.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+    public void registerButtonOnAction(ActionEvent event)  {
+
+        NavigationManager.switchScene("/register.fxml");
     }
 
 
     public void validateLogin(ActionEvent event) {
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        if (connectDB == null) {
-            loginMessageLabel.setText("Connection Failed");
-        }
+        String email = emailTextField.getText();
+        String password = passwordTextField.getText();
 
-        String verifyLogin = "select count(1) from users where email = '" + emailTextField.getText() + "'AND password = '" + passwordTextField.getText()
-                + "'AND role = 'staff'" ;
-        try {
-            Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(verifyLogin);
+        String verifyLoginSQL = "SELECT user_id, name, role FROM Users WHERE email = ? AND password = ?";
 
-            while (queryResult.next()) {
-                if(queryResult.getInt(1) == 0) {
-                    loginMessageLabel.setText("Invalid username or password");
+        try (Connection connectDB = new DatabaseConnection().getConnection();
+             PreparedStatement stmt = connectDB.prepareStatement(verifyLoginSQL)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+
+            try (ResultSet queryResult = stmt.executeQuery()) {
+                if (queryResult.next()) {
+                    String role = queryResult.getString("role");
+                    int userId = queryResult.getInt("user_id");
+                    String name = queryResult.getString("name");
+                    String status = "active";
+
+                    User userInfo = new User(userId, name, email, password, status);
+
+                    if ("staff".equalsIgnoreCase(role)) {
+                        NavigationManager.switchSceneWithData(
+                                "/staffLib.fxml",
+                                (controller, data) -> {
+                                    if (controller instanceof StaffController) {
+                                        ((StaffController) controller).initializeData((User) data);
+                                    }
+                                },
+                                userInfo
+                        );
+                    } else {
+                        loginMessageLabel.setText("Access denied: not a staff account.");
+                    }
                 } else {
-//                    Parent root = FXMLLoader.load(getClass().getResource("/staffLib.fxml"));
-//                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                    stage.setScene(new Scene(root));
-//                    stage.centerOnScreen();
-//                    stage.show();
-//
-                    NavigationManager.switchScene("/staffLib.fxml");
+                    loginMessageLabel.setText("Invalid email or password.");
                 }
             }
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
+            loginMessageLabel.setText("Database error occurred.");
         }
     }
+
 }

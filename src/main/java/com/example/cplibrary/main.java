@@ -21,7 +21,7 @@ public class main extends Application {
 //
 //
         NavigationManager.setPrimaryStage(primaryStage);
-        NavigationManager.switchScene("/staffItem.fxml");
+        NavigationManager.switchScene("/login.fxml");
 
 
 

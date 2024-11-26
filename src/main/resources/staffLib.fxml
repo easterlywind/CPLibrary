@@ -18,7 +18,7 @@
                   <Image url="@image/img.png" />
                </image>
             </ImageView>
-            <HBox layoutX="-1.0" layoutY="308.0" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu" stylesheets="@staffLib.css">
+            <HBox layoutX="-1.0" layoutY="308.0" onMouseClicked="#switchSceneLibrary" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu" stylesheets="@staffLib.css">
                <children>
                   <AnchorPane prefHeight="212.0" prefWidth="271.0" stylesheets="@staffLib.css">
                      <children>
@@ -32,7 +32,7 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <HBox layoutX="-1.0" layoutY="400.0" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu">
+            <HBox layoutX="-1.0" layoutY="400.0" onMouseClicked="#switchSceneItems" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu">
                <children>
                   <AnchorPane prefHeight="212.0" prefWidth="271.0">
                      <children>
@@ -46,7 +46,7 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <HBox layoutY="498.0" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
+            <HBox layoutY="498.0" onMouseClicked="#switchSceneUser" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
                <children>
                   <AnchorPane prefHeight="212.0" prefWidth="271.0">
                      <children>
@@ -60,21 +60,7 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <HBox layoutX="-1.0" layoutY="590.0" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu">
-               <children>
-                  <AnchorPane prefHeight="212.0" prefWidth="271.0">
-                     <children>
-                        <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="28.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@image/img.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" text="Dashboards" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <HBox layoutY="688.0" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
+            <HBox layoutY="688.0" onMouseClicked="#switchSceneLogout" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
                <children>
                   <AnchorPane prefHeight="212.0" prefWidth="271.0">
                      <children>
