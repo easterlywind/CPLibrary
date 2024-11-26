@@ -8,7 +8,8 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GoogleBooksAPI {
@@ -30,29 +31,17 @@ public class GoogleBooksAPI {
      * @param isKeyword True nếu là từ khóa, False nếu là ISBN.
      * @return Một mảng chứa tất cả thông tin của sách. Nếu không tìm thấy, trả về mảng với các giá trị null.
      */
-    public static String[] fetchBookDetails(String query, boolean isKeyword) {
-        String title = null;
-        String author = null;
-        String subject = null;
-        String publisher = null;
-        String description = null;
-        String imageUrl = null;
-        String isbn = null;
+    public static List<String[]> fetchBookDetails(String query, boolean isKeyword) {
+        List<String[]> books = new ArrayList<>();
 
         if (isKeyword) {
-            char[] queryArray = query.toCharArray();
-            for (int i = 0; i < queryArray.length; i++) {
-                if (queryArray[i] == ' ') {
-                    queryArray[i] = '+';  // Thay dấu cách bằng dấu cộng
-                }
-            }
-            String modifiedQuery = new String(queryArray);  // Chuyển mảng char thành chuỗi mới
-            query = modifiedQuery;
+            query = query.replace(' ', '+'); // Thay dấu cách bằng dấu cộng
         }
 
-
         try {
-            String requestUrl = BASE_URL + (isKeyword ? query : "isbn:" + query) + "&key=" + API_KEY;
+            String requestUrl = BASE_URL + (isKeyword ? query : "isbn:" + query) + "&key=" + API_KEY ;
+            System.out.println("Requesting URL: " + requestUrl);
+
             URL url = new URL(requestUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -65,52 +54,52 @@ public class GoogleBooksAPI {
             }
             in.close();
 
-            saveJsonToFile(content.toString(), "response.json");
-            JSONObject jsonResponse = new JSONObject(content.toString());
-            JSONArray items = jsonResponse.optJSONArray("items");
+            String jsonResponse = content.toString();
+            saveJsonToFile(jsonResponse, "response.json");
 
-            if (items != null && items.length() > 0) {
-                JSONObject volumeInfo = items.getJSONObject(0).getJSONObject("volumeInfo");
+            JSONObject responseJson = new JSONObject(jsonResponse);
+            JSONArray items = responseJson.optJSONArray("items");
 
-                JSONArray industryIdentifiers = volumeInfo.optJSONArray("industryIdentifiers");
-                if (industryIdentifiers != null ) {
-                    for (int i = 0; i < industryIdentifiers.length(); i++) {
-                        JSONObject identifier = industryIdentifiers.getJSONObject(i);
-                        if ("ISBN_13".equals(identifier.optString("type"))) {
-                            isbn = identifier.optString("identifier");
-                            break;
+            if (items != null) {
+                for (int i = 0; i < items.length(); i++) {
+                    JSONObject item = items.getJSONObject(i);
+                    JSONObject volumeInfo = item.getJSONObject("volumeInfo");
+
+                    String isbn = null;
+                    JSONArray industryIdentifiers = volumeInfo.optJSONArray("industryIdentifiers");
+                    if (industryIdentifiers != null) {
+                        for (int j = 0; j < industryIdentifiers.length(); j++) {
+                            JSONObject identifier = industryIdentifiers.getJSONObject(j);
+                            if ("ISBN_13".equals(identifier.optString("type"))) {
+                                isbn = identifier.optString("identifier");
+                                break;
+                            }
                         }
                     }
-                } else {
-                    System.out.println("No ISBN found");
-                }
 
-                title = volumeInfo.optString("title", null);
+                    String title = volumeInfo.optString("title", "Unknown Title");
+                    String author = volumeInfo.optJSONArray("authors") != null
+                            ? String.join(", ", volumeInfo.getJSONArray("authors").toList().stream()
+                            .map(Object::toString).toArray(String[]::new))
+                            : "Unknown Author";
+                    String subject = volumeInfo.optJSONArray("categories") != null
+                            ? String.join(", ", volumeInfo.getJSONArray("categories").toList().stream()
+                            .map(Object::toString).toArray(String[]::new))
+                            : "Unknown Subject";
+                    String publisher = volumeInfo.optString("publisher", "Unknown Publisher");
+                    String description = volumeInfo.optString("description", "No Description");
+                    String imageUrl = volumeInfo.optJSONObject("imageLinks") != null
+                            ? volumeInfo.getJSONObject("imageLinks").optString("thumbnail", null)
+                            : null;
 
-                JSONArray authorsArray = volumeInfo.optJSONArray("authors");
-                if (authorsArray != null) {
-                    author = String.join(", ", authorsArray.toList().stream()
-                            .map(Object::toString).toArray(String[]::new));
-                }
-
-                JSONArray categoriesArray = volumeInfo.optJSONArray("categories");
-                if (categoriesArray != null) {
-                    subject = String.join(", ", categoriesArray.toList().stream()
-                            .map(Object::toString).toArray(String[]::new));
-                }
-
-                publisher = volumeInfo.optString("publisher", null);
-                description = volumeInfo.optString("description", null);
-
-                JSONObject imageLinks = volumeInfo.optJSONObject("imageLinks");
-                if (imageLinks != null) {
-                    imageUrl = imageLinks.optString("thumbnail", null);
+                    // Lưu thông tin sách vào danh sách
+                    books.add(new String[]{isbn, title, author, subject, publisher, description, imageUrl});
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new String[]{isbn, title, author, subject, publisher, description, imageUrl};
+        return books;
     }
 }

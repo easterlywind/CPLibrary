@@ -117,30 +117,4 @@ public class SQLUserRepository {
         return users;
     }
 
-    // Đăng nhập người dùng
-    public User loginUser(String email, String password) {
-        String sql = "CALL LoginUser(?, ?, ?, ?)";
-        try (Connection conn = databaseConnection.getConnection();
-             CallableStatement stmt = conn.prepareCall(sql)) {
-            stmt.setString(1, email);
-            stmt.setString(2, password);
-            stmt.registerOutParameter(3, Types.OTHER);  // Role
-            stmt.registerOutParameter(4, Types.OTHER);  // Status
-            stmt.execute();
-
-            String role = stmt.getString(3);
-            String status = stmt.getString(4);
-
-            // Lấy thông tin user sau khi đăng nhập
-            User user = getUserByEmail(email);
-            if (user != null && role != null && status != null) {
-
-                user.setStatus(status);
-                return user;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

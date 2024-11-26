@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StaffController {
@@ -72,11 +73,11 @@ public class StaffController {
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
 
-            // Lấy ảnh từ Google API
-            String imageUrl = GoogleBooksAPI.fetchBookDetails(book.getIsbn(),false)[6];
-            Image image = imageUrl != null && !imageUrl.isEmpty()
+            String imageUrl = book.getImageUrl();
+            Image image = imageUrl != null && !imageUrl.isEmpty() && !imageUrl.equals("k")
                     ? new Image(imageUrl, 200, 300, true, true)
                     : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
+
 
             ImageView imageView = new ImageView(image);
 

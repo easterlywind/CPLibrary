@@ -10,12 +10,13 @@ public class Book {
     private String publisher;
     private String shelfLocation;
     private String review;
+    private String imageUrl;
 
     public Book() {
     }
 
     // Constructor với đầy đủ thông tin
-    public Book(int book_id, int quantity, String isbn, String title, String author, String subject, String publisher, String shelfLocation, String review) {
+    public Book(int book_id, int quantity, String isbn, String title, String author, String subject, String publisher, String shelfLocation, String review, String imageUrl) {
         this.book_id = book_id;
         this.quantity = quantity;
         this.isbn = isbn;
@@ -25,7 +26,7 @@ public class Book {
         this.publisher = publisher;
         this.shelfLocation = shelfLocation;
         this.review = review;
-
+        this.imageUrl = imageUrl;
     }
 
     // Getters và Setters cho các thuộc tính
@@ -99,5 +100,13 @@ public class Book {
     }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

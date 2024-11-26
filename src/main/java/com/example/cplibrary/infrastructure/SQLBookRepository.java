@@ -16,12 +16,12 @@ public class SQLBookRepository {
 
     // Thêm sách vào bảng Books
     public void addBook(Book book) {
-        String sql = "INSERT INTO Books (book_id, quantity, isbn, title, author, subject, publisher, shelf_location, review) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Books (book_id, quantity, isbn, title, author, subject, publisher, shelf_location, review, image_url) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, book.getBook_id());
-            stmt.setInt(2, book.getQuantity());  // Lưu quantity
+            stmt.setInt(2, book.getQuantity());
             stmt.setString(3, book.getIsbn());
             stmt.setString(4, book.getTitle());
             stmt.setString(5, book.getAuthor());
@@ -29,6 +29,7 @@ public class SQLBookRepository {
             stmt.setString(7, book.getPublisher());
             stmt.setString(8, book.getShelfLocation());
             stmt.setString(9, book.getReview());
+            stmt.setString(10, book.getImageUrl()); // Image URL
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,7 +38,7 @@ public class SQLBookRepository {
 
     // Cập nhật thông tin sách (bao gồm cả quantity)
     public void updateBook(Book book) {
-        String sql = "UPDATE Books SET title = ?, author = ?, subject = ?, publisher = ?, shelf_location = ?, review = ?, quantity = ? " +
+        String sql = "UPDATE Books SET title = ?, author = ?, subject = ?, publisher = ?, shelf_location = ?, review = ?, quantity = ?, image_url = ? " +
                 "WHERE isbn = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -47,8 +48,9 @@ public class SQLBookRepository {
             stmt.setString(4, book.getPublisher());
             stmt.setString(5, book.getShelfLocation());
             stmt.setString(6, book.getReview());
-            stmt.setInt(7, book.getQuantity());  // Cập nhật quantity
-            stmt.setString(8, book.getIsbn());
+            stmt.setInt(7, book.getQuantity());
+            stmt.setString(8, book.getImageUrl()); // Image URL
+            stmt.setString(9, book.getIsbn());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,7 +71,7 @@ public class SQLBookRepository {
 
     // Lấy thông tin sách theo ISBN
     public Book getBookByIsbn(String isbn) {
-        String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity " +
+        String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity, image_url " +
                 "FROM Books WHERE isbn = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -85,7 +87,8 @@ public class SQLBookRepository {
                         rs.getString("subject"),
                         rs.getString("publisher"),
                         rs.getString("shelf_location"),
-                        rs.getString("review")
+                        rs.getString("review"),
+                        rs.getString("image_url") // Image URL
                 );
             }
         } catch (SQLException e) {
@@ -96,7 +99,7 @@ public class SQLBookRepository {
 
     // Tìm kiếm sách theo từ khóa (search word)
     public List<Book> searchBooks(String keyword) {
-        String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity " +
+        String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity, image_url " +
                 "FROM Books " +
                 "WHERE title LIKE ? OR author LIKE ? OR subject LIKE ? OR isbn LIKE ? OR publisher LIKE ?";
         List<Book> books = new ArrayList<>();
@@ -104,7 +107,6 @@ public class SQLBookRepository {
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Set cùng một giá trị cho tất cả các trường
             String searchPattern = "%" + keyword + "%";
             for (int i = 1; i <= 5; i++) {
                 stmt.setString(i, searchPattern);
@@ -121,7 +123,8 @@ public class SQLBookRepository {
                         rs.getString("subject"),
                         rs.getString("publisher"),
                         rs.getString("shelf_location"),
-                        rs.getString("review")
+                        rs.getString("review"),
+                        rs.getString("image_url") // Image URL
                 ));
             }
         } catch (SQLException e) {
@@ -132,24 +135,26 @@ public class SQLBookRepository {
     }
 
 
+
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT * FROM Books";
+        String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity, image_url FROM Books";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery(sql)) {
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Book book = new Book();
-                book.setBook_id(rs.getInt("book_id"));
-                book.setIsbn(rs.getString("isbn"));
-                book.setTitle(rs.getString("title"));
-                book.setAuthor(rs.getString("author"));
-                book.setPublisher(rs.getString("publisher"));
-                book.setSubject(rs.getString("subject"));
-                book.setShelfLocation(rs.getString("shelf_location"));
-                book.setReview(rs.getString("review"));
-                book.setQuantity(rs.getInt("quantity"));
-                books.add(book);
+                books.add(new Book(
+                        rs.getInt("book_id"),
+                        rs.getInt("quantity"),
+                        rs.getString("isbn"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("subject"),
+                        rs.getString("publisher"),
+                        rs.getString("shelf_location"),
+                        rs.getString("review"),
+                        rs.getString("image_url") // Image URL
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();

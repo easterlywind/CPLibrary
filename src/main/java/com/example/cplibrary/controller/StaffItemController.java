@@ -2,10 +2,12 @@ package com.example.cplibrary.controller;
 
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
+import com.example.cplibrary.infrastructure.SQLUserRepository;
 import com.example.cplibrary.model.Book;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -15,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StaffItemController {
@@ -28,89 +31,160 @@ public class StaffItemController {
     @FXML
     private ProgressIndicator loadingSpinner;
 
-    @FXML
-    private void onSearch() {
+    private final SQLBookRepository sqlBookRepository = new SQLBookRepository();
+    private boolean flag = false;
+
+
+    public void onSearch() {
         String keyword = searchField.getText().trim();
         if (keyword.isEmpty()) {
             booksListContainer.getChildren().clear();
             return;
         }
 
-
         loadingSpinner.setVisible(true);
 
-
-        Task<Book> searchTask = new Task<>() {
+        // Sử dụng Task để thực thi API tìm kiếm trong luồng khác
+        Task<List<Book>> searchTask = new Task<>() {
             @Override
-            protected Book call() {
+            protected List<Book> call() {
                 updateProgress(0, 1);
 
-                String[] bookDetails = keyword.chars().anyMatch(Character::isDigit)
-                        ? GoogleBooksAPI.fetchBookDetails(keyword, false)
-                        : GoogleBooksAPI.fetchBookDetails(keyword, true);
+                for (Character c : keyword.toCharArray()) {
+                    if (Character.isLetter(c)) {
+                        flag = true;
+                        break;
+                    }
+                }
+                List<String[]> bookDetailsList = GoogleBooksAPI.fetchBookDetails(keyword, flag);
+
+                // Chuyển đổi sang danh sách đối tượng Book
+                List<Book> books = new ArrayList<>();
+                for (String[] details : bookDetailsList) {
+                    books.add(new Book(
+                            0,
+                            0,
+                            details[0], // ISBN
+                            details[1], // Title
+                            details[2], // Author
+                            details[3], // Subject
+                            details[4], // Publisher
+                            "N/A",       // Shelf Location
+                            details[5],  // Review
+                            details[6]
+                    ));
+                }
+
                 updateProgress(1, 1);
-
-//                System.out.println(bookDetails[0]);
-
-                return new Book(
-                        0,
-                        0,
-                        bookDetails[0],
-                        bookDetails[1],
-                        bookDetails[2],
-                        bookDetails[3],
-                        bookDetails[4],
-                        "N/A",
-                        bookDetails[5]
-                );
+                return books;
             }
         };
 
-
+        // Gắn kết ProgressIndicator với Task
         loadingSpinner.progressProperty().bind(searchTask.progressProperty());
 
-
+        // Xử lý khi Task hoàn thành
         searchTask.setOnSucceeded(event -> {
             loadingSpinner.setVisible(false);
             loadingSpinner.progressProperty().unbind();
 
-            Book book = searchTask.getValue();
+            List<Book> books = searchTask.getValue();
 
+            // Xóa nội dung cũ và thêm sách mới
             booksListContainer.getChildren().clear();
-            booksListContainer.getChildren().add(createBookItem(book));
+            for (Book book : books) {
+                booksListContainer.getChildren().add(createBookItem(book));
+            }
         });
 
+        // Xử lý khi Task thất bại
         searchTask.setOnFailed(event -> {
             loadingSpinner.setVisible(false);
             loadingSpinner.progressProperty().unbind();
             System.err.println("Failed to fetch book details: " + searchTask.getException());
         });
 
+        // Chạy Task trong luồng khác
         new Thread(searchTask).start();
     }
 
 
-    private VBox createBookItem(Book book) {
+
+    public VBox createBookItem( Book book) {
         VBox bookItem = new VBox(10);
         bookItem.setStyle("-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;");
 
-        String imageUrl = GoogleBooksAPI.fetchBookDetails(book.getIsbn(), false)[6];
+        String imageUrl = book.getImageUrl();
         Image bookImage = imageUrl != null
                 ? new Image(imageUrl, 200, 300, true, true)
                 : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
 
+        Text bookISBN = new Text(book.getIsbn());
+        Text bookTitle = new Text(book.getTitle());
+        Text bookAuthor = new Text(book.getAuthor());
+        Text bookSubject = new Text(book.getSubject());
+        Text bookPublisher = new Text(book.getPublisher());
+        Label bookReview = new Label(book.getReview());
+
+        // Tạo các nút và đặt trạng thái ban đầu
+        Button addButton = new Button("Add");
+        Button viewButton = new Button("View");
+        Button deleteButton = new Button("Delete");
+
+        boolean isBookInDB = sqlBookRepository.getBookByIsbn(book.getIsbn()) != null;
+
+        // Xử lý khi sách đã tồn tại trong CSDL
+        if (isBookInDB) {
+            addButton.setVisible(false);
+        } else {
+            viewButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
+
+        // Hành động cho nút "Add"
+        addButton.setOnAction(event -> {
+            sqlBookRepository.addBook(book);
+            addButton.setVisible(false);
+            viewButton.setVisible(true);
+            deleteButton.setVisible(true);
+        });
+
+        // Hành động cho nút "Delete"
+        deleteButton.setOnAction(event -> {
+            sqlBookRepository.deleteBook(book.getIsbn());
+            viewButton.setVisible(false);
+            deleteButton.setVisible(false);
+            addButton.setVisible(true);
+        });
+
+        // Hành động cho nút "View"
+        viewButton.setOnAction(event -> {
+            // Logic để xem chi tiết sách
+            NavigationManager.switchSceneWithData("/BookDetails.fxml",
+                    (controller,selectedBook) -> {
+                        BookController bookController = (BookController) controller;
+                        bookController.setBookDetails((Book) selectedBook);
+                    },
+                    book);
+        });
+
+        // Thêm các thành phần vào VBox
         bookItem.getChildren().addAll(
                 new ImageView(bookImage),
-                new javafx.scene.text.Text("ISBN: " + book.getIsbn()),
-                new javafx.scene.text.Text("Title: " + book.getTitle()),
-                new javafx.scene.text.Text("Author: " + book.getAuthor()),
-                new javafx.scene.text.Text("Subject: " + book.getSubject()),
-                new javafx.scene.text.Text("Publisher: " + book.getPublisher()),
-                new javafx.scene.text.Text("Review: " + book.getReview())
+                bookISBN,
+                bookTitle,
+                bookAuthor,
+                bookSubject,
+                bookPublisher,
+                bookReview,
+                addButton,
+                viewButton,
+                deleteButton
         );
 
         return bookItem;
     }
+
 
     private Button createDeleteButton(Book book) {
         Button deleteButton = new Button("Delete");
@@ -130,8 +204,16 @@ public class StaffItemController {
         Button viewButton = new Button("View");
         viewButton.setOnAction(event -> {
             // Logic to view book details
-            System.out.println("Viewing: " + book.getTitle());
+            System.out.println("view book details" + book.getIsbn());
         });
         return viewButton;
+    }
+
+    private Button createAddButton(Book book) {
+        Button addButton = new Button("Add");
+        addButton.setOnAction(event -> {
+            sqlBookRepository.addBook(book);
+        });
+        return addButton;
     }
 }
