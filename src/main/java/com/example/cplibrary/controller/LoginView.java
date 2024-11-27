@@ -1,6 +1,7 @@
 package com.example.cplibrary.controller;
 
 import com.example.cplibrary.DatabaseConnection;
+import com.example.cplibrary.UserSession;
 import com.example.cplibrary.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,15 +66,8 @@ public class LoginView {
                     User userInfo = new User(userId, name, email, password, status);
 
                     if ("staff".equalsIgnoreCase(role)) {
-                        NavigationManager.switchSceneWithData(
-                                "/staffLib.fxml",
-                                (controller, data) -> {
-                                    if (controller instanceof StaffController) {
-                                        ((StaffController) controller).initializeData((User) data);
-                                    }
-                                },
-                                userInfo
-                        );
+                        UserSession.getInstance().setCurrentUser(userInfo);
+                        NavigationManager.switchScene("/staffLib.fxml");
                     } else {
                         loginMessageLabel.setText("Access denied: not a staff account.");
                     }

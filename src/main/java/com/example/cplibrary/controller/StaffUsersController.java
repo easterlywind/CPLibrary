@@ -1,5 +1,6 @@
 package com.example.cplibrary.controller;
 
+import com.example.cplibrary.UserSession;
 import com.example.cplibrary.model.User;
 import com.example.cplibrary.infrastructure.SQLUserRepository;
 import javafx.application.Platform;
@@ -37,13 +38,18 @@ public class StaffUsersController {
     @FXML
     private TableColumn<User, Void> colAction;
 
+    @FXML
+    private Label nameLabel;
+
     private SQLUserRepository userRepository;
 
     private ObservableList<User> userList;
 
+    private final User currentUser = UserSession.getInstance().getCurrentUser();
+
     public void initialize() {
         userRepository = new SQLUserRepository();
-
+        nameLabel.setText(currentUser.getName());
         // Load data from database
         loadData();
 
@@ -76,12 +82,16 @@ public class StaffUsersController {
                 btnEdit.setOnAction(event -> {
                     User user = getTableView().getItems().get(getIndex());
                     // Handle edit logic
-                    System.out.println("Edit: " + user.getName() + user.getUserId());
+                    NavigationManager.switchSceneWithData("/userDetails.fxml",
+                            (controller, data) -> {
+                                UserDetailsController userDetailsController = (UserDetailsController) controller;
+                                userDetailsController.setUserDetails((User) data);
+                            },
+                            user);
                 });
 
                 btnDelete.setOnAction(event -> {
                     User user = getTableView().getItems().get(getIndex());
-                    // Handle delete logic
                     userRepository.deleteUser(user.getUserId());
                     userList.remove(user);
                 });

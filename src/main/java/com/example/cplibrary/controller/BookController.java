@@ -1,10 +1,12 @@
 package com.example.cplibrary.controller;
 
+import com.example.cplibrary.UserSession;
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.infrastructure.SQLReviewRepository;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.DatabaseConnection;
+import com.example.cplibrary.model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,9 +60,9 @@ public class BookController {
 
     private final SQLBookRepository bookRepository = new SQLBookRepository();
     private final SQLReviewRepository reviewRepository = new SQLReviewRepository();
+    private final User currentUser = UserSession.getInstance().getCurrentUser();
 
     private Book book;
-    private int currentUserId = 1;
     public boolean isEditing = false;
 
     public void backButtonOnAction(ActionEvent event) {
@@ -75,7 +77,7 @@ public class BookController {
 
     public void setBookDetails(Book book) {
         this.book = book;
-        nameLabel.setText("admin");
+        nameLabel.setText(currentUser.getName());
         // Hiển thị thông tin sách
         titleLabel.setText(book.getTitle());
         authorLabel.setText(book.getAuthor());
@@ -103,8 +105,8 @@ public class BookController {
         String newReview = reviewInput.getText();
         if (!newReview.isEmpty()) {
             // Lấy tên người review (giả sử là người dùng hiện tại)
-            String reviewerName = "admin"; // Bạn có thể thay bằng tên người dùng thực tế từ session hoặc login
-            reviewRepository.addReview(book.getBook_id(), currentUserId, newReview);
+            String reviewerName = currentUser.getName(); // Bạn có thể thay bằng tên người dùng thực tế từ session hoặc login
+            reviewRepository.addReview(book.getBook_id(), currentUser.getUserId(), newReview);
             reviewList.getChildren().add(createReviewBox(newReview, LocalDate.now().toString(), reviewerName));
             reviewInput.clear();
         }

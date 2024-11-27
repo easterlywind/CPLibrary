@@ -1,8 +1,10 @@
 package com.example.cplibrary.controller;
 
+import com.example.cplibrary.UserSession;
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.model.Book;
+import com.example.cplibrary.model.User;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -27,8 +29,12 @@ public class StaffItemController {
     @FXML
     private ProgressIndicator loadingSpinner;
 
+    @FXML
+    private Label nameLabel;
+
     private final SQLBookRepository sqlBookRepository = new SQLBookRepository();
     private boolean flag = false;
+    private final User currentUser = UserSession.getInstance().getCurrentUser();
 
     public void onSearch() {
         String keyword = searchField.getText().trim();
@@ -192,5 +198,10 @@ public class StaffItemController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Platform.exit();
         }
+    }
+
+    @FXML
+    public void initialize() {
+        nameLabel.setText(currentUser.getName());
     }
 }

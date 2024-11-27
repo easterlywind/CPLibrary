@@ -1,5 +1,6 @@
 package com.example.cplibrary.controller;
 
+import com.example.cplibrary.UserSession;
 import com.example.cplibrary.application.StaffService;
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.model.Book;
@@ -40,11 +41,7 @@ public class StaffController {
 
     private final StaffService staffService = new StaffService();
 
-    private User currenUser = new User();
-
-    public void initializeData(User user) {
-        currenUser = user;
-    }
+    private final User currentUser = UserSession.getInstance().getCurrentUser();
 
     private void loadImageAsync(String imageUrl, ImageView imageView) {
         Task<Image> imageTask = new Task<>() {
@@ -71,7 +68,7 @@ public class StaffController {
         int numCols = 5; // 5 cột
         int numRows = 0; // Sẽ tính toán số hàng sau
 
-        nameLabel.setText(currenUser.getName());
+        nameLabel.setText(currentUser.getName());
 
         // Xóa ràng buộc cũ nếu có
         gridPane.getColumnConstraints().clear();
