@@ -261,7 +261,7 @@ public class BookController {
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/login.fxml");
+        NavigationManager.switchScene("/staffUsers.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {

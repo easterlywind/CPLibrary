@@ -12,7 +12,6 @@ public class SQLUserRepository {
 
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
-    // Thêm một user mới
     public void addUser(User user) {
         String sqlUser = "INSERT INTO Users (user_id, name, email, password,role, status) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -46,8 +45,6 @@ public class SQLUserRepository {
         }
     }
 
-
-    // Xóa một user
     public void deleteUser(int userId) {
         String sql = "DELETE FROM Users WHERE user_id = ?";
         try (Connection conn = databaseConnection.getConnection();
@@ -106,5 +103,26 @@ public class SQLUserRepository {
         }
         return users;
     }
+
+    public List<User> getAllUsers() {
+        String sql = "SELECT user_id, name, email, password, status FROM Users";
+        List<User> users = new ArrayList<>();
+        try (Connection conn = databaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                int userId = rs.getInt("user_id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String status = rs.getString("status");
+                users.add(new User(userId, name, email, password, status));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
 
 }

@@ -23,7 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import javafx.concurrent.Task;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +46,25 @@ public class StaffController {
         currenUser = user;
     }
 
+    private void loadImageAsync(String imageUrl, ImageView imageView) {
+        Task<Image> imageTask = new Task<>() {
+            @Override
+            protected Image call() throws Exception {
+                return new Image(imageUrl, 200, 300, true, true);
+            }
+        };
+
+        imageTask.setOnSucceeded(e -> {
+            imageView.setImage(imageTask.getValue());
+        });
+
+        imageTask.setOnFailed(e -> {
+            imageView.setImage(new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true));
+        });
+
+        new Thread(imageTask).start();
+    }
+
     @FXML
     public void initialize() {
         // Đặt số cột và hàng cho GridPane
@@ -59,8 +78,8 @@ public class StaffController {
         gridPane.getRowConstraints().clear();
 
         // Thêm khoảng cách giữa các hàng và cột
-        gridPane.setVgap(10); // 10px khoảng cách giữa các hàng
-        gridPane.setHgap(10); // 10px khoảng cách giữa các cột
+        gridPane.setVgap(10);
+        gridPane.setHgap(10);
 
         // Thêm ColumnConstraints (5 cột)
         for (int i = 0; i < numCols; i++) {
@@ -87,12 +106,8 @@ public class StaffController {
             Book book = books.get(i);
 
             String imageUrl = book.getImageUrl();
-            Image image = imageUrl != null && !imageUrl.isEmpty() && !imageUrl.equals("k")
-                    ? new Image(imageUrl, 200, 300, true, true)
-                    : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
-
-
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = new ImageView();
+            loadImageAsync(imageUrl, imageView);
 
             // Tạo Label cho tên sách
             Label titleLabel = new Label(book.getTitle());
@@ -144,7 +159,7 @@ public class StaffController {
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/login.fxml");
+        NavigationManager.switchScene("/staffUsers.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {

@@ -2,7 +2,6 @@ package com.example.cplibrary.controller;
 
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
-import com.example.cplibrary.infrastructure.SQLUserRepository;
 import com.example.cplibrary.model.Book;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -10,13 +9,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,48 +30,47 @@ public class StaffItemController {
     private final SQLBookRepository sqlBookRepository = new SQLBookRepository();
     private boolean flag = false;
 
-
     public void onSearch() {
         String keyword = searchField.getText().trim();
         if (keyword.isEmpty()) {
             booksListContainer.getChildren().clear();
             return;
         }
+        flag = keyword.matches("\\d{10}|\\d{13}");
+
 
         loadingSpinner.setVisible(true);
 
-        // Sử dụng Task để thực thi API tìm kiếm trong luồng khác
         Task<List<Book>> searchTask = new Task<>() {
             @Override
             protected List<Book> call() {
-                updateProgress(0, 1);
+                int maxPagesToLoad = 1; // Tải trước 3 trang
+                List<Book> books = new ArrayList<>();
 
-                for (Character c : keyword.toCharArray()) {
-                    if (Character.isLetter(c)) {
-                        flag = true;
-                        break;
+                for (int pageIndex = 0; pageIndex < maxPagesToLoad; pageIndex++) {
+                    int startIndex = pageIndex * 10;
+                    List<String[]> bookDetailsList = GoogleBooksAPI.fetchBookDetails(keyword, flag, startIndex);
+
+                    for (String[] details : bookDetailsList) {
+                        books.add(new Book(
+                                0,
+                                0,
+                                details[0],
+                                details[1],
+                                details[2],
+                                details[3],
+                                details[4],
+                                "N/A",
+                                details[5],
+                                details[6]
+                        ));
+                    }
+
+                    if (bookDetailsList.size() < 10) {
+                        break; // Kết thúc nếu không còn kết quả
                     }
                 }
-                List<String[]> bookDetailsList = GoogleBooksAPI.fetchBookDetails(keyword, flag);
 
-                // Chuyển đổi sang danh sách đối tượng Book
-                List<Book> books = new ArrayList<>();
-                for (String[] details : bookDetailsList) {
-                    books.add(new Book(
-                            0,
-                            0,
-                            details[0], // ISBN
-                            details[1], // Title
-                            details[2], // Author
-                            details[3], // Subject
-                            details[4], // Publisher
-                            "N/A",       // Shelf Location
-                            details[5],  // Review
-                            details[6]
-                    ));
-                }
-
-                updateProgress(1, 1);
                 return books;
             }
         };
@@ -85,16 +80,15 @@ public class StaffItemController {
 
         // Xử lý khi Task hoàn thành
         searchTask.setOnSucceeded(event -> {
-            loadingSpinner.setVisible(false);
-            loadingSpinner.progressProperty().unbind();
-
             List<Book> books = searchTask.getValue();
 
-            // Xóa nội dung cũ và thêm sách mới
-            booksListContainer.getChildren().clear();
+            booksListContainer.getChildren().clear(); // Xóa các mục sách cũ trước khi thêm sách mới
+
             for (Book book : books) {
                 booksListContainer.getChildren().add(createBookItem(book));
             }
+
+            loadingSpinner.setVisible(false);
         });
 
         // Xử lý khi Task thất bại
@@ -108,9 +102,7 @@ public class StaffItemController {
         new Thread(searchTask).start();
     }
 
-
-
-    public VBox createBookItem( Book book) {
+    public VBox createBookItem(Book book) {
         VBox bookItem = new VBox(10);
         bookItem.setStyle("-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;");
 
@@ -126,14 +118,12 @@ public class StaffItemController {
         Text bookPublisher = new Text(book.getPublisher());
         Label bookReview = new Label(book.getReview());
 
-        // Tạo các nút và đặt trạng thái ban đầu
         Button addButton = new Button("Add");
         Button viewButton = new Button("View");
         Button deleteButton = new Button("Delete");
 
         boolean isBookInDB = sqlBookRepository.getBookByIsbn(book.getIsbn()) != null;
 
-        // Xử lý khi sách đã tồn tại trong CSDL
         if (isBookInDB) {
             addButton.setVisible(false);
         } else {
@@ -141,7 +131,6 @@ public class StaffItemController {
             deleteButton.setVisible(false);
         }
 
-        // Hành động cho nút "Add"
         addButton.setOnAction(event -> {
             sqlBookRepository.addBook(book);
             addButton.setVisible(false);
@@ -149,7 +138,6 @@ public class StaffItemController {
             deleteButton.setVisible(true);
         });
 
-        // Hành động cho nút "Delete"
         deleteButton.setOnAction(event -> {
             sqlBookRepository.deleteBook(book.getIsbn());
             viewButton.setVisible(false);
@@ -157,18 +145,15 @@ public class StaffItemController {
             addButton.setVisible(true);
         });
 
-        // Hành động cho nút "View"
         viewButton.setOnAction(event -> {
-            // Logic để xem chi tiết sách
             NavigationManager.switchSceneWithData("/BookDetails.fxml",
-                    (controller,selectedBook) -> {
+                    (controller, selectedBook) -> {
                         BookController bookController = (BookController) controller;
                         bookController.setBookDetails((Book) selectedBook);
                     },
                     book);
         });
 
-        // Thêm các thành phần vào VBox
         bookItem.getChildren().addAll(
                 new ImageView(bookImage),
                 bookISBN,
@@ -185,51 +170,19 @@ public class StaffItemController {
         return bookItem;
     }
 
-
-    private Button createDeleteButton(Book book) {
-        Button deleteButton = new Button("Delete");
-        deleteButton.setOnAction(event -> {
-            booksListContainer.getChildren().removeIf(node -> {
-                if (node instanceof HBox) {
-                    HBox item = (HBox) node;
-                    return item.getUserData() == book;
-                }
-                return false;
-            });
-        });
-        return deleteButton;
-    }
-
-    private Button createViewButton(Book book) {
-        Button viewButton = new Button("View");
-        viewButton.setOnAction(event -> {
-            // Logic to view book details
-            System.out.println("view book details" + book.getIsbn());
-        });
-        return viewButton;
-    }
-
-    private Button createAddButton(Book book) {
-        Button addButton = new Button("Add");
-        addButton.setOnAction(event -> {
-            sqlBookRepository.addBook(book);
-        });
-        return addButton;
-    }
-
-    public void switchSceneLibrary(MouseEvent event) {
+    public void switchSceneLibrary() {
         NavigationManager.switchScene("/staffLib.fxml");
     }
 
-    public void switchSceneItems(MouseEvent event) {
+    public void switchSceneItems() {
         NavigationManager.switchScene("/staffItem.fxml");
     }
 
-    public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/login.fxml");
+    public void switchSceneUser() {
+        NavigationManager.switchScene("/staffUsers.fxml");
     }
 
-    public void switchSceneLogout(MouseEvent event) {
+    public void switchSceneLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout Confirmation");
         alert.setHeaderText("Are you sure you want to logout?");

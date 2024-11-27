@@ -14,4 +14,5 @@ module com.example.cplibrary {
 
     exports com.example.cplibrary;
     opens com.example.cplibrary.controller to javafx.fxml;
+    opens com.example.cplibrary.model to javafx.fxml, javafx.base;
 }
