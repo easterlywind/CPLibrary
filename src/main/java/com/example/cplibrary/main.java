@@ -4,6 +4,7 @@ import com.example.cplibrary.application.StaffService;
 import com.example.cplibrary.controller.NavigationManager;
 import com.example.cplibrary.infrastructure.SQLReviewRepository;
 import com.example.cplibrary.model.Book;
+import com.example.cplibrary.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +22,10 @@ public class main extends Application {
 //
 //
         NavigationManager.setPrimaryStage(primaryStage);
-        NavigationManager.switchScene("/login.fxml");
+
+        UserSession.getInstance().setCurrentUser(new User());
+
+        NavigationManager.switchScene("/staffLib.fxml");
 
 
 

@@ -80,7 +80,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField layoutX="294.0" layoutY="33.0" prefHeight="44.0" prefWidth="637.0" promptText="Start Searching..." />
+            <TextField fx:id="searchTextField" layoutX="294.0" layoutY="33.0" prefHeight="44.0" prefWidth="637.0" promptText="Start Searching..." />
             <ScrollPane layoutX="-2.0" layoutY="123.0" prefHeight="702.0" prefWidth="1258.0">
                <content>
                   <GridPane fx:id="gridPane" prefHeight="763.0" prefWidth="1197.0">

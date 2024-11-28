@@ -16,8 +16,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -39,8 +41,11 @@ public class StaffController {
     @FXML
     private Label nameLabel;
 
-    private final StaffService staffService = new StaffService();
+    @FXML
+    private TextField searchTextField;
 
+    private final StaffService staffService = new StaffService();
+    String keyword;
     private final User currentUser = UserSession.getInstance().getCurrentUser();
 
     private void loadImageAsync(String imageUrl, ImageView imageView) {
@@ -62,19 +67,30 @@ public class StaffController {
         new Thread(imageTask).start();
     }
 
+    public void onSearchEnter(KeyCode keyCode) {
+        if (keyCode == KeyCode.ENTER) {
+            initialize();
+        }
+    }
+
     @FXML
     public void initialize() {
-        // Đặt số cột và hàng cho GridPane
-        int numCols = 5; // 5 cột
-        int numRows = 0; // Sẽ tính toán số hàng sau
+        searchTextField.setOnKeyPressed(event -> onSearchEnter(event.getCode()));
+        keyword = searchTextField.getText();
+        boolean flagSearch = !keyword.isEmpty();
+
+        System.out.println(keyword + " " + flagSearch);
+
+        int numCols = 5;
+        int numRows = 0;
 
         nameLabel.setText(currentUser.getName());
 
         // Xóa ràng buộc cũ nếu có
         gridPane.getColumnConstraints().clear();
         gridPane.getRowConstraints().clear();
+        gridPane.getChildren().clear();
 
-        // Thêm khoảng cách giữa các hàng và cột
         gridPane.setVgap(10);
         gridPane.setHgap(10);
 
@@ -85,8 +101,13 @@ public class StaffController {
             gridPane.getColumnConstraints().add(col);
         }
 
-        // Lấy danh sách tất cả các sách từ cơ sở dữ liệu thông qua StaffService
-        List<Book> books = staffService.getAllBooks(); // Lấy tất cả sách
+        List<Book> books;
+
+        if (!flagSearch) {
+            books = staffService.getAllBooks();
+        } else {
+            books = staffService.searchBook(keyword);
+        }
 
         // Tính toán số hàng cần thiết
         numRows = (int) Math.ceil(books.size() / (double) numCols);
@@ -112,7 +133,7 @@ public class StaffController {
 
             // Tạo VBox để chứa ImageView và Label
             VBox vBox = new VBox(5);  // Khoảng cách giữa Image và Label là 5px
-            vBox.setAlignment(Pos.CENTER); // Căn giữa ảnh và tên sách
+            vBox.setAlignment(Pos.CENTER);
             vBox.getChildren().addAll(imageView, titleLabel);
 
             imageView.setOnMouseClicked(mouseEvent -> {
@@ -127,15 +148,15 @@ public class StaffController {
 
 
             imageView.setOnMouseEntered(event -> {
-                imageView.setScaleX(1.1); // Tăng kích thước theo chiều ngang
-                imageView.setScaleY(1.1); // Tăng kích thước theo chiều dọc
+                imageView.setScaleX(1.1);
+                imageView.setScaleY(1.1);
                 imageView.setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);");
             });
 
             imageView.setOnMouseExited(event -> {
-                imageView.setScaleX(1.0); // Trở lại kích thước ban đầu
-                imageView.setScaleY(1.0); // Trở lại kích thước ban đầu
-                imageView.setStyle(""); // Xoá hiệu ứng
+                imageView.setScaleX(1.0);
+                imageView.setScaleY(1.0);
+                imageView.setStyle("");
             });
 
             // Tính toán vị trí hàng và cột

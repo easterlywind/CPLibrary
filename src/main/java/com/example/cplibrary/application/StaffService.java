@@ -32,6 +32,10 @@ public class StaffService {
         bookRepository.updateBook(book);
     }
 
+    public List<Book> searchBook(String keyword) {
+        return bookRepository.searchBooks(keyword);
+    }
+
     public void addUser(User user) {
         userRepository.addUser(user);
     }

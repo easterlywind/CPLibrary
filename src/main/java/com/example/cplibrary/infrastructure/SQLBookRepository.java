@@ -49,7 +49,7 @@ public class SQLBookRepository {
             stmt.setString(5, book.getShelfLocation());
             stmt.setString(6, book.getReview());
             stmt.setInt(7, book.getQuantity());
-            stmt.setString(8, book.getImageUrl()); // Image URL
+            stmt.setString(8, book.getImageUrl());
             stmt.setString(9, book.getIsbn());
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -97,7 +97,6 @@ public class SQLBookRepository {
         return null;
     }
 
-    // Tìm kiếm sách theo từ khóa (search word)
     public List<Book> searchBooks(String keyword) {
         String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity, image_url " +
                 "FROM Books " +
