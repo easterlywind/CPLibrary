@@ -50,7 +50,7 @@ public class StaffItemController {
         Task<List<Book>> searchTask = new Task<>() {
             @Override
             protected List<Book> call() {
-                int maxPagesToLoad = 1; // Tải trước 3 trang
+                int maxPagesToLoad = 5; // Tải trước 3 trang
                 List<Book> books = new ArrayList<>();
 
                 for (int pageIndex = 0; pageIndex < maxPagesToLoad; pageIndex++) {

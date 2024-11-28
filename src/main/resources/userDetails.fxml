@@ -89,7 +89,7 @@
                 <Label layoutX="719.0" layoutY="144.0" text="Password:" />
 
                 <Label layoutX="1035.0" layoutY="144.0" text="Status:" />
-                <Button fx:id="backButton" layoutX="84.0" layoutY="90.0" mnemonicParsing="false" text="Back" />
+                <Button fx:id="backButton" layoutX="84.0" layoutY="90.0" mnemonicParsing="false" onAction="#backButtonOnAction" text="Back" />
                 <Button fx:id="editButton" layoutX="193.0" layoutY="90.0" mnemonicParsing="false" text="Edit" />
                 <Button fx:id="saveButton" layoutX="284.0" layoutY="87.0" mnemonicParsing="false" text="Save" visible="false" />
             <Label fx:id="nameInput" layoutX="142.0" layoutY="145.0" text="....." />

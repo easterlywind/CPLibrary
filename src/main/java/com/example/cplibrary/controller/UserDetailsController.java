@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
+import java.awt.event.ActionEvent;
 import java.util.Optional;
 
 public class UserDetailsController {
@@ -18,6 +19,10 @@ public class UserDetailsController {
 
     public void setUserDetails(User user) {
 
+    }
+
+    public void backButtonOnAction() {
+        NavigationManager.switchScene("/staffUsers.fxml");
     }
 
     public void switchSceneLibrary(MouseEvent event) {
