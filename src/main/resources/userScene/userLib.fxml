@@ -8,31 +8,31 @@
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane prefHeight="824.0" prefWidth="1536.0" stylesheets="../staffScene/staffLib.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.user.UserController">
+<BorderPane prefHeight="824.0" prefWidth="1536.0" stylesheets="@userLib.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.user.UserLibController">
     <left>
-        <AnchorPane prefHeight="800.0" prefWidth="255.0" stylesheets="@../staffScene/staffLib.css" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="800.0" prefWidth="255.0" stylesheets="@userLib.css" BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="nameLabel" alignment="CENTER" layoutX="73.0" layoutY="207.0" prefHeight="93.0" prefWidth="136.0" stylesheets="@../staffScene/staffLib.css" />
+                <Label fx:id="nameLabel" alignment="CENTER" layoutX="73.0" layoutY="207.0" prefHeight="93.0" prefWidth="136.0" stylesheets="@userLib.css" />
                 <ImageView fitHeight="140.0" fitWidth="133.0" layoutX="74.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../image/img.png" />
                     </image>
                 </ImageView>
-                <HBox layoutX="-1.0" layoutY="308.0" onMouseClicked="#switchSceneLibrary" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu" stylesheets="@../staffScene/staffLib.css">
+                <HBox layoutX="-1.0" layoutY="308.0" onMouseClicked="#switchSceneLibrary" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu" stylesheets="@userLib.css">
                     <children>
-                        <AnchorPane prefHeight="212.0" prefWidth="271.0" stylesheets="@../staffScene/staffLib.css">
+                        <AnchorPane prefHeight="212.0" prefWidth="271.0" stylesheets="@userLib.css">
                             <children>
                                 <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="28.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/img.png" />
                                     </image>
                                 </ImageView>
-                                <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" stylesheets="@../staffScene/staffLib.css" text="Library" />
+                                <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" stylesheets="@userLib.css" text="Library" />
                             </children>
                         </AnchorPane>
                     </children>
                 </HBox>
-                <HBox layoutX="-1.0" layoutY="400.0" onMouseClicked="#switchSceneItems" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu">
+                <HBox layoutX="-1.0" layoutY="400.0" onMouseClicked="#switchSceneLoans" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu">
                     <children>
                         <AnchorPane prefHeight="212.0" prefWidth="271.0">
                             <children>
@@ -41,12 +41,12 @@
                                         <Image url="@../image/img.png" />
                                     </image>
                                 </ImageView>
-                                <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" text="Add Items" />
+                                <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" text="Loans" />
                             </children>
                         </AnchorPane>
                     </children>
                 </HBox>
-                <HBox layoutY="498.0" onMouseClicked="#switchSceneUser" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
+                <HBox layoutY="498.0" onMouseClicked="#switchSceneReservation" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
                     <children>
                         <AnchorPane prefHeight="212.0" prefWidth="271.0">
                             <children>
@@ -55,7 +55,7 @@
                                         <Image url="@../image/img.png" />
                                     </image>
                                 </ImageView>
-                                <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" text="Add Users" />
+                                <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" text="Reservation" />
                             </children>
                         </AnchorPane>
                     </children>

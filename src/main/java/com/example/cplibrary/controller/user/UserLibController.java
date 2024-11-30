@@ -1,4 +1,4 @@
-package com.example.cplibrary.controller.staff;
+package com.example.cplibrary.controller.user;
 
 import com.example.cplibrary.UserSession;
 import com.example.cplibrary.application.StaffService;
@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -25,7 +24,7 @@ import javafx.concurrent.Task;
 import java.util.List;
 import java.util.Optional;
 
-public class StaffController {
+public class UserLibController {
 
     @FXML
     private GridPane gridPane;
@@ -129,10 +128,10 @@ public class StaffController {
             vBox.getChildren().addAll(imageView, titleLabel);
 
             imageView.setOnMouseClicked(mouseEvent -> {
-                NavigationManager.switchSceneWithData("/staffScene/staffBookDetail.fxml",
+                NavigationManager.switchSceneWithData("/userScene/userBookDetail.fxml",
                         (controller,selectedBook) -> {
-                            StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
-                            staffBookDetailController.setBookDetails((Book) selectedBook);
+                            UserBookDetailController userBookDetailController = (UserBookDetailController) controller;
+                            userBookDetailController.setBookDetails((Book) selectedBook);
                         },
                         book
                 );
@@ -160,19 +159,19 @@ public class StaffController {
         }
     }
 
-    public void switchSceneLibrary(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffLib.fxml");
+    public void switchSceneLibrary() {
+        NavigationManager.switchScene("/userScene/userLib.fxml");
     }
 
-    public void switchSceneItems(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffItem.fxml");
+    public void switchSceneLoans() {
+        NavigationManager.switchScene("/userScene/userLoans.fxml");
     }
 
-    public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffUser.fxml");
+    public void switchSceneReservation() {
+        NavigationManager.switchScene("/userScene/userReservation.fxml");
     }
 
-    public void switchSceneLogout(MouseEvent event) {
+    public void switchSceneLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout Confirmation");
         alert.setHeaderText("Are you sure you want to logout?");

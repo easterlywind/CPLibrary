@@ -15,7 +15,7 @@ public class main extends Application {
 
         UserSession.getInstance().setCurrentUser(new User());
 
-        NavigationManager.switchScene("/commonScene/login.fxml");
+        NavigationManager.switchScene("/staffScene/staffUser.fxml");
 
 
 

@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS Loans (
                                      user_id INT NOT NULL,
                                      borrow_date DATE NOT NULL,
                                      due_date DATE NOT NULL,
-                                     return_date DATE,
                                      FOREIGN KEY (book_id) REFERENCES Books(book_id) ON DELETE CASCADE,
                                      FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );

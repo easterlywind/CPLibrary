@@ -118,7 +118,7 @@ public class StaffUserController {
     }
 
     public void switchSceneItems(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffItem.fxml");
+        NavigationManager.switchScene("/staffScene/staffBook.fxml");
     }
 
     public void switchSceneUser(MouseEvent event) {

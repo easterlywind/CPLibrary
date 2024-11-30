@@ -26,7 +26,7 @@ import javafx.concurrent.Task;
 import java.util.List;
 import java.util.Optional;
 
-public class UserController {
+public class UserLoansController {
 
     @FXML
     private GridPane gridPane;
@@ -130,10 +130,10 @@ public class UserController {
             vBox.getChildren().addAll(imageView, titleLabel);
 
             imageView.setOnMouseClicked(mouseEvent -> {
-                NavigationManager.switchSceneWithData("/staffScene/staffBookDetail.fxml",
+                NavigationManager.switchSceneWithData("/userScene/userBookDetail.fxml",
                         (controller,selectedBook) -> {
-                            StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
-                            staffBookDetailController.setBookDetails((Book) selectedBook);
+                            UserBookDetailController userBookDetailController = (UserBookDetailController) controller;
+                            userBookDetailController.setBookDetails((Book) selectedBook);
                         },
                         book
                 );
@@ -161,19 +161,19 @@ public class UserController {
         }
     }
 
-    public void switchSceneLibrary(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffLib.fxml");
+    public void switchSceneLibrary() {
+        NavigationManager.switchScene("/userScene/userLib.fxml");
     }
 
-    public void switchSceneItems(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffItem.fxml");
+    public void switchSceneLoans() {
+        NavigationManager.switchScene("/userScene/userLoans.fxml");
     }
 
-    public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffUser.fxml");
+    public void switchSceneReservation() {
+        NavigationManager.switchScene("/userScene/userReservation.fxml");
     }
 
-    public void switchSceneLogout(MouseEvent event) {
+    public void switchSceneLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout Confirmation");
         alert.setHeaderText("Are you sure you want to logout?");

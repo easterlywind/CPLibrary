@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,4 +173,78 @@ public class SQLBookRepository {
             e.printStackTrace();
         }
     }
+
+    public void addLoan(int bookId, int userId) {
+        String query = "INSERT INTO Loans (book_id, user_id, borrow_date, due_date) VALUES (?, ?, ?, ?)";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, bookId);
+            stmt.setInt(2, userId);
+            stmt.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.setDate(4, java.sql.Date.valueOf(LocalDate.now().plusDays(14))); // Thời hạn 14 ngày
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean deleteLoan(int userId, int bookId) {
+        String query = "DELETE FROM Loans WHERE user_id = ? AND book_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, bookId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void addReservation(int userId, int bookId) {
+        String query = "INSERT INTO Reservations (book_id, user_id, reservation_date) VALUES (?, ?, ?)";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, bookId);
+            stmt.setInt(2, userId);
+            stmt.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isBookBorrowedByUser(int userId, int bookId) {
+        String query = "SELECT COUNT(*) FROM Loans WHERE user_id = ? AND book_id = ?";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, bookId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isBookReservedByUser(int userId, int bookId) {
+        String query = "SELECT COUNT(*) FROM Reservations WHERE user_id = ? AND book_id = ? AND status = 'pending'";
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, bookId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }

@@ -58,12 +58,12 @@ public class LoginView {
                     String status = "active";
 
                     User userInfo = new User(userId, name, email, password, status);
+                    UserSession.getInstance().setCurrentUser(userInfo);
 
                     if ("staff".equalsIgnoreCase(role)) {
-                        UserSession.getInstance().setCurrentUser(userInfo);
                         NavigationManager.switchScene("/staffScene/staffLib.fxml");
                     } else {
-                        loginMessageLabel.setText("Access denied: not a staff account.");
+                        NavigationManager.switchScene("/userScene/userLib.fxml");
                     }
                 } else {
                     loginMessageLabel.setText("Invalid email or password.");

@@ -182,7 +182,7 @@ public class StaffBookController {
     }
 
     public void switchSceneItems() {
-        NavigationManager.switchScene("/staffScene/staffItem.fxml");
+        NavigationManager.switchScene("/staffScene/staffBook.fxml");
     }
 
     public void switchSceneUser() {
