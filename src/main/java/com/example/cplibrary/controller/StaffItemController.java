@@ -152,7 +152,7 @@ public class StaffItemController {
         });
 
         viewButton.setOnAction(event -> {
-            NavigationManager.switchSceneWithData("/BookDetails.fxml",
+            NavigationManager.switchSceneWithData("/bookDetails.fxml",
                     (controller, selectedBook) -> {
                         BookController bookController = (BookController) controller;
                         bookController.setBookDetails((Book) selectedBook);
