@@ -128,7 +128,7 @@ public class StaffController {
             vBox.getChildren().addAll(imageView, titleLabel);
 
             imageView.setOnMouseClicked(mouseEvent -> {
-                NavigationManager.switchSceneWithData("/bookDetails.fxml",
+                NavigationManager.switchSceneWithData("/staffScene/bookDetails.fxml",
                         (controller,selectedBook) -> {
                             BookController bookController = (BookController) controller;
                             bookController.setBookDetails((Book) selectedBook);
@@ -160,15 +160,15 @@ public class StaffController {
     }
 
     public void switchSceneLibrary(MouseEvent event) {
-        NavigationManager.switchScene("/staffLib.fxml");
+        NavigationManager.switchScene("/staffScene/staffLib.fxml");
     }
 
     public void switchSceneItems(MouseEvent event) {
-        NavigationManager.switchScene("/staffItem.fxml");
+        NavigationManager.switchScene("/staffScene/staffItem.fxml");
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {

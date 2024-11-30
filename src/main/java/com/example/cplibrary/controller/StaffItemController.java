@@ -152,7 +152,7 @@ public class StaffItemController {
         });
 
         viewButton.setOnAction(event -> {
-            NavigationManager.switchSceneWithData("/bookDetails.fxml",
+            NavigationManager.switchSceneWithData("/staffScene/bookDetails.fxml",
                     (controller, selectedBook) -> {
                         BookController bookController = (BookController) controller;
                         bookController.setBookDetails((Book) selectedBook);
@@ -177,15 +177,15 @@ public class StaffItemController {
     }
 
     public void switchSceneLibrary() {
-        NavigationManager.switchScene("/staffLib.fxml");
+        NavigationManager.switchScene("/staffScene/staffLib.fxml");
     }
 
     public void switchSceneItems() {
-        NavigationManager.switchScene("/staffItem.fxml");
+        NavigationManager.switchScene("/staffScene/staffItem.fxml");
     }
 
     public void switchSceneUser() {
-        NavigationManager.switchScene("/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
     }
 
     public void switchSceneLogout() {

@@ -5,16 +5,10 @@ import com.example.cplibrary.UserSession;
 import com.example.cplibrary.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.*;
 
 
@@ -40,7 +34,7 @@ public class LoginView {
 
     public void registerButtonOnAction(ActionEvent event)  {
 
-        NavigationManager.switchScene("/register.fxml");
+        NavigationManager.switchScene("/loginScene/register.fxml");
     }
 
 
@@ -67,7 +61,7 @@ public class LoginView {
 
                     if ("staff".equalsIgnoreCase(role)) {
                         UserSession.getInstance().setCurrentUser(userInfo);
-                        NavigationManager.switchScene("/staffLib.fxml");
+                        NavigationManager.switchScene("/staffScene/staffLib.fxml");
                     } else {
                         loginMessageLabel.setText("Access denied: not a staff account.");
                     }

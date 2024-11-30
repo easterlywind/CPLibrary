@@ -82,7 +82,7 @@ public class StaffUsersController {
                 btnEdit.setOnAction(event -> {
                     User user = getTableView().getItems().get(getIndex());
                     // Handle edit logic
-                    NavigationManager.switchSceneWithData("/userDetails.fxml",
+                    NavigationManager.switchSceneWithData("/staffScene/staffUserDetails.fxml",
                             (controller, data) -> {
                                 UserDetailsController userDetailsController = (UserDetailsController) controller;
                                 userDetailsController.setUserDetails((User) data);
@@ -113,15 +113,15 @@ public class StaffUsersController {
     }
 
     public void switchSceneLibrary(MouseEvent event) {
-        NavigationManager.switchScene("/staffLib.fxml");
+        NavigationManager.switchScene("/staffScene/staffLib.fxml");
     }
 
     public void switchSceneItems(MouseEvent event) {
-        NavigationManager.switchScene("/staffItem.fxml");
+        NavigationManager.switchScene("/staffScene/staffItem.fxml");
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {

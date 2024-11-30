@@ -3,7 +3,6 @@ package com.example.cplibrary.controller;
 import com.example.cplibrary.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -66,6 +65,6 @@ public class RegisterView {
     }
 
     public void backToLoginButtonOnAction(ActionEvent event) {
-        NavigationManager.switchScene("/login.fxml");
+        NavigationManager.switchScene("/loginScene/login.fxml");
     }
 }

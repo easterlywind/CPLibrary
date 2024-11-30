@@ -1,35 +1,20 @@
 package com.example.cplibrary.controller;
 
 import com.example.cplibrary.UserSession;
-import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.infrastructure.SQLReviewRepository;
 import com.example.cplibrary.model.Book;
-import com.example.cplibrary.DatabaseConnection;
 import com.example.cplibrary.model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,7 +51,7 @@ public class BookController {
     public boolean isEditing = false;
 
     public void backButtonOnAction(ActionEvent event) {
-        NavigationManager.switchScene("/staffLib.fxml");
+        NavigationManager.switchScene("/staffScene/staffLib.fxml");
     }
 
     public void deleteButtonOnAction(ActionEvent event) {
@@ -255,15 +240,15 @@ public class BookController {
         }
     }
     public void switchSceneLibrary(MouseEvent event) {
-        NavigationManager.switchScene("/staffLib.fxml");
+        NavigationManager.switchScene("/staffScene/staffLib.fxml");
     }
 
     public void switchSceneItems(MouseEvent event) {
-        NavigationManager.switchScene("/staffItem.fxml");
+        NavigationManager.switchScene("/staffScene/staffItem.fxml");
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {
