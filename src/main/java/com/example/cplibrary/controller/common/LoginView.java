@@ -1,4 +1,4 @@
-package com.example.cplibrary.controller;
+package com.example.cplibrary.controller.common;
 
 import com.example.cplibrary.DatabaseConnection;
 import com.example.cplibrary.UserSession;
@@ -34,7 +34,7 @@ public class LoginView {
 
     public void registerButtonOnAction(ActionEvent event)  {
 
-        NavigationManager.switchScene("/loginScene/register.fxml");
+        NavigationManager.switchScene("/commonScene/register.fxml");
     }
 
 

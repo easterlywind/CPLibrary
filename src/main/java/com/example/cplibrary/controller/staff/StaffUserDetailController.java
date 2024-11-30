@@ -1,6 +1,7 @@
-package com.example.cplibrary.controller;
+package com.example.cplibrary.controller.staff;
 
 import com.example.cplibrary.UserSession;
+import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.model.User;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Optional;
 
-public class UserDetailsController {
+public class StaffUserDetailController {
     @FXML
     private Label nameLabel;
 
@@ -20,7 +21,7 @@ public class UserDetailsController {
     }
 
     public void backButtonOnAction() {
-        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
     public void switchSceneLibrary(MouseEvent event) {
@@ -32,7 +33,7 @@ public class UserDetailsController {
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {

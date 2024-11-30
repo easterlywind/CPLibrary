@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="register.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.RegisterView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="register.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.common.RegisterView">
     <children>
         <Label layoutX="256.0" layoutY="36.0" stylesheets="@register.css" text="Register" textAlignment="CENTER" textFill="black">
             <font>

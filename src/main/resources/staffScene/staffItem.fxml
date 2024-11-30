@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane prefHeight="824.0" prefWidth="1536.0" stylesheets="staffLib.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.StaffItemController">
+<BorderPane prefHeight="824.0" prefWidth="1536.0" stylesheets="staffLib.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.staff.StaffBookController">
     <left>
         <AnchorPane prefHeight="800.0" prefWidth="255.0" stylesheets="@staffLib.css" BorderPane.alignment="CENTER">
             <children>

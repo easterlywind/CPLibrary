@@ -1,6 +1,7 @@
-package com.example.cplibrary.controller;
+package com.example.cplibrary.controller.staff;
 
 import com.example.cplibrary.UserSession;
+import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.infrastructure.GoogleBooksAPI;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.model.Book;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class StaffItemController {
+public class StaffBookController {
 
     @FXML
     private TextField searchField;
@@ -50,7 +51,7 @@ public class StaffItemController {
         Task<List<Book>> searchTask = new Task<>() {
             @Override
             protected List<Book> call() {
-                int maxPagesToLoad = 5; // Tải trước 3 trang
+                int maxPagesToLoad = 2; // Tải trước 3 trang
                 List<Book> books = new ArrayList<>();
 
                 for (int pageIndex = 0; pageIndex < maxPagesToLoad; pageIndex++) {
@@ -152,10 +153,10 @@ public class StaffItemController {
         });
 
         viewButton.setOnAction(event -> {
-            NavigationManager.switchSceneWithData("/staffScene/bookDetails.fxml",
+            NavigationManager.switchSceneWithData("/staffScene/staffBookDetail.fxml",
                     (controller, selectedBook) -> {
-                        BookController bookController = (BookController) controller;
-                        bookController.setBookDetails((Book) selectedBook);
+                        StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
+                        staffBookDetailController.setBookDetails((Book) selectedBook);
                     },
                     book);
         });
@@ -185,7 +186,7 @@ public class StaffItemController {
     }
 
     public void switchSceneUser() {
-        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
     public void switchSceneLogout() {

@@ -1,7 +1,9 @@
-package com.example.cplibrary.controller;
+package com.example.cplibrary.controller.user;
 
 import com.example.cplibrary.UserSession;
 import com.example.cplibrary.application.StaffService;
+import com.example.cplibrary.controller.common.NavigationManager;
+import com.example.cplibrary.controller.staff.StaffBookDetailController;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.model.User;
 import javafx.application.Platform;
@@ -128,10 +130,10 @@ public class UserController {
             vBox.getChildren().addAll(imageView, titleLabel);
 
             imageView.setOnMouseClicked(mouseEvent -> {
-                NavigationManager.switchSceneWithData("/staffScene/bookDetails.fxml",
+                NavigationManager.switchSceneWithData("/staffScene/staffBookDetail.fxml",
                         (controller,selectedBook) -> {
-                            BookController bookController = (BookController) controller;
-                            bookController.setBookDetails((Book) selectedBook);
+                            StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
+                            staffBookDetailController.setBookDetails((Book) selectedBook);
                         },
                         book
                 );
@@ -168,7 +170,7 @@ public class UserController {
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {

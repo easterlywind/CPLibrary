@@ -1,4 +1,4 @@
-package com.example.cplibrary.controller;
+package com.example.cplibrary.controller.common;
 
 import com.example.cplibrary.DatabaseConnection;
 import javafx.event.ActionEvent;
@@ -65,6 +65,6 @@ public class RegisterView {
     }
 
     public void backToLoginButtonOnAction(ActionEvent event) {
-        NavigationManager.switchScene("/loginScene/login.fxml");
+        NavigationManager.switchScene("/commonScene/login.fxml");
     }
 }

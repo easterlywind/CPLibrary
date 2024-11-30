@@ -1,6 +1,7 @@
-package com.example.cplibrary.controller;
+package com.example.cplibrary.controller.staff;
 
 import com.example.cplibrary.UserSession;
+import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.model.User;
 import com.example.cplibrary.infrastructure.SQLUserRepository;
 import javafx.application.Platform;
@@ -15,7 +16,7 @@ import javafx.util.Callback;
 
 import java.util.Optional;
 
-public class StaffUsersController {
+public class StaffUserController {
 
     @FXML
     private TableView<User> userTable;
@@ -84,8 +85,8 @@ public class StaffUsersController {
                     // Handle edit logic
                     NavigationManager.switchSceneWithData("/staffScene/staffUserDetails.fxml",
                             (controller, data) -> {
-                                UserDetailsController userDetailsController = (UserDetailsController) controller;
-                                userDetailsController.setUserDetails((User) data);
+                                StaffUserDetailController staffUserDetailController = (StaffUserDetailController) controller;
+                                staffUserDetailController.setUserDetails((User) data);
                             },
                             user);
                 });
@@ -121,7 +122,7 @@ public class StaffUsersController {
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {

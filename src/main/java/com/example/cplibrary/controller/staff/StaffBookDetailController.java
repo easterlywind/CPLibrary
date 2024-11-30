@@ -1,6 +1,7 @@
-package com.example.cplibrary.controller;
+package com.example.cplibrary.controller.staff;
 
 import com.example.cplibrary.UserSession;
+import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.infrastructure.SQLReviewRepository;
 import com.example.cplibrary.model.Book;
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class BookController {
+public class StaffBookDetailController {
 
     @FXML
     private Label titleLabel, authorLabel, subjectLabel, shelfLocationLabel,
@@ -248,7 +249,7 @@ public class BookController {
     }
 
     public void switchSceneUser(MouseEvent event) {
-        NavigationManager.switchScene("/staffScene/staffUsers.fxml");
+        NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
     public void switchSceneLogout(MouseEvent event) {

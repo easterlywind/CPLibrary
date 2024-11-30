@@ -13,6 +13,8 @@ module com.example.cplibrary {
     requires org.json;
 
     exports com.example.cplibrary;
-    opens com.example.cplibrary.controller to javafx.fxml;
     opens com.example.cplibrary.model to javafx.fxml, javafx.base;
+    opens com.example.cplibrary.controller.staff to javafx.fxml;
+    opens com.example.cplibrary.controller.user to javafx.fxml;
+    opens com.example.cplibrary.controller.common to javafx.fxml;
 }

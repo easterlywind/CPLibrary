@@ -1,6 +1,5 @@
-package com.example.cplibrary.controller;
+package com.example.cplibrary.controller.common;
 
-import com.example.cplibrary.model.Book;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
