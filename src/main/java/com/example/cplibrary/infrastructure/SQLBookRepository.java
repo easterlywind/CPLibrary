@@ -162,17 +162,55 @@ public class SQLBookRepository {
         return books;
     }
 
-    public void updateQuantity(int bookId, int quantityChange) {
-        String query = "UPDATE Books SET quantity = quantity + ? WHERE book_id = ?";
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, quantityChange);
-            stmt.setInt(2, bookId);
-            stmt.executeUpdate();
+    public boolean updateQuantity(int bookId, int quantityChange) {
+        try (Connection connection = databaseConnection.getConnection()) {
+            connection.setAutoCommit(false);
+
+            String updateQuery = "UPDATE Books SET quantity = quantity + ? WHERE book_id = ?";
+            try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
+                updateStmt.setInt(1, quantityChange);
+                updateStmt.setInt(2, bookId);
+                updateStmt.executeUpdate();
+            }
+
+            String selectReservationQuery = "SELECT user_id FROM Reservations WHERE book_id = ?";
+            try (PreparedStatement selectStmt = connection.prepareStatement(selectReservationQuery)) {
+                selectStmt.setInt(1, bookId);
+                try (ResultSet rs = selectStmt.executeQuery()) {
+                    while (rs.next()) {
+                        int userId = rs.getInt("user_id");
+
+                        String insertLoanQuery = "INSERT INTO Loans (book_id, user_id, borrow_date, due_date) VALUES (?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 14 DAY))";
+                        try (PreparedStatement insertLoanStmt = connection.prepareStatement(insertLoanQuery)) {
+                            insertLoanStmt.setInt(1, bookId);
+                            insertLoanStmt.setInt(2, userId);
+                            insertLoanStmt.executeUpdate();
+                        }
+
+                        String decrementQuery = "UPDATE Books SET quantity = quantity - 1 WHERE book_id = ?";
+                        try (PreparedStatement decrementStmt = connection.prepareStatement(decrementQuery)) {
+                            decrementStmt.setInt(1, bookId);
+                            decrementStmt.executeUpdate();
+                        }
+
+                        String deleteReservationQuery = "DELETE FROM Reservations WHERE user_id = ? AND book_id = ?";
+                        try (PreparedStatement deleteStmt = connection.prepareStatement(deleteReservationQuery)) {
+                            deleteStmt.setInt(1, userId);
+                            deleteStmt.setInt(2, bookId);
+                            deleteStmt.executeUpdate();
+                        }
+                    }
+                }
+            }
+
+            connection.commit();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
+
 
     public void addLoan(int bookId, int userId) {
         String query = "INSERT INTO Loans (book_id, user_id, borrow_date, due_date) VALUES (?, ?, ?, ?)";

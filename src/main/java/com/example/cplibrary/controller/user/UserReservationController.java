@@ -1,175 +1,73 @@
 package com.example.cplibrary.controller.user;
 
 import com.example.cplibrary.UserSession;
+import com.example.cplibrary.application.BookLoansService;
+import com.example.cplibrary.application.BookReservationService;
 import com.example.cplibrary.application.StaffService;
 import com.example.cplibrary.controller.common.NavigationManager;
-import com.example.cplibrary.controller.staff.StaffBookDetailController;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.model.User;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
-import javafx.concurrent.Task;
+import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class UserReservationController {
 
     @FXML
-    private GridPane gridPane;
+    private TableView<Object[]> tableView;
 
     @FXML
-    private Label nameLabel;
+    private TableColumn<Object[], String> colName;
 
     @FXML
-    private TextField searchTextField;
+    private TableColumn<Object[], LocalDate> colReservationDate;
 
-    private final StaffService staffService = new StaffService();
-    String keyword;
+    @FXML
+    private TableColumn<Object[], String> colStatus;
+
+    private final BookReservationService bookReservationService = new BookReservationService();
     private final User currentUser = UserSession.getInstance().getCurrentUser();
-
-    private void loadImageAsync(String imageUrl, ImageView imageView) {
-        Task<Image> imageTask = new Task<>() {
-            @Override
-            protected Image call() throws Exception {
-                return new Image(imageUrl, 200, 300, true, true);
-            }
-        };
-
-        imageTask.setOnSucceeded(e -> {
-            imageView.setImage(imageTask.getValue());
-        });
-
-        imageTask.setOnFailed(e -> {
-            imageView.setImage(new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true));
-        });
-
-        new Thread(imageTask).start();
-    }
-
-    public void onSearchEnter(KeyCode keyCode) {
-        if (keyCode == KeyCode.ENTER) {
-            initialize();
-        }
-    }
 
     @FXML
     public void initialize() {
-        searchTextField.setOnKeyPressed(event -> onSearchEnter(event.getCode()));
-        keyword = searchTextField.getText();
-        boolean flagSearch = !keyword.isEmpty();
+        // Cấu hình các cột
+        colName.setCellValueFactory(data -> {
+            Object[] row = data.getValue();
+            return new ReadOnlyStringWrapper((String) row[0]);
+        });
+        colReservationDate.setCellValueFactory(data -> {
+            Object[] row = data.getValue();
+            return new ReadOnlyObjectWrapper<>((LocalDate) row[1]);
+        });
+        colStatus.setCellValueFactory(data -> {
+            Object[] row = data.getValue();
+            return new ReadOnlyStringWrapper((String) row[2]);
+        });
 
-        System.out.println(keyword + " " + flagSearch);
+        // Lấy dữ liệu từ cơ sở dữ liệu
+        ObservableList<Object[]> reservationDataData = bookReservationService.fetchReservationData(currentUser.getUserId());
+        tableView.setItems(reservationDataData);
 
-        int numCols = 5;
-        int numRows = 0;
-
-        nameLabel.setText(currentUser.getName());
-
-        // Xóa ràng buộc cũ nếu có
-        gridPane.getColumnConstraints().clear();
-        gridPane.getRowConstraints().clear();
-        gridPane.getChildren().clear();
-
-        gridPane.setVgap(10);
-        gridPane.setHgap(10);
-
-        // Thêm ColumnConstraints (5 cột)
-        for (int i = 0; i < numCols; i++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setPercentWidth(100.0 / numCols); // Mỗi cột chiếm 1/5 chiều rộng
-            gridPane.getColumnConstraints().add(col);
-        }
-
-        List<Book> books;
-
-        if (!flagSearch) {
-            books = staffService.getAllBooks();
-        } else {
-            books = staffService.searchBook(keyword);
-        }
-
-        // Tính toán số hàng cần thiết
-        numRows = (int) Math.ceil(books.size() / (double) numCols);
-
-        // Thêm RowConstraints (số hàng tính toán từ books.size)
-        for (int i = 0; i < numRows; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setPercentHeight(100.0 / numRows); // Mỗi hàng chiếm tỷ lệ chiều cao
-            gridPane.getRowConstraints().add(row);
-        }
-
-        // Thêm sách vào GridPane
-        for (int i = 0; i < books.size(); i++) {
-            Book book = books.get(i);
-
-            String imageUrl = book.getImageUrl();
-            ImageView imageView = new ImageView();
-            loadImageAsync(imageUrl, imageView);
-
-            // Tạo Label cho tên sách
-            Label titleLabel = new Label(book.getTitle());
-            titleLabel.setAlignment(Pos.CENTER);
-
-            // Tạo VBox để chứa ImageView và Label
-            VBox vBox = new VBox(5);  // Khoảng cách giữa Image và Label là 5px
-            vBox.setAlignment(Pos.CENTER);
-            vBox.getChildren().addAll(imageView, titleLabel);
-
-            imageView.setOnMouseClicked(mouseEvent -> {
-                NavigationManager.switchSceneWithData("/userScene/userBookDetail.fxml",
-                        (controller,selectedBook) -> {
-                            UserBookDetailController userBookDetailController = (UserBookDetailController) controller;
-                            userBookDetailController.setBookDetails((Book) selectedBook);
-                        },
-                        book
-                );
-            });
-
-
-            imageView.setOnMouseEntered(event -> {
-                imageView.setScaleX(1.1);
-                imageView.setScaleY(1.1);
-                imageView.setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);");
-            });
-
-            imageView.setOnMouseExited(event -> {
-                imageView.setScaleX(1.0);
-                imageView.setScaleY(1.0);
-                imageView.setStyle("");
-            });
-
-            // Tính toán vị trí hàng và cột
-            int row = i / numCols; // Hàng
-            int col = i % numCols; // Cột
-
-            // Thêm VBox vào GridPane
-            gridPane.add(vBox, col, row);
-        }
     }
 
-    public void switchSceneLibrary() {
+    public void switchSceneLibrary(MouseEvent mouseEvent) {
         NavigationManager.switchScene("/userScene/userLib.fxml");
     }
 
-    public void switchSceneLoans() {
+    public void switchSceneLoans(MouseEvent mouseEvent) {
         NavigationManager.switchScene("/userScene/userLoans.fxml");
     }
 
-    public void switchSceneReservation() {
+    public void switchSceneReservation(MouseEvent mouseEvent) {
         NavigationManager.switchScene("/userScene/userReservation.fxml");
     }
 

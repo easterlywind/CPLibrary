@@ -10,33 +10,33 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class SQLLoansRepository {
-    private DatabaseConnection databaseConnection = new DatabaseConnection();
+public class SQLReservationRepository {
+    private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
-    public ObservableList<Object[]> fetchLoanData(int userId) {
+    public ObservableList<Object[]> fetchReservationData(int userId) {
         ObservableList<Object[]> data = FXCollections.observableArrayList();
 
         String query = """
-            SELECT b.title, l.borrow_date, l.due_date
-            FROM loans l
-            JOIN Books b ON l.book_id = b.book_id
-            WHERE l.user_id = ?;
+            SELECT b.title, r.reservation_date, r.status
+            FROM books b
+            JOIN reservations r on b.book_id = r.book_id
+            WHERE r.user_id = ?;
         """;
 
         try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+            PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setInt(1, userId); 
+            stmt.setInt(1,userId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 String title = rs.getString("title");
-                LocalDate borrowDate = rs.getDate("borrow_date").toLocalDate();
-                LocalDate dueDate = rs.getDate("due_date").toLocalDate();
-                data.add(new Object[]{title, borrowDate, dueDate});
+                LocalDate reservationDate = rs.getDate("reservation_date").toLocalDate();
+                String status = rs.getString("status");
+                data.add(new Object[]{title,reservationDate,status});
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         return data;
