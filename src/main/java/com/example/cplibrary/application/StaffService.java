@@ -24,8 +24,8 @@ public class StaffService {
         bookRepository.deleteBook(isbn);
     }
 
-    public Book viewBookDetails(String isbn) {
-        return bookRepository.getBookByIsbn(isbn);
+    public Book viewBookDetails(String title) {
+        return bookRepository.getBookByIsbn(title);
     }
 
     public void updateBook(Book book) {

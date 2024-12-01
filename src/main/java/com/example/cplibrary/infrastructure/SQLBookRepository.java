@@ -71,12 +71,12 @@ public class SQLBookRepository {
     }
 
     // Lấy thông tin sách theo ISBN
-    public Book getBookByIsbn(String isbn) {
+    public Book getBookByIsbn(String title) {
         String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity, image_url " +
-                "FROM Books WHERE isbn = ?";
+                "FROM Books WHERE title = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, isbn);
+            stmt.setString(1, title);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return new Book(

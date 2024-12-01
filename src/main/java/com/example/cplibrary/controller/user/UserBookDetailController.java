@@ -54,7 +54,7 @@ public class UserBookDetailController {
     public void setBookDetails(Book book) {
         this.book = book;
         nameLabel.setText(currentUser.getName());
-        // Hiển thị thông tin sách
+
         titleLabel.setText(book.getTitle());
         authorLabel.setText(book.getAuthor());
         subjectLabel.setText(book.getSubject());

@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -159,15 +160,15 @@ public class UserLibController {
         }
     }
 
-    public void switchSceneLibrary() {
+    public void switchSceneLibrary(MouseEvent mouseEvent) {
         NavigationManager.switchScene("/userScene/userLib.fxml");
     }
 
-    public void switchSceneLoans() {
+    public void switchSceneLoans(MouseEvent mouseEvent) {
         NavigationManager.switchScene("/userScene/userLoans.fxml");
     }
 
-    public void switchSceneReservation() {
+    public void switchSceneReservation(MouseEvent mouseEvent) {
         NavigationManager.switchScene("/userScene/userReservation.fxml");
     }
 
