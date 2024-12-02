@@ -48,8 +48,8 @@ public class StaffService {
         return userRepository.getUserById(userId);
     }
 
-    public void updateUser(User user) {
-        userRepository.updateUser(user);
+    public boolean updateUser(User user) {
+        return userRepository.updateUser(user);
     }
 
     public Member getUserByEmail(String email) {

@@ -252,7 +252,7 @@ public class StaffBookDetailController {
         NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
-    public void switchSceneLogout(MouseEvent event) {
+    public void switchSceneLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout Confirmation");
         alert.setHeaderText("Are you sure you want to logout?");
@@ -260,7 +260,7 @@ public class StaffBookDetailController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Platform.exit();
+            NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
 

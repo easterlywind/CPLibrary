@@ -79,7 +79,7 @@ public class UserReservationController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Platform.exit();
+            NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
 }

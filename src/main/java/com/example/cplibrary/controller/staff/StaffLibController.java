@@ -89,7 +89,7 @@ public class StaffLibController {
         // Thêm ColumnConstraints (5 cột)
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints col = new ColumnConstraints();
-            col.setPercentWidth(100.0 / numCols); // Mỗi cột chiếm 1/5 chiều rộng
+            col.setPercentWidth(100.0 / numCols);
             gridPane.getColumnConstraints().add(col);
         }
 
@@ -107,7 +107,7 @@ public class StaffLibController {
         // Thêm RowConstraints (số hàng tính toán từ books.size)
         for (int i = 0; i < numRows; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPercentHeight(100.0 / numRows); // Mỗi hàng chiếm tỷ lệ chiều cao
+            row.setPercentHeight(100.0 / numRows);
             gridPane.getRowConstraints().add(row);
         }
 
@@ -124,7 +124,7 @@ public class StaffLibController {
             titleLabel.setAlignment(Pos.CENTER);
 
             // Tạo VBox để chứa ImageView và Label
-            VBox vBox = new VBox(5);  // Khoảng cách giữa Image và Label là 5px
+            VBox vBox = new VBox(5);
             vBox.setAlignment(Pos.CENTER);
             vBox.getChildren().addAll(imageView, titleLabel);
 
@@ -133,6 +133,8 @@ public class StaffLibController {
                         (controller,selectedBook) -> {
                             StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
                             staffBookDetailController.setBookDetails((Book) selectedBook);
+//                            System.out.println("Received book title: " + ((Book) selectedBook).getTitle());
+
                         },
                         book
                 );
@@ -172,7 +174,7 @@ public class StaffLibController {
         NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
-    public void switchSceneLogout(MouseEvent event) {
+    public void switchSceneLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout Confirmation");
         alert.setHeaderText("Are you sure you want to logout?");
@@ -180,7 +182,7 @@ public class StaffLibController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Platform.exit();
+            NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
 }

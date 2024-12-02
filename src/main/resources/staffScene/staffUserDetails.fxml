@@ -90,22 +90,31 @@
 
                 <Label layoutX="1035.0" layoutY="144.0" text="Status:" />
                 <Button fx:id="backButton" layoutX="84.0" layoutY="90.0" mnemonicParsing="false" onAction="#backButtonOnAction" text="Back" />
-                <Button fx:id="editButton" layoutX="193.0" layoutY="90.0" mnemonicParsing="false" text="Edit" />
-                <Button fx:id="saveButton" layoutX="284.0" layoutY="87.0" mnemonicParsing="false" text="Save" visible="false" />
-            <Label fx:id="nameInput" layoutX="142.0" layoutY="145.0" text="....." />
-            <Label fx:id="emailInput" layoutX="452.0" layoutY="144.0" text="...." />
-            <Label fx:id="passwordInput" layoutX="788.0" layoutY="144.0" text="...." />
-            <Label fx:id="statusInput" layoutX="1079.0" layoutY="145.0" text="...." />
-            <TableView layoutX="27.0" layoutY="266.0" prefHeight="546.0" prefWidth="565.0">
+                <Button fx:id="editButton" layoutX="193.0" layoutY="90.0" mnemonicParsing="false" onAction="#editButtonOnAction" text="Edit" />
+                <Button fx:id="saveButton" layoutX="284.0" layoutY="87.0" mnemonicParsing="false" onAction="#saveButtonOnAction" text="Save" visible="false" />
+                <Label fx:id="nameInput" layoutX="142.0" layoutY="145.0" text="....." />
+                <TextField fx:id="nameField" layoutX="142.0" layoutY="145.0" visible="false" />
+
+                <Label fx:id="emailInput" layoutX="452.0" layoutY="144.0" text="...." />
+                <TextField fx:id="emailField" layoutX="452.0" layoutY="144.0" visible="false" />
+
+                <Label fx:id="passwordInput" layoutX="788.0" layoutY="144.0" text="...." />
+                <TextField fx:id="passwordField" layoutX="788.0" layoutY="144.0" visible="false" />
+
+                <Label fx:id="statusInput" layoutX="1079.0" layoutY="145.0" text="...." />
+                <TextField fx:id="statusField" layoutX="1079.0" layoutY="145.0" visible="false" />
+
+            <TableView fx:id="tableLoansView" layoutX="27.0" layoutY="266.0" prefHeight="546.0" prefWidth="595.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="colNameInLoans" prefWidth="255.0" text="Name" />
+                <TableColumn fx:id="colBorrowDateInLoans" prefWidth="168.0" text="Borrow Date" />
+                  <TableColumn fx:id="colDueDateInLoans" prefWidth="171.0" text="Due Date" />
               </columns>
             </TableView>
-            <TableView layoutX="653.0" layoutY="268.0" prefHeight="544.0" prefWidth="565.0">
+            <TableView fx:id="tableReservationView" layoutX="653.0" layoutY="268.0" prefHeight="546.0" prefWidth="595.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="C1" />
-                  <TableColumn prefWidth="75.0" text="C2" />
+                  <TableColumn fx:id="colNameInReservation" prefWidth="355.0" text="Name" />
+                  <TableColumn fx:id="colReservationDateInReservation" prefWidth="239.0" text="Reservation Date" />
                </columns>
             </TableView>
             <Label layoutX="27.0" layoutY="224.0" text="Loans" />

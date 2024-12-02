@@ -153,7 +153,7 @@ public class SQLBookRepository {
                         rs.getString("publisher"),
                         rs.getString("shelf_location"),
                         rs.getString("review"),
-                        rs.getString("image_url") // Image URL
+                        rs.getString("image_url")
                 ));
             }
         } catch (SQLException e) {

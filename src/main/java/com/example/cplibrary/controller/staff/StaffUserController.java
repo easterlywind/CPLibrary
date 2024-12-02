@@ -52,7 +52,8 @@ public class StaffUserController {
         userRepository = new SQLUserRepository();
         nameLabel.setText(currentUser.getName());
         // Load data from database
-        loadData();
+        userList = FXCollections.observableArrayList(userRepository.getAllUsers());
+        userTable.setItems(userList);
 
         // Map table columns to User properties
         colId.setCellValueFactory(new PropertyValueFactory<>("userId"));
@@ -61,17 +62,7 @@ public class StaffUserController {
         colPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // Add action buttons (Edit/Delete)
         addActionButtons();
-    }
-
-    private void loadData() {
-        // Fetch data from database and wrap in ObservableList
-        userList = FXCollections.observableArrayList(userRepository.getAllUsers());
-        userList.forEach(user -> {
-            System.out.println(user.getUserId() + " "  + user.getName() + " " + user.getEmail() + " " + user.getPassword() + " " + user.getStatus());
-        });
-        userTable.setItems(userList);
     }
 
     private void addActionButtons() {
@@ -82,13 +73,16 @@ public class StaffUserController {
             {
                 btnEdit.setOnAction(event -> {
                     User user = getTableView().getItems().get(getIndex());
-                    // Handle edit logic
+
                     NavigationManager.switchSceneWithData("/staffScene/staffUserDetails.fxml",
-                            (controller, data) -> {
+                            (controller, selectedUser) -> {
+//                                User receiverUser = (User) selectedUser;
+//                                System.out.println("Before passing to controller: " + receiverUser.getUserId());
                                 StaffUserDetailController staffUserDetailController = (StaffUserDetailController) controller;
-                                staffUserDetailController.setUserDetails((User) data);
+                                staffUserDetailController.setUserDetails((User) selectedUser);
                             },
                             user);
+
                 });
 
                 btnDelete.setOnAction(event -> {
@@ -125,7 +119,7 @@ public class StaffUserController {
         NavigationManager.switchScene("/staffScene/staffUser.fxml");
     }
 
-    public void switchSceneLogout(MouseEvent event) {
+    public void switchSceneLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout Confirmation");
         alert.setHeaderText("Are you sure you want to logout?");
@@ -133,7 +127,7 @@ public class StaffUserController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Platform.exit();
+            NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
 }

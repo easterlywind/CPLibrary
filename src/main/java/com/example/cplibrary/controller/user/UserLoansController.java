@@ -133,7 +133,7 @@ public class UserLoansController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Platform.exit();
+            NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
 }

@@ -89,7 +89,7 @@ public class StaffBookController {
         searchTask.setOnSucceeded(event -> {
             List<Book> books = searchTask.getValue();
 
-            booksListContainer.getChildren().clear(); // Xóa các mục sách cũ trước khi thêm sách mới
+            booksListContainer.getChildren().clear();
 
             for (Book book : books) {
                 booksListContainer.getChildren().add(createBookItem(book));
@@ -157,6 +157,7 @@ public class StaffBookController {
                     (controller, selectedBook) -> {
                         StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
                         staffBookDetailController.setBookDetails((Book) selectedBook);
+
                     },
                     book);
         });
@@ -197,7 +198,7 @@ public class StaffBookController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Platform.exit();
+            NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
 

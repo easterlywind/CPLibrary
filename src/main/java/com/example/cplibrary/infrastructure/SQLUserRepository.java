@@ -30,7 +30,7 @@ public class SQLUserRepository {
         }
     }
 
-    public void updateUser(User user) {
+    public boolean updateUser(User user) {
         String sql = "UPDATE Users SET name = ?, email = ?, password = ?, status = ? WHERE user_id = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -39,9 +39,10 @@ public class SQLUserRepository {
             stmt.setString(3, user.getPassword()); // password
             stmt.setString(4, user.getStatus()); // status
             stmt.setInt(5, user.getUserId()); // user_id (for WHERE clause)
-            stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

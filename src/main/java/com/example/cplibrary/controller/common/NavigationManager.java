@@ -33,7 +33,6 @@ public class NavigationManager {
             FXMLLoader loader = new FXMLLoader(NavigationManager.class.getResource(fxmlFilePath));
             Parent root = loader.load();
 
-            // Lấy controller và truyền dữ liệu
             Object controller = loader.getController();
             initializer.initialize(controller, data);
 
