@@ -11,6 +11,7 @@ module com.example.cplibrary {
     requires java.desktop;
     requires java.sql;
     requires org.json;
+    requires mysql.connector.java;
 
     exports com.example.cplibrary;
     opens com.example.cplibrary.model to javafx.fxml, javafx.base;

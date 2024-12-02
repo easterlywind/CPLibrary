@@ -40,7 +40,6 @@ public class UserBookDetailController {
     @FXML
     ImageView bookImage;
 
-
     private final SQLBookRepository bookRepository = new SQLBookRepository();
     private final SQLReviewRepository reviewRepository = new SQLReviewRepository();
     private final User currentUser = UserSession.getInstance().getCurrentUser();
@@ -96,7 +95,6 @@ public class UserBookDetailController {
         }
     }
 
-
     private void loadReviews() {
         reviewList.getChildren().clear();
         List<String[]> reviews = reviewRepository.getReviewsByBookId(book.getBook_id());
@@ -146,7 +144,6 @@ public class UserBookDetailController {
 
                 borrowButton.setText("Return");
 
-                // Hiển thị thông báo mượn thành công
                 AlertManager.showInfoAlert(
                         "Success",
                         "Book Borrowed Successfully",
@@ -172,7 +169,6 @@ public class UserBookDetailController {
 
                 borrowButton.setText("Borrow");
 
-                // Hiển thị thông báo trả thành công
                 AlertManager.showInfoAlert(
                         "Success",
                         "Book Returned Successfully",
@@ -188,9 +184,6 @@ public class UserBookDetailController {
             }
         }
     }
-
-
-
 
     public void switchSceneLibrary() {
         NavigationManager.switchScene("/userScene/userLib.fxml");
@@ -216,7 +209,6 @@ public class UserBookDetailController {
         AlertManager.showInfoAlert("NOTIFICATION", "Reservation Success", "You have successfully reserved the book.");
 
     }
-
 
     public boolean isBookAlreadyBorrowedOrReserved(boolean isReturning) {
         boolean isBookAlreadyBorrowed = bookLoansService.isBookBorrowedByUser(currentUser.getUserId(), book.getBook_id());
