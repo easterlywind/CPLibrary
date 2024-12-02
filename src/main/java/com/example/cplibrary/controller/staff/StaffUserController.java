@@ -1,6 +1,7 @@
 package com.example.cplibrary.controller.staff;
 
 import com.example.cplibrary.UserSession;
+import com.example.cplibrary.controller.common.AlertManager;
 import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.model.User;
 import com.example.cplibrary.infrastructure.SQLUserRepository;
@@ -120,13 +121,8 @@ public class StaffUserController {
     }
 
     public void switchSceneLogout() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout Confirmation");
-        alert.setHeaderText("Are you sure you want to logout?");
-        alert.setContentText("All unsaved changes will be lost.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?" ,"All unsaved changes will be lost.");
+        if (confirmed) {
             NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }

@@ -4,6 +4,7 @@ import com.example.cplibrary.UserSession;
 import com.example.cplibrary.application.BookLoansService;
 import com.example.cplibrary.application.BookReservationService;
 import com.example.cplibrary.application.StaffService;
+import com.example.cplibrary.controller.common.AlertManager;
 import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.model.User;
 import javafx.application.Platform;
@@ -48,7 +49,7 @@ public class StaffUserDetailController {
     public void setUserDetails(User user) {
         if (user != null) {
             this.currenUserId = user.getUserId();
-            System.out.println("Before ememe" + currenUserId);
+//            System.out.println("Before ememe" + currenUserId);
             nameInput.setText(user.getName());
             emailInput.setText(user.getEmail());
             passwordInput.setText(user.getPassword());
@@ -120,6 +121,11 @@ public class StaffUserDetailController {
 
             saveButton.setVisible(false);
             editButton.setVisible(true);
+            AlertManager.showInfoAlert(
+                    "Update Successful",
+                    "User Details Updated",
+                    "The details for user '" + updatedName + "' have been successfully updated."
+            );
         } else {
             System.out.println("Failed to update user details");
         }
@@ -142,21 +148,16 @@ public class StaffUserDetailController {
     }
 
     public void switchSceneLogout() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout Confirmation");
-        alert.setHeaderText("Are you sure you want to logout?");
-        alert.setContentText("All unsaved changes will be lost.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?" ,"All unsaved changes will be lost.");
+        if (confirmed) {
             NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
 
     public void loadData() {
         nameLabel.setText(currentUser.getName());
-        System.out.println("coook" + currenUserId);
-        // Cấu hình các cột
+//        System.out.println("coook" + currenUserId);
+
         colNameInLoans.setCellValueFactory(data -> {
             Object[] row = data.getValue();
             return new ReadOnlyStringWrapper((String) row[0]);

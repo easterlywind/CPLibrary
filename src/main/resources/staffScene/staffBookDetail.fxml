@@ -100,9 +100,6 @@
                 <Label layoutX="391.0" layoutY="285.0" text="Quantity:" />
                 <Label fx:id="quantityLabel" layoutX="460.0" layoutY="285.0" prefWidth="300.0" text="..." />
 
-                <!-- Nút Borrow -->
-                <Button fx:id="borrowButton" layoutX="153.0" layoutY="684.0" onAction="#handleBorrowAction" text="Borrow" />
-
                 <!-- ScrollPane cho review -->
                 <ScrollPane fitToWidth="true" layoutX="850.0" layoutY="135.0" prefHeight="400.0" prefWidth="329.0">
                     <content>
@@ -119,8 +116,8 @@
                 <TextArea fx:id="reviewInput" layoutX="850.0" layoutY="554.0" prefHeight="100.0" prefWidth="329.0" promptText="Write your review here..." wrapText="true" />
                 <Button fx:id="addReview" layoutX="850.0" layoutY="668.0" onAction="#addReview" text="Add Review" />
             <Button fx:id="backButton" layoutX="84.0" layoutY="90.0" mnemonicParsing="false" onAction="#backButtonOnAction" text="Back" />
-            <TextField fx:id="quantityCopyInput" layoutX="153.0" layoutY="733.0" prefHeight="31.0" prefWidth="49.0" />
-            <Button fx:id="addQuantityButton" layoutX="226.0" layoutY="733.0" mnemonicParsing="false" onAction="#addQuantity" text="Add Copy" />
+            <TextField fx:id="quantityCopyInput" layoutX="137.0" layoutY="684.0" prefHeight="31.0" prefWidth="49.0" />
+            <Button fx:id="addQuantityButton" layoutX="210.0" layoutY="684.0" mnemonicParsing="false" onAction="#addQuantity" text="Add Copy" />
             <Button fx:id="editButton" layoutX="193.0" layoutY="90.0" mnemonicParsing="false" onAction="#editButtonOnAction" text="Edit" />
             <Button fx:id="deleteButton" layoutX="306.0" layoutY="90.0" mnemonicParsing="false" onAction="#deleteButtonOnAction" text="Delete" />
             <Label layoutX="391.0" layoutY="325.0" text="ISBN" />

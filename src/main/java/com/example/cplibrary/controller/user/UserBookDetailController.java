@@ -3,6 +3,7 @@ package com.example.cplibrary.controller.user;
 import com.example.cplibrary.UserSession;
 import com.example.cplibrary.application.BookLoansService;
 import com.example.cplibrary.application.BookReservationService;
+import com.example.cplibrary.controller.common.AlertManager;
 import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.infrastructure.SQLReviewRepository;
@@ -91,6 +92,7 @@ public class UserBookDetailController {
             reviewRepository.addReview(book.getBook_id(), currentUser.getUserId(), newReview);
             reviewList.getChildren().add(createReviewBox(newReview, LocalDate.now().toString(), reviewerName));
             reviewInput.clear();
+            AlertManager.showInfoAlert("Review Added", "Success", "Thank you! Your review has been added successfully.");
         }
     }
 
@@ -135,7 +137,7 @@ public class UserBookDetailController {
             }
 
             if (book.getQuantity() > 0) {
-                // Cập nhật số lượng trong kho và thêm vào Loans
+
                 bookRepository.updateQuantity(book.getBook_id(), -1);
                 book.setQuantity(book.getQuantity() - 1);
                 quantityLabel.setText(String.valueOf(book.getQuantity()));
@@ -143,25 +145,50 @@ public class UserBookDetailController {
                 bookLoansService.addLoan(book.getBook_id(), currentUser.getUserId());
 
                 borrowButton.setText("Return");
+
+                // Hiển thị thông báo mượn thành công
+                AlertManager.showInfoAlert(
+                        "Success",
+                        "Book Borrowed Successfully",
+                        "You have successfully borrowed the book '" + book.getTitle() + "'."
+                );
+
             } else {
-                System.out.println(currentUser.getUserId());
-                showAlert(Alert.AlertType.INFORMATION, "Out of Stock", "This book is out of stock. Would you like to reserve it?");
+                AlertManager.showInfoAlert(
+                        "NOTIFICATION",
+                        "Out of Stock",
+                        "This book is out of stock. Would you like to reserve it?"
+                );
                 handleReserveBook();
             }
+
         } else if (borrowButton.getText().equals("Return")) {
 
-            if (bookLoansService.deleteLoan(currentUser.getUserId(),book.getBook_id())) {
+            if (bookLoansService.deleteLoan(currentUser.getUserId(), book.getBook_id())) {
 
                 bookRepository.updateQuantity(book.getBook_id(), 1);
                 book.setQuantity(book.getQuantity() + 1);
                 quantityLabel.setText(String.valueOf(book.getQuantity()));
 
                 borrowButton.setText("Borrow");
+
+                // Hiển thị thông báo trả thành công
+                AlertManager.showInfoAlert(
+                        "Success",
+                        "Book Returned Successfully",
+                        "You have successfully returned the book '" + book.getTitle() + "'."
+                );
+
             } else {
-                showAlert(Alert.AlertType.ERROR, "Return Error", "Unable to return the book. Please try again.");
+                AlertManager.showErrorAlert(
+                        "ERROR",
+                        "Return Error",
+                        "Unable to return the book. Please try again."
+                );
             }
         }
     }
+
 
 
 
@@ -178,28 +205,16 @@ public class UserBookDetailController {
     }
 
     public void switchSceneLogout() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout Confirmation");
-        alert.setHeaderText("Are you sure you want to logout?");
-        alert.setContentText("All unsaved changes will be lost.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?" ,"All unsaved changes will be lost.");
+        if (confirmed) {
             NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     private void handleReserveBook() {
         bookReservationService.addReservation(currentUser.getUserId(), book.getBook_id());
-        showAlert(Alert.AlertType.INFORMATION, "Reservation Success", "You have successfully reserved the book.");
+        AlertManager.showInfoAlert("NOTIFICATION", "Reservation Success", "You have successfully reserved the book.");
+
     }
 
 
@@ -208,12 +223,12 @@ public class UserBookDetailController {
         boolean isBookAreadyReserved = bookReservationService.isBookReservedByUser(currentUser.getUserId(), book.getBook_id());
 
         if (!isReturning && isBookAlreadyBorrowed) {
-            showAlert(Alert.AlertType.WARNING, "Book Already Borrowded", "You have already borrow this book.");
+            AlertManager.showWarningAlert("WARNING", "Book Already Borrowded", "You have already borrow this book.");
             return true;
         }
 
         if (!isReturning && isBookAreadyReserved) {
-            showAlert(Alert.AlertType.WARNING, "Book Already Reserved", "You have already reserved this book.");
+            AlertManager.showWarningAlert("WARNING", "Book Already Reserved", "You have already reserved this book.");
             return true;
         }
 

@@ -4,6 +4,7 @@ import com.example.cplibrary.UserSession;
 import com.example.cplibrary.application.BookLoansService;
 import com.example.cplibrary.application.BookReservationService;
 import com.example.cplibrary.application.StaffService;
+import com.example.cplibrary.controller.common.AlertManager;
 import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.model.User;
@@ -72,13 +73,8 @@ public class UserReservationController {
     }
 
     public void switchSceneLogout() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout Confirmation");
-        alert.setHeaderText("Are you sure you want to logout?");
-        alert.setContentText("All unsaved changes will be lost.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?" ,"All unsaved changes will be lost.");
+        if (confirmed) {
             NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }

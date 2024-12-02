@@ -1,6 +1,7 @@
 package com.example.cplibrary.controller.staff;
 
 import com.example.cplibrary.UserSession;
+import com.example.cplibrary.controller.common.AlertManager;
 import com.example.cplibrary.controller.common.NavigationManager;
 import com.example.cplibrary.infrastructure.SQLBookRepository;
 import com.example.cplibrary.infrastructure.SQLReviewRepository;
@@ -57,6 +58,7 @@ public class StaffBookDetailController {
 
     public void deleteButtonOnAction(ActionEvent event) {
             bookRepository.deleteBook(book.getIsbn());
+            AlertManager.showInfoAlert("NOTIFICATION","Deleted Succesfully", "User information has been deleted.");
             backButtonOnAction(event);
     }
 
@@ -90,11 +92,12 @@ public class StaffBookDetailController {
     private void addReview() {
         String newReview = reviewInput.getText();
         if (!newReview.isEmpty()) {
-            // Lấy tên người review (giả sử là người dùng hiện tại)
-            String reviewerName = currentUser.getName(); // Bạn có thể thay bằng tên người dùng thực tế từ session hoặc login
+
+            String reviewerName = currentUser.getName();
             reviewRepository.addReview(book.getBook_id(), currentUser.getUserId(), newReview);
             reviewList.getChildren().add(createReviewBox(newReview, LocalDate.now().toString(), reviewerName));
             reviewInput.clear();
+            AlertManager.showInfoAlert("Review Added", "Success", "Thank you! Your review has been added successfully.");
         }
     }
 
@@ -130,28 +133,17 @@ public class StaffBookDetailController {
         return reviewBox;
     }
 
-
-
-    @FXML
-    private void handleBorrowAction() {
-        if (borrowButton.getText().equals("Borrow") && book.getQuantity() > 0) {
-            bookRepository.updateQuantity(book.getBook_id(), -1);
-            book.setQuantity(book.getQuantity() - 1);
-            quantityLabel.setText(String.valueOf(book.getQuantity()));
-            borrowButton.setText("Return");
-        } else if (borrowButton.getText().equals("Return")) {
-            bookRepository.updateQuantity(book.getBook_id(), 1);
-            book.setQuantity(book.getQuantity() + 1);
-            quantityLabel.setText(String.valueOf(book.getQuantity()));
-            borrowButton.setText("Borrow");
-        }
-    }
-
     public void addQuantity() {
         int countOfCopy = Integer.parseInt(quantityCopyInput.getText());
         bookRepository.updateQuantity(book.getBook_id(), countOfCopy);
         book.setQuantity(book.getQuantity() + countOfCopy);
         quantityLabel.setText(String.valueOf(book.getQuantity()));
+        AlertManager.showInfoAlert(
+                "Quantity Updated",
+                "Book Quantity Updated Successfully",
+                "You have successfully added " + countOfCopy +
+                        " copies. Current total: " + book.getQuantity() + " copies."
+        );
     }
 
     public void editButtonOnAction() {
@@ -161,7 +153,6 @@ public class StaffBookDetailController {
 
     public void saveButtonOnAction() {
 
-        // Lấy dữ liệu từ TextArea
         String newTitle = titleInput.getText();
         String newAuthor = authorInput.getText();
         String newSubject = subjectInput.getText();
@@ -200,6 +191,7 @@ public class StaffBookDetailController {
 
         // Tắt chế độ chỉnh sửa
         toggleEditing(false);
+        AlertManager.showInfoAlert("NOTIFICATION","Updated Successfully","User information has been updated.");
     }
 
     private void toggleEditing(boolean enable) {
@@ -253,13 +245,8 @@ public class StaffBookDetailController {
     }
 
     public void switchSceneLogout() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout Confirmation");
-        alert.setHeaderText("Are you sure you want to logout?");
-        alert.setContentText("All unsaved changes will be lost.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?" ,"All unsaved changes will be lost.");
+        if (confirmed) {
             NavigationManager.switchScene("/commonScene/login.fxml");
         }
     }
