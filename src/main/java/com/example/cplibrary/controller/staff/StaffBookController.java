@@ -106,29 +106,48 @@ public class StaffBookController {
             System.err.println("Failed to fetch book details: " + searchTask.getException());
         });
 
-        // Chạy Task trong luồng khác
         new Thread(searchTask).start();
     }
 
     public VBox createBookItem(Book book) {
         VBox bookItem = new VBox(10);
-        bookItem.setStyle("-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;");
+        bookItem.getStyleClass().add("book-item");
+
+        ImageView bookImageView = new ImageView();
+        bookImageView.setFitWidth(200);
+        bookImageView.setFitHeight(300);
+        bookImageView.setPreserveRatio(true);
 
         String imageUrl = book.getImageUrl();
         Image bookImage = imageUrl != null
-                ? new Image(imageUrl, 200, 300, true, true)
+                ? new Image(imageUrl, 200, 300, true, true, true)
                 : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
+        bookImageView.setImage(bookImage);
 
-        Text bookISBN = new Text(book.getIsbn());
+
         Text bookTitle = new Text(book.getTitle());
-        Text bookAuthor = new Text(book.getAuthor());
-        Text bookSubject = new Text(book.getSubject());
-        Text bookPublisher = new Text(book.getPublisher());
-        Label bookReview = new Label(book.getReview());
+        bookTitle.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+
+        Text bookAuthor = new Text("Author: " + book.getAuthor());
+        bookAuthor.setStyle("-fx-font-size: 14; -fx-text-fill: #555555;");
+
+        Text bookPublisher = new Text("Publisher: " + book.getPublisher());
+        bookPublisher.setStyle("-fx-font-size: 14; -fx-text-fill: #888888;");
+
+        Text bookIsbn = new Text("ISBN: " + (book.getIsbn() == null || book.getIsbn().isEmpty() ? "UNKNOWN" : book.getIsbn()));
+        bookIsbn.setStyle("-fx-font-size: 14; -fx-text-fill: #444444;");
+
+        Label bookReview = new Label("\"" + book.getReview() + "\"");
+        bookReview.setStyle("-fx-font-style: italic; -fx-text-fill: #444444;");
 
         Button addButton = new Button("Add");
         Button viewButton = new Button("View");
         Button deleteButton = new Button("Delete");
+
+        addButton.getStyleClass().add("add-button");
+        viewButton.getStyleClass().add("view-button");
+        deleteButton.getStyleClass().add("delete-button");
+
 
         boolean isBookInDB = sqlBookRepository.getBookByIsbn(book.getIsbn()) != null;
 
@@ -158,26 +177,30 @@ public class StaffBookController {
                     (controller, selectedBook) -> {
                         StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
                         staffBookDetailController.setBookDetails((Book) selectedBook);
-
                     },
                     book);
         });
 
         bookItem.getChildren().addAll(
-                new ImageView(bookImage),
-                bookISBN,
+                bookImageView,
                 bookTitle,
                 bookAuthor,
-                bookSubject,
                 bookPublisher,
+                bookIsbn,
                 bookReview,
                 addButton,
                 viewButton,
                 deleteButton
         );
 
+        // Hiệu ứng click
+        bookItem.setOnMousePressed(event -> bookItem.setScaleX(0.97));
+        bookItem.setOnMouseReleased(event -> bookItem.setScaleX(1.0));
+
         return bookItem;
     }
+
+
 
     public void switchSceneLibrary() {
         NavigationManager.switchScene("/staffScene/staffLib.fxml");

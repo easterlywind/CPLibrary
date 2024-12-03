@@ -33,7 +33,7 @@ public class StaffBookDetailController {
     private TextArea reviewInput;
 
     @FXML
-    private Button borrowButton, backButton, saveButton, editButton, addQuantityButton;
+    private Button saveButton, editButton, addQuantityButton;
 
     @FXML
     private TextArea titleInput, authorInput, subjectInput, shelfLocationInput, publisherInput, descriptionInput, quantityInput;
@@ -217,7 +217,6 @@ public class StaffBookDetailController {
         // Hiển thị nút phù hợp
         editButton.setVisible(!enable);
         saveButton.setVisible(enable);
-        borrowButton.setDisable(enable);
         addQuantityButton.setDisable(enable);
         quantityCopyInput.setDisable(enable);
 
@@ -253,7 +252,6 @@ public class StaffBookDetailController {
 
     @FXML
     public void initialize() {
-//        borrowButton.setOnAction(event -> handleBorrowAction());
         toggleEditing(false);
     }
 }

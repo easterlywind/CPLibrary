@@ -1,0 +1,16 @@
+.book-item {
+    -fx-padding: 10;
+    -fx-border-color: lightgray;
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.5, 0, 2);
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+.book-item:hover {
+    -fx-background-color: #f0f8ff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0.5, 0, 4);
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}

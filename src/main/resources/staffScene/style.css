@@ -1,0 +1,46 @@
+/* Button chung */
+.button {
+    -fx-background-color: linear-gradient(#6a95ff, #005bea);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 0, 2);
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#5a85ff, #0045ba);
+}
+
+.button:pressed {
+    -fx-background-color: linear-gradient(#0045ba, #5a85ff);
+    -fx-effect: none;
+}
+
+/* Các nút khác biệt màu sắc */
+.add-button {
+    -fx-background-color: linear-gradient(#4caf50, #2e7d32);
+}
+
+.add-button:hover {
+    -fx-background-color: linear-gradient(#3e9f40, #256f29);
+}
+
+.delete-button {
+    -fx-background-color: linear-gradient(#f44336, #c62828);
+}
+
+.delete-button:hover {
+    -fx-background-color: linear-gradient(#e53935, #b71c1c);
+}
+
+.view-button {
+    -fx-background-color: linear-gradient(#ff9800, #ef6c00);
+}
+
+.view-button:hover {
+    -fx-background-color: linear-gradient(#fb8c00, #e65100);
+}

@@ -15,29 +15,31 @@ public class SQLBookRepository {
 
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
-    // Thêm sách vào bảng Books
     public void addBook(Book book) {
         String sql = "INSERT INTO Books (book_id, quantity, isbn, title, author, subject, publisher, shelf_location, review, image_url) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String isbn = (book.getIsbn() == null || book.getIsbn().trim().isEmpty()) ? "UNKNOWN" : book.getIsbn();
+
             stmt.setInt(1, book.getBook_id());
             stmt.setInt(2, book.getQuantity());
-            stmt.setString(3, book.getIsbn());
+            stmt.setString(3, isbn);
             stmt.setString(4, book.getTitle());
             stmt.setString(5, book.getAuthor());
             stmt.setString(6, book.getSubject());
             stmt.setString(7, book.getPublisher());
             stmt.setString(8, book.getShelfLocation());
             stmt.setString(9, book.getReview());
-            stmt.setString(10, book.getImageUrl()); // Image URL
+            stmt.setString(10, book.getImageUrl());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Cập nhật thông tin sách (bao gồm cả quantity)
+
     public void updateBook(Book book) {
         String sql = "UPDATE Books SET title = ?, author = ?, subject = ?, publisher = ?, shelf_location = ?, review = ?, quantity = ?, image_url = ? " +
                 "WHERE isbn = ?";
