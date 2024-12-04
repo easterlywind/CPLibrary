@@ -1,12 +1,14 @@
+/* Tổng quan */
 .root {
-    -fx-font-family: "Arial", sans-serif;
-    -fx-font-size: 14px;
-    -fx-background-color: #f9f9f9;
+    -fx-background-color: #e3f2fd; /* Màu nền sáng */
+    -fx-font-family: "Arial";       /* Font chữ mặc định */
 }
 
+/* ------------------------------------------------------------- */
+/* Button cơ bản */
 .button {
-    -fx-background-color: linear-gradient(#005bea, #0042a3);
-    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(#005bea, #0042a3); /* Màu nền gradient */
+    -fx-text-fill: white;                                /* Màu chữ trắng */
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 8px 16px;
@@ -17,7 +19,7 @@
 }
 
 .button:hover {
-    -fx-background-color: linear-gradient(#0045ba, #003a90);
+    -fx-background-color: linear-gradient(#0045ba, #003a90); /* Màu nền khi hover */
 }
 
 .button:pressed {
@@ -25,125 +27,265 @@
     -fx-effect: none;
 }
 
+/* Button thêm (Add) */
 .add-button {
-    -fx-background-color: linear-gradient(#4caf50, #2e7d32);
+    -fx-background-color: linear-gradient(#4caf50, #2e7d32); /* Màu nền gradient cho nút thêm */
 }
 
 .add-button:hover {
-    -fx-background-color: linear-gradient(#3e9f40, #256f29);
+    -fx-background-color: linear-gradient(#3e9f40, #256f29); /* Màu nền khi hover */
 }
 
+/* Button xóa (Delete) */
 .delete-button {
-    -fx-background-color: linear-gradient(#f44336, #c62828);
+    -fx-background-color: linear-gradient(#f44336, #c62828); /* Màu nền gradient cho nút xóa */
 }
 
 .delete-button:hover {
-    -fx-background-color: linear-gradient(#e53935, #b71c1c);
+    -fx-background-color: linear-gradient(#e53935, #b71c1c); /* Màu nền khi hover */
 }
 
+/* Button xem (View) */
 .view-button {
-    -fx-background-color: linear-gradient(#ff9800, #ef6c00);
+    -fx-background-color: linear-gradient(#ff9800, #ef6c00); /* Màu nền gradient cho nút xem */
 }
 
 .view-button:hover {
-    -fx-background-color: linear-gradient(#fb8c00, #e65100);
+    -fx-background-color: linear-gradient(#fb8c00, #e65100); /* Màu nền khi hover */
 }
 
+/* ------------------------------------------------------------- */
+/* Tiêu đề */
 .label-title {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333333;
+    -fx-text-fill: #333333;  /* Màu chữ tiêu đề */
 }
 
+/* Label thông tin */
 .label-info {
     -fx-font-size: 16px;
-    -fx-text-fill: #555555;
+    -fx-text-fill: #555555;  /* Màu chữ thông tin */
 }
 
+/* ------------------------------------------------------------- */
+/* Field nhập liệu */
 .text-field {
     -fx-background-color: white;
-    -fx-border-color: #c0c0c0;
+    -fx-border-color: #c0c0c0;  /* Màu viền */
     -fx-border-radius: 5;
     -fx-padding: 5;
 }
 
 .text-field:hover {
-    -fx-border-color: #808080;
+    -fx-border-color: #808080;  /* Màu viền khi hover */
 }
 
+/* ------------------------------------------------------------- */
+/* CSS cho TableView */
 .table-view {
-    -fx-border-color: #d0d0d0;
-    -fx-border-radius: 5;
-    -fx-background-color: white;
+    -fx-background-color: #f4f4f4; /* Màu nền cho bảng */
+    -fx-border-color: #cccccc; /* Màu viền */
+    -fx-border-width: 1px; /* Độ dày viền */
+    -fx-font-size: 14px; /* Kích thước font chữ */
+    -fx-font-family: "Arial"; /* Phông chữ */
+    -fx-selection-bar: #4C9B4C; /* Màu nền khi chọn dòng */
 }
 
-.table-view .column-header-background {
-    -fx-background-color: #0045ba;
-    -fx-text-fill: white;
+/* CSS cho các cột trong TableView */
+.table-column {
+    -fx-alignment: CENTER; /* Căn giữa nội dung của cột */
+    -fx-cell-size: 40px; /* Độ cao của mỗi dòng */
 }
 
+/* CSS cho Header của TableView */
+.table-view .column-header {
+    -fx-background-color: #0066cc; /* Màu nền header */
+    -fx-text-fill: white; /* Màu chữ trong header */
+    -fx-font-weight: bold; /* In đậm chữ trong header */
+    -fx-padding: 10px 5px; /* Padding cho header */
+}
+
+/* CSS cho các ô trong TableView */
 .table-view .cell {
-    -fx-padding: 5;
+    -fx-background-color: white; /* Màu nền của ô */
+    -fx-padding: 5px 10px; /* Padding trong mỗi ô */
+    -fx-border-color: #dddddd; /* Màu viền của ô */
+    -fx-border-width: 0 0 1px 0; /* Viền dưới cho các ô */
 }
 
+/* CSS khi di chuột qua một dòng */
+.table-view .row-cell:hover {
+    -fx-background-color: #e1f5fe; /* Màu nền khi di chuột vào dòng */
+}
+
+/* CSS cho cột ID */
+#colId {
+    -fx-alignment: CENTER; /* Căn giữa cho cột ID */
+}
+
+/* CSS cho cột Name */
+#colName {
+    -fx-alignment: CENTER-LEFT; /* Căn trái cho tên */
+}
+
+/* CSS cho cột Email */
+#colEmail {
+    -fx-alignment: CENTER-LEFT; /* Căn trái cho email */
+}
+
+/* CSS cho cột Password */
+#colPassword {
+    -fx-alignment: CENTER-LEFT; /* Căn trái cho password */
+}
+
+/* CSS cho cột Status */
+#colStatus {
+    -fx-alignment: CENTER; /* Căn giữa cho status */
+}
+
+/* CSS cho cột Action */
+#colAction {
+    -fx-alignment: CENTER; /* Căn giữa cho action */
+    -fx-padding: 0 10px; /* Padding cho action */
+}
+
+
+/* Tiêu đề bảng */
 .label-table-title {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #0045ba;
+    -fx-text-fill: #0045ba;   /* Màu chữ tiêu đề bảng */
     -fx-padding: 0 0 10px 0;
 }
 
+/* ------------------------------------------------------------- */
+/* Thanh menu */
 .hbox-menu {
-    -fx-background-color: #f0f0f0;
-    -fx-border-color: #c0c0c0;
+    -fx-background-color: #66CCFF; /* Màu nền thanh menu */
     -fx-padding: 10;
+    -fx-alignment: center-left;
     -fx-spacing: 10;
+    -fx-border-color: #d3d3d3; /* Viền thanh menu */
+    -fx-border-width: 0 0 1 0; /* Viền dưới */
     -fx-cursor: hand;
+    -fx-transition: background-color 0.3s ease-in-out, -fx-border-color 0.3s ease-in-out;
 }
 
 .hbox-menu:hover {
-    -fx-background-color: #e6e6e6;
+    -fx-background-color: #0000DD; /* Màu nền khi hover */
 }
 
 .hbox-menu:pressed {
-    -fx-background-color: #dcdcdc;
+    -fx-background-color: #c5cae9; /* Màu nền khi chọn */
+    -fx-border-color: #9fa8da;      /* Viền khi chọn */
 }
 
+/* Định dạng cho Label trong HBox */
+.hbox-menu Label {
+    -fx-font-size: 16px; /* Kích thước chữ */
+    -fx-text-fill: black; /* Màu chữ */
+    -fx-font-weight: bold; /* Làm đậm chữ */
+}
+
+/* Định dạng cho ImageView trong HBox */
+.hbox-menu ImageView {
+    -fx-opacity: 0.8; /* Độ trong suốt của ảnh */
+}
+
+.hbox-menu:hover ImageView {
+    -fx-opacity: 1;  /* Tăng độ rõ của ảnh khi hover */
+}
+
+/* Đổi màu cho các mục menu đã chọn */
+.hbox-menu.selected {
+    -fx-background-color: #bbdefb; /* Màu nền mục được chọn */
+    -fx-border-color: #90caf9;     /* Viền mục được chọn */
+}
+
+/* ------------------------------------------------------------- */
+/* Thanh điều hướng */
 .nav-menu {
     -fx-background-color: #2b3a67;
     -fx-padding: 20px 10px;
 }
 
 .nav-menu .label {
-    -fx-text-fill: white;
+    -fx-text-fill: white;  /* Màu chữ trong thanh điều hướng */
 }
 
 .nav-menu .hbox-menu:hover {
-    -fx-background-color: #3a4a8e;
+    -fx-background-color: #3a4a8e;  /* Màu nền khi hover trên menu */
 }
 
+/* ------------------------------------------------------------- */
+/* Hiệu ứng ảnh */
 .image-view {
     -fx-opacity: 0.9;
 }
 
 .image-view:hover {
-    -fx-opacity: 1;
+    -fx-opacity: 1; /* Tăng độ rõ khi hover */
 }
 
+/* ------------------------------------------------------------- */
+/* Hiệu ứng Book Item */
 .book-item {
     -fx-padding: 10;
-    -fx-border-color: lightgray;
+    -fx-border-color: lightgray; /* Màu viền cho item sách */
     -fx-border-radius: 5;
-    -fx-background-color: white;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.5, 0, 2);
-    -fx-cursor: hand;
+    -fx-background-color: white; /* Màu nền cho item sách */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.5, 0, 2); /* Hiệu ứng bóng */
+    -fx-cursor: hand;  /* Con trỏ chuột dạng tay */
     -fx-transition: all 0.3s ease;
 }
 
 .book-item:hover {
-    -fx-background-color: #f0f8ff;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0.5, 0, 4);
-    -fx-scale-x: 1.03;
-    -fx-scale-y: 1.03;
+    -fx-background-color: #f0f8ff; /* Màu nền khi hover */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0.5, 0, 4); /* Hiệu ứng bóng đậm khi hover */
+    -fx-scale-x: 1.03;  /* Phóng to theo chiều ngang */
+    -fx-scale-y: 1.03;  /* Phóng to theo chiều dọc */
 }
 
+.book-item-search{
+    -fx-padding: 10;
+    -fx-border-color: lightgray; /* Màu viền cho item sách */
+    -fx-border-radius: 5;
+    -fx-background-color: white; /* Màu nền cho item sách */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.5, 0, 2); /* Hiệu ứng bóng */
+    -fx-cursor: hand;  /* Con trỏ chuột dạng tay */
+    -fx-transition: all 0.3s ease;
+}
+
+/* Khung tổng quan cho review */
+.review-box {
+    -fx-background-color: #f9f9f9; /* Màu nền sáng */
+    -fx-border-color: #cccccc; /* Viền màu xám nhạt */
+    -fx-border-radius: 8; /* Bo góc mềm mại */
+    -fx-background-radius: 8; /* Bo góc cho nền */
+    -fx-padding: 15; /* Khoảng cách bên trong khung */
+    -fx-spacing: 10; /* Khoảng cách giữa các phần tử bên trong */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 2); /* Hiệu ứng đổ bóng nhẹ */
+    -fx-font-family: "Arial"; /* Font chữ thân thiện */
+    -fx-font-size: 14px; /* Cỡ chữ mặc định */
+}
+
+/* Tên người đánh giá */
+.reviewer-name {
+    -fx-font-weight: bold; /* Font chữ đậm */
+    -fx-text-fill: #333333; /* Màu chữ đậm */
+    -fx-font-size: 16px; /* Cỡ chữ lớn hơn tiêu đề */
+}
+
+/* Ngày đánh giá */
+.review-date {
+    -fx-font-style: italic; /* Font chữ in nghiêng */
+    -fx-text-fill: #888888; /* Màu chữ xám nhạt */
+    -fx-font-size: 12px; /* Cỡ chữ nhỏ */
+}
+
+/* Nội dung đánh giá */
+.review-content {
+    -fx-text-fill: #444444; /* Màu chữ trung bình */
+    -fx-line-spacing: 5; /* Khoảng cách giữa các dòng */
+}

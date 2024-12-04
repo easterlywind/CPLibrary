@@ -52,7 +52,7 @@ public class StaffBookController {
         Task<List<Book>> searchTask = new Task<>() {
             @Override
             protected List<Book> call() {
-                int maxPagesToLoad = 2; // Tải trước 3 trang
+                int maxPagesToLoad = 2;
                 List<Book> books = new ArrayList<>();
 
                 for (int pageIndex = 0; pageIndex < maxPagesToLoad; pageIndex++) {
@@ -75,7 +75,7 @@ public class StaffBookController {
                     }
 
                     if (bookDetailsList.size() < 10) {
-                        break; // Kết thúc nếu không còn kết quả
+                        break;
                     }
                 }
 
@@ -83,10 +83,8 @@ public class StaffBookController {
             }
         };
 
-        // Gắn kết ProgressIndicator với Task
         loadingSpinner.progressProperty().bind(searchTask.progressProperty());
 
-        // Xử lý khi Task hoàn thành
         searchTask.setOnSucceeded(event -> {
             List<Book> books = searchTask.getValue();
 
@@ -99,7 +97,6 @@ public class StaffBookController {
             loadingSpinner.setVisible(false);
         });
 
-        // Xử lý khi Task thất bại
         searchTask.setOnFailed(event -> {
             loadingSpinner.setVisible(false);
             loadingSpinner.progressProperty().unbind();
@@ -149,11 +146,14 @@ public class StaffBookController {
         deleteButton.getStyleClass().add("delete-button");
 
 
-        boolean isBookInDB = sqlBookRepository.getBookByIsbn(book.getIsbn()) != null;
+        boolean isBookInDB = sqlBookRepository.getBookByIsbn(book.getTitle()) != null;
 
         if (isBookInDB) {
             addButton.setVisible(false);
+            viewButton.setVisible(true);
+            deleteButton.setVisible(true);
         } else {
+            addButton.setVisible(true);
             viewButton.setVisible(false);
             deleteButton.setVisible(false);
         }
@@ -193,7 +193,6 @@ public class StaffBookController {
                 deleteButton
         );
 
-        // Hiệu ứng click
         bookItem.setOnMousePressed(event -> bookItem.setScaleX(0.97));
         bookItem.setOnMouseReleased(event -> bookItem.setScaleX(1.0));
 

@@ -35,12 +35,14 @@ public class UserReservationController {
     @FXML
     private TableColumn<Object[], String> colStatus;
 
+    @FXML
+    private Label nameLabel;
     private final BookReservationService bookReservationService = new BookReservationService();
     private final User currentUser = UserSession.getInstance().getCurrentUser();
 
     @FXML
     public void initialize() {
-        // Cấu hình các cột
+        nameLabel.setText(currentUser.getName());
         colName.setCellValueFactory(data -> {
             Object[] row = data.getValue();
             return new ReadOnlyStringWrapper((String) row[0]);

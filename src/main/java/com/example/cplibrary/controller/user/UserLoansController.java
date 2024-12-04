@@ -37,13 +37,16 @@ public class UserLoansController {
     @FXML
     private TableColumn<Object[], Void> colAction;
 
+    @FXML
+    private Label nameLabel;
+
     private final BookLoansService bookLoansService = new BookLoansService();
     private final User currentUser = UserSession.getInstance().getCurrentUser();
     private final StaffService staffService = new StaffService();
 
     @FXML
     public void initialize() {
-        // Cấu hình các cột
+        nameLabel.setText(currentUser.getName());
         colName.setCellValueFactory(data -> {
             Object[] row = data.getValue();
             return new ReadOnlyStringWrapper((String) row[0]);
