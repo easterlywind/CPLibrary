@@ -8,26 +8,29 @@
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 
-<BorderPane prefHeight="824.0" prefWidth="1536.0" stylesheets="@staffLib.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.staff.StaffBookDetailController">
+<BorderPane prefHeight="824.0" prefWidth="1536.0" stylesheets="@styleStaff.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cplibrary.controller.staff.StaffBookDetailController">
     <left>
-        <AnchorPane prefHeight="800.0" prefWidth="255.0" stylesheets="@staffLib.css" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="800.0" prefWidth="255.0" stylesheets="@styleStaff.css" BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="nameLabel" alignment="CENTER" layoutX="73.0" layoutY="207.0" prefHeight="93.0" prefWidth="136.0" stylesheets="@staffLib.css" />
+                <Label fx:id="nameLabel" alignment="CENTER" layoutX="73.0" layoutY="207.0" prefHeight="93.0" prefWidth="136.0" stylesheets="@styleStaff.css">
+               <font>
+                  <Font size="40.0" />
+               </font></Label>
                 <ImageView fitHeight="140.0" fitWidth="133.0" layoutX="74.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../image/img.png" />
                     </image>
                 </ImageView>
-                <HBox layoutX="-1.0" layoutY="308.0" onMouseClicked="#switchSceneLibrary" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu" stylesheets="@staffLib.css">
+                <HBox layoutX="-1.0" layoutY="308.0" onMouseClicked="#switchSceneLibrary" prefHeight="71.0" prefWidth="281.0" styleClass="hbox-menu" stylesheets="@styleStaff.css">
                     <children>
-                        <AnchorPane prefHeight="212.0" prefWidth="271.0" stylesheets="@staffLib.css">
+                        <AnchorPane prefHeight="212.0" prefWidth="271.0" stylesheets="@styleStaff.css">
                             <children>
                                 <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="28.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../image/img.png" />
                                     </image>
                                 </ImageView>
-                                <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" stylesheets="@staffLib.css" text="Library" />
+                                <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" stylesheets="@styleStaff.css" text="Library" />
                             </children>
                         </AnchorPane>
                     </children>

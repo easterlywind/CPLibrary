@@ -19,7 +19,7 @@ public class NavigationManager {
             FXMLLoader loader = new FXMLLoader(NavigationManager.class.getResource(fxmlFilePath));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(NavigationManager.class.getResource("/staffScene/style.css").toExternalForm());
+            scene.getStylesheets().add(NavigationManager.class.getResource("/staffScene/styleStaff.css").toExternalForm());
 
             primaryStage.setScene(scene);
             primaryStage.centerOnScreen();

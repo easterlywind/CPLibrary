@@ -111,7 +111,7 @@ public class StaffBookController {
 
     public VBox createBookItem(Book book) {
         VBox bookItem = new VBox(10);
-        bookItem.getStyleClass().add("book-item");
+        bookItem.getStyleClass().add("book-item-search");
 
         ImageView bookImageView = new ImageView();
         bookImageView.setFitWidth(200);
