@@ -1,8 +1,8 @@
 /* Tổng thể */
-.root {
-    -fx-font-family: 'Verdana';
-    -fx-font-size: 14px;
-}
+/*.root {*/
+/*    -fx-font-family: 'Verdana';*/
+/*    -fx-font-size: 14px;*/
+/*}*/
 
 /* AnchorPane phía bên trái */
 .anchor-pane {

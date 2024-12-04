@@ -103,6 +103,9 @@ public class StaffBookDetailController {
 
 
     private void loadReviews() {
+        reviewList.setSpacing(10);
+        reviewList.setStyle("-fx-padding: 10; -fx-background-color: #f5f5f5;");
+
         reviewList.getChildren().clear();
         List<String[]> reviews = reviewRepository.getReviewsByBookId(book.getBook_id());
         for (String[] reviewData : reviews) {
@@ -117,15 +120,18 @@ public class StaffBookDetailController {
         VBox reviewBox = new VBox();
         reviewBox.setSpacing(5);
 
-        // Tạo Label cho tên người review
+        reviewBox.setStyle("-fx-background-color: #fbe7c6; " +
+                "-fx-border-color: #f4a261; " +
+                "-fx-border-radius: 10; " +
+                "-fx-background-radius: 10; " +
+                "-fx-padding: 10;");
+
         Label reviewerNameLabel = new Label("Reviewed by: " + reviewerName);
         reviewerNameLabel.setStyle("-fx-font-weight: bold;");
 
-        // Tạo Label cho nội dung review
         Label reviewContent = new Label(reviewText);
         reviewContent.setWrapText(true);
 
-        // Tạo Label cho ngày review
         Label reviewDateLabel = new Label("Date: " + reviewDate);
         reviewDateLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: gray;");
 

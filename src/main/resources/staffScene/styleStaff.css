@@ -182,6 +182,12 @@
     -fx-border-color: #9fa8da;      /* Viền khi chọn */
 }
 
+/* Định nghĩa khi mục được chọn */
+.hbox-menu.selected {
+    -fx-background-color: #0044cc; /* Màu nền mục được chọn (thay đổi đây) */
+    -fx-border-color: #003a99; /* Viền mục được chọn (thay đổi màu viền) */
+    -fx-text-fill: white; /* Màu chữ trắng khi mục được chọn */
+}
 /* Định dạng cho Label trong HBox */
 .hbox-menu Label {
     -fx-font-size: 16px; /* Kích thước chữ */
@@ -196,12 +202,6 @@
 
 .hbox-menu:hover ImageView {
     -fx-opacity: 1;  /* Tăng độ rõ của ảnh khi hover */
-}
-
-/* Đổi màu cho các mục menu đã chọn */
-.hbox-menu.selected {
-    -fx-background-color: #bbdefb; /* Màu nền mục được chọn */
-    -fx-border-color: #90caf9;     /* Viền mục được chọn */
 }
 
 /* ------------------------------------------------------------- */
@@ -256,4 +256,37 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.5, 0, 2); /* Hiệu ứng bóng */
     -fx-cursor: hand;  /* Con trỏ chuột dạng tay */
     -fx-transition: all 0.3s ease;
+}
+
+/* Khung tổng quan cho review */
+.review-box {
+    -fx-background-color: #f9f9f9; /* Màu nền sáng */
+    -fx-border-color: #cccccc; /* Viền màu xám nhạt */
+    -fx-border-radius: 8; /* Bo góc mềm mại */
+    -fx-background-radius: 8; /* Bo góc cho nền */
+    -fx-padding: 15; /* Khoảng cách bên trong khung */
+    -fx-spacing: 10; /* Khoảng cách giữa các phần tử bên trong */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 2); /* Hiệu ứng đổ bóng nhẹ */
+    -fx-font-family: "Arial"; /* Font chữ thân thiện */
+    -fx-font-size: 14px; /* Cỡ chữ mặc định */
+}
+
+/* Tên người đánh giá */
+.reviewer-name {
+    -fx-font-weight: bold; /* Font chữ đậm */
+    -fx-text-fill: #333333; /* Màu chữ đậm */
+    -fx-font-size: 16px; /* Cỡ chữ lớn hơn tiêu đề */
+}
+
+/* Ngày đánh giá */
+.review-date {
+    -fx-font-style: italic; /* Font chữ in nghiêng */
+    -fx-text-fill: #888888; /* Màu chữ xám nhạt */
+    -fx-font-size: 12px; /* Cỡ chữ nhỏ */
+}
+
+/* Nội dung đánh giá */
+.review-content {
+    -fx-text-fill: #444444; /* Màu chữ trung bình */
+    -fx-line-spacing: 5; /* Khoảng cách giữa các dòng */
 }

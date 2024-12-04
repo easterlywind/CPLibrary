@@ -72,7 +72,6 @@ public class SQLBookRepository {
         }
     }
 
-    // Lấy thông tin sách theo ISBN
     public Book getBookByIsbn(String title) {
         String sql = "SELECT book_id, isbn, title, author, subject, publisher, shelf_location, review, quantity, image_url " +
                 "FROM Books WHERE title = ?";
@@ -91,7 +90,7 @@ public class SQLBookRepository {
                         rs.getString("publisher"),
                         rs.getString("shelf_location"),
                         rs.getString("review"),
-                        rs.getString("image_url") // Image URL
+                        rs.getString("image_url")
                 );
             }
         } catch (SQLException e) {

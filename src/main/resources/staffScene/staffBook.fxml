@@ -21,7 +21,7 @@
                         <Image url="@../image/img.png" />
                     </image>
                 </ImageView>
-                <HBox fx:id="menuLibrary" layoutY="308.0" onMouseClicked="#switchSceneLibrary" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu" stylesheets="@styleStaff.css">
+                <HBox fx:id="menuLibrary" layoutY="300.0" onMouseClicked="#switchSceneLibrary" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu" stylesheets="@styleStaff.css">
                     <children>
                         <AnchorPane prefHeight="50.0" prefWidth="252.0" stylesheets="@styleStaff.css">
                             <children>
@@ -49,7 +49,7 @@
                         </AnchorPane>
                     </children>
                 </HBox>
-                <HBox fx:id="menuUser" layoutY="498.0" onMouseClicked="#switchSceneUser" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
+                <HBox fx:id="menuUser" layoutY="500.0" onMouseClicked="#switchSceneUser" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
                     <children>
                         <AnchorPane prefHeight="212.0" prefWidth="271.0">
                             <children>
@@ -63,7 +63,7 @@
                         </AnchorPane>
                     </children>
                 </HBox>
-                <HBox layoutY="688.0" onMouseClicked="#switchSceneLogout" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
+                <HBox layoutY="600.0" onMouseClicked="#switchSceneLogout" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
                     <children>
                         <AnchorPane prefHeight="212.0" prefWidth="271.0">
                             <children>
