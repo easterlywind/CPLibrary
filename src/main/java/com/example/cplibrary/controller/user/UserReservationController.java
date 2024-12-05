@@ -56,7 +56,6 @@ public class UserReservationController {
             return new ReadOnlyStringWrapper((String) row[2]);
         });
 
-        // Lấy dữ liệu từ cơ sở dữ liệu
         ObservableList<Object[]> reservationDataData = bookReservationService.fetchReservationData(currentUser.getUserId());
         tableView.setItems(reservationDataData);
 

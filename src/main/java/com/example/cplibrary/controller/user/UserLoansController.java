@@ -60,10 +60,8 @@ public class UserLoansController {
             return new ReadOnlyObjectWrapper<>((LocalDate) row[2]);
         });
 
-        // Thêm cột "Action" với nút View
         colAction.setCellFactory(getActionCellFactory());
 
-        // Bôi đỏ các hàng quá hạn
         tableView.setRowFactory(tv -> new TableRow<>() {
             @Override
             protected void updateItem(Object[] row, boolean empty) {
@@ -81,7 +79,6 @@ public class UserLoansController {
             }
         });
 
-        // Lấy dữ liệu từ cơ sở dữ liệu
         ObservableList<Object[]> loanData = bookLoansService.fetchLoanData(currentUser.getUserId());
         tableView.setItems(loanData);
     }

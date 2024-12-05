@@ -52,11 +52,11 @@ public class StaffUserController {
     public void initialize() {
         userRepository = new SQLUserRepository();
         nameLabel.setText(currentUser.getName());
-        // Load data from database
+
         userList = FXCollections.observableArrayList(userRepository.getAllUsers());
         userTable.setItems(userList);
 
-        // Map table columns to User properties
+
         colId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));

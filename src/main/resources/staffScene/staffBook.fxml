@@ -84,7 +84,7 @@
         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
                 <TextField fx:id="searchField" layoutX="90.0" layoutY="122.0" prefHeight="44.0" prefWidth="637.0" promptText="Start Searching..." />
-                <ScrollPane layoutY="289.0" prefHeight="532.0" prefWidth="1254.0">
+                <ScrollPane fx:id="booksScrollPane" fitToWidth="true" layoutY="289.0" prefHeight="532.0" prefWidth="1254.0">
                <content>
                   <VBox fx:id="booksListContainer" prefHeight="517.0" prefWidth="1255.0" spacing="10.0">
                      <padding>
@@ -93,11 +93,6 @@
                   </VBox>
                </content></ScrollPane>
                 <Label layoutX="90.0" layoutY="81.0" prefHeight="21.0" prefWidth="127.0" text="Search for books" />
-                <Label layoutX="90.0" layoutY="175.0" prefHeight="21.0" prefWidth="425.0" text="Search by ISBN or keyword. ISBN search will auto-add an book.">
-                    <font>
-                        <Font name="System Italic" size="15.0" />
-                    </font>
-                </Label>
                 <Button layoutX="90.0" layoutY="211.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
             <ProgressIndicator fx:id="loadingSpinner" layoutX="217.0" layoutY="211.0" progress="0.0" visible="false" />
             </children>

@@ -60,7 +60,6 @@ public class SQLBookRepository {
         }
     }
 
-    // Xóa sách theo ISBN
     public void deleteBook(String isbn) {
         String sql = "DELETE FROM Books WHERE isbn = ?";
         try (Connection conn = databaseConnection.getConnection();

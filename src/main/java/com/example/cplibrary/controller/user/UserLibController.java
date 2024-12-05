@@ -79,7 +79,6 @@ public class UserLibController {
 
         nameLabel.setText(currentUser.getName());
 
-        // Xóa ràng buộc cũ nếu có
         gridPane.getColumnConstraints().clear();
         gridPane.getRowConstraints().clear();
         gridPane.getChildren().clear();
@@ -87,10 +86,9 @@ public class UserLibController {
         gridPane.setVgap(10);
         gridPane.setHgap(10);
 
-        // Thêm ColumnConstraints (5 cột)
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints col = new ColumnConstraints();
-            col.setPercentWidth(100.0 / numCols); // Mỗi cột chiếm 1/5 chiều rộng
+            col.setPercentWidth(100.0 / numCols);
             gridPane.getColumnConstraints().add(col);
         }
 
@@ -102,17 +100,14 @@ public class UserLibController {
             books = staffService.searchBook(keyword);
         }
 
-        // Tính toán số hàng cần thiết
         numRows = (int) Math.ceil(books.size() / (double) numCols);
 
-        // Thêm RowConstraints (số hàng tính toán từ books.size)
         for (int i = 0; i < numRows; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPercentHeight(100.0 / numRows); // Mỗi hàng chiếm tỷ lệ chiều cao
+            row.setPercentHeight(100.0 / numRows);
             gridPane.getRowConstraints().add(row);
         }
 
-        // Thêm sách vào GridPane
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
 
@@ -120,12 +115,10 @@ public class UserLibController {
             ImageView imageView = new ImageView();
             loadImageAsync(imageUrl, imageView);
 
-            // Tạo Label cho tên sách
             Label titleLabel = new Label(book.getTitle());
             titleLabel.setAlignment(Pos.CENTER);
 
-            // Tạo VBox để chứa ImageView và Label
-            VBox vBox = new VBox(5);  // Khoảng cách giữa Image và Label là 5px
+            VBox vBox = new VBox(5);
             vBox.setAlignment(Pos.CENTER);
             vBox.getChildren().addAll(imageView, titleLabel);
 
@@ -152,11 +145,9 @@ public class UserLibController {
                 imageView.setStyle("");
             });
 
-            // Tính toán vị trí hàng và cột
-            int row = i / numCols; // Hàng
-            int col = i % numCols; // Cột
+            int row = i / numCols;
+            int col = i % numCols;
 
-            // Thêm VBox vào GridPane
             gridPane.add(vBox, col, row);
         }
     }

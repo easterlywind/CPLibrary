@@ -111,7 +111,6 @@ public class GoogleBooksAPI {
 
             System.out.println("Requesting URL: " + requestUrl);
 
-            // Gửi yêu cầu và phân tích kết quả
             String jsonResponse = sendGetRequest(requestUrl);
             books = parseBooksFromJson(jsonResponse);
 
