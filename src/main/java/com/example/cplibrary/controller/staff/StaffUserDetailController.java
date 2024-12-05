@@ -89,8 +89,7 @@ public class StaffUserDetailController {
         emailField.setVisible(true);
         passwordField.setVisible(true);
         statusField.setVisible(true);
-
-        // Hiển thị nút Save
+        
         saveButton.setVisible(true);
         editButton.setVisible(false);
     }

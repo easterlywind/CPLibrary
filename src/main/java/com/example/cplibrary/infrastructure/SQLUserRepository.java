@@ -17,7 +17,7 @@ public class SQLUserRepository {
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sqlUser)) {
-            // Thêm user vào bảng Users
+
             stmt.setInt(1, user.getUserId());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getEmail());
@@ -34,11 +34,11 @@ public class SQLUserRepository {
         String sql = "UPDATE Users SET name = ?, email = ?, password = ?, status = ? WHERE user_id = ?";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, user.getName()); // name
-            stmt.setString(2, user.getEmail()); // email
-            stmt.setString(3, user.getPassword()); // password
-            stmt.setString(4, user.getStatus()); // status
-            stmt.setInt(5, user.getUserId()); // user_id (for WHERE clause)
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getStatus());
+            stmt.setInt(5, user.getUserId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

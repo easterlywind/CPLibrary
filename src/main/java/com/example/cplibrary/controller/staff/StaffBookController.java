@@ -29,6 +29,9 @@ public class StaffBookController {
     private VBox booksListContainer;
 
     @FXML
+    private ScrollPane booksScrollPane;
+
+    @FXML
     private ProgressIndicator loadingSpinner;
 
     @FXML
@@ -37,74 +40,85 @@ public class StaffBookController {
     private final SQLBookRepository sqlBookRepository = new SQLBookRepository();
     private boolean flag = false;
     private final User currentUser = UserSession.getInstance().getCurrentUser();
+    private int currentPageIndex = 0;
+    private boolean isLoading = false;
+    private String lastSearchKeyword = "";
 
     public void onSearch() {
         String keyword = searchField.getText().trim();
         if (keyword.isEmpty()) {
             booksListContainer.getChildren().clear();
+            AlertManager.showErrorAlert("ERROR", "No search information available", "Please enter a valid search");
             return;
         }
+        lastSearchKeyword = keyword;
         flag = keyword.matches("\\d{10}|\\d{13}");
 
+        booksListContainer.getChildren().clear();
+        currentPageIndex = 0;
+        loadMoreBooks();
+    }
 
+    private void loadMoreBooks() {
+        if (isLoading) return;
+
+        isLoading = true;
         loadingSpinner.setVisible(true);
 
-        Task<List<Book>> searchTask = new Task<>() {
+        Task<List<Book>> loadTask = new Task<>() {
             @Override
             protected List<Book> call() {
-                int maxPagesToLoad = 2;
+                int startIndex = currentPageIndex * 10;
+                List<String[]> bookDetailsList = new ArrayList<>();
+                if (currentPageIndex == 0) {
+                     bookDetailsList = GoogleBooksAPI.fetchBookDetails(lastSearchKeyword, flag);
+                } else {
+                     bookDetailsList = GoogleBooksAPI.fetchBookDetails(lastSearchKeyword, flag, startIndex);
+                }
                 List<Book> books = new ArrayList<>();
 
-                for (int pageIndex = 0; pageIndex < maxPagesToLoad; pageIndex++) {
-                    int startIndex = pageIndex * 10;
-                    List<String[]> bookDetailsList = GoogleBooksAPI.fetchBookDetails(keyword, flag, startIndex);
-
-                    for (String[] details : bookDetailsList) {
-                        books.add(new Book(
-                                0,
-                                0,
-                                details[0],
-                                details[1],
-                                details[2],
-                                details[3],
-                                details[4],
-                                "N/A",
-                                details[5],
-                                details[6]
-                        ));
-                    }
-
-                    if (bookDetailsList.size() < 10) {
-                        break;
-                    }
+                for (String[] details : bookDetailsList) {
+                    books.add(new Book(
+                            0,
+                            0,
+                            details[0],
+                            details[1],
+                            details[2],
+                            details[3],
+                            details[4],
+                            "N/A",
+                            details[5],
+                            details[6]
+                    ));
                 }
-
                 return books;
             }
         };
 
-        loadingSpinner.progressProperty().bind(searchTask.progressProperty());
-
-        searchTask.setOnSucceeded(event -> {
-            List<Book> books = searchTask.getValue();
-
-            booksListContainer.getChildren().clear();
+        loadTask.setOnSucceeded(event -> {
+            List<Book> books = loadTask.getValue();
 
             for (Book book : books) {
                 booksListContainer.getChildren().add(createBookItem(book));
             }
 
+            if (books.size() == 10) {
+                currentPageIndex++;
+            }
+
+            isLoading = false;
             loadingSpinner.setVisible(false);
         });
 
-        searchTask.setOnFailed(event -> {
+        loadTask.setOnFailed(event -> {
+            isLoading = false;
             loadingSpinner.setVisible(false);
-            loadingSpinner.progressProperty().unbind();
-            System.err.println("Failed to fetch book details: " + searchTask.getException());
+            System.err.println("Failed to fetch more books: " + loadTask.getException());
         });
 
-        new Thread(searchTask).start();
+        new Thread(loadTask).start();
     }
+
 
     public VBox createBookItem(Book book) {
         VBox bookItem = new VBox(10);
@@ -200,7 +214,6 @@ public class StaffBookController {
     }
 
 
-
     public void switchSceneLibrary() {
         NavigationManager.switchScene("/staffScene/staffLib.fxml");
     }
@@ -214,7 +227,7 @@ public class StaffBookController {
     }
 
     public void switchSceneLogout() {
-        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?" ,"All unsaved changes will be lost.");
+        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?", "All unsaved changes will be lost.");
         if (confirmed) {
             NavigationManager.switchScene("/commonScene/login.fxml");
         }
@@ -223,5 +236,11 @@ public class StaffBookController {
     @FXML
     public void initialize() {
         nameLabel.setText(currentUser.getName());
+
+        booksScrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.doubleValue() >= 0.9) {
+                loadMoreBooks();
+            }
+        });
     }
 }

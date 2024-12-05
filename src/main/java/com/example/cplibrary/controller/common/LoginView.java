@@ -42,7 +42,7 @@ public class LoginView {
         String email = emailTextField.getText();
         String password = passwordTextField.getText();
 
-        String verifyLoginSQL = "SELECT user_id, name, role FROM Users WHERE email = ? AND password = ?";
+        String verifyLoginSQL = "SELECT user_id, name, role, status FROM Users WHERE email = ? AND password = ?";
 
         try (Connection connectDB = new DatabaseConnection().getConnection();
              PreparedStatement stmt = connectDB.prepareStatement(verifyLoginSQL)) {
@@ -55,7 +55,12 @@ public class LoginView {
                     String role = queryResult.getString("role");
                     int userId = queryResult.getInt("user_id");
                     String name = queryResult.getString("name");
-                    String status = "active";
+                    String status = queryResult.getString("status");
+
+                    if (!"active".equalsIgnoreCase(status)) {
+                        AlertManager.showErrorAlert("Login Failed", "Your account is not active. Please contact the administrator.","");
+                        return;
+                    }
 
                     User userInfo = new User(userId, name, email, password, status);
                     UserSession.getInstance().setCurrentUser(userInfo);
@@ -75,5 +80,6 @@ public class LoginView {
             loginMessageLabel.setText("Database error occurred.");
         }
     }
+
 
 }

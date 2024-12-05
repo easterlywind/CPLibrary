@@ -66,7 +66,6 @@ public class StaffBookDetailController {
     public void setBookDetails(Book book) {
         this.book = book;
         nameLabel.setText(currentUser.getName());
-        // Hiển thị thông tin sách
         titleLabel.setText(book.getTitle());
         authorLabel.setText(book.getAuthor());
         subjectLabel.setText(book.getSubject());
@@ -85,7 +84,6 @@ public class StaffBookDetailController {
                 : new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true);
         bookImage.setImage(image);
 
-        // Tải các review từ database
         loadReviews();
     }
     @FXML
@@ -173,7 +171,6 @@ public class StaffBookDetailController {
             return;
         }
 
-        // Cập nhật đối tượng Book
         book.setTitle(newTitle);
         book.setAuthor(newAuthor);
         book.setSubject(newSubject);
@@ -182,11 +179,8 @@ public class StaffBookDetailController {
         book.setReview(newDescription);
         book.setQuantity(Integer.parseInt(newQuantity));
 
-
-        // Lưu vào cơ sở dữ liệu
         bookRepository.updateBook(book);
 
-        // Hiển thị dữ liệu mới trên giao diện
         titleLabel.setText(newTitle);
         authorLabel.setText(newAuthor);
         subjectLabel.setText(newSubject);
@@ -195,7 +189,6 @@ public class StaffBookDetailController {
         descriptionLabel.setText(newDescription);
         quantityLabel.setText(String.valueOf(book.getQuantity()));
 
-        // Tắt chế độ chỉnh sửa
         toggleEditing(false);
         AlertManager.showInfoAlert("NOTIFICATION","Updated Successfully","User information has been updated.");
     }
@@ -203,7 +196,6 @@ public class StaffBookDetailController {
     private void toggleEditing(boolean enable) {
         isEditing = enable;
 
-        // Chuyển trạng thái giữa Label và TextArea
         titleLabel.setVisible(!enable);
         authorLabel.setVisible(!enable);
         subjectLabel.setVisible(!enable);
@@ -220,14 +212,13 @@ public class StaffBookDetailController {
         descriptionInput.setVisible(enable);
         quantityInput.setVisible(enable);
 
-        // Hiển thị nút phù hợp
         editButton.setVisible(!enable);
         saveButton.setVisible(enable);
         addQuantityButton.setDisable(enable);
         quantityCopyInput.setDisable(enable);
 
         if (enable) {
-            // Sao chép giá trị từ Label sang TextArea khi bắt đầu chỉnh sửa
+
             titleInput.setText(titleLabel.getText());
             authorInput.setText(authorLabel.getText());
             subjectInput.setText(subjectLabel.getText());
