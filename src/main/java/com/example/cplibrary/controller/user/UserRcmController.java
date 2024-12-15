@@ -4,29 +4,24 @@ import com.example.cplibrary.UserSession;
 import com.example.cplibrary.application.StaffService;
 import com.example.cplibrary.controller.common.AlertManager;
 import com.example.cplibrary.controller.common.NavigationManager;
+import com.example.cplibrary.infrastructure.ApiClient;
 import com.example.cplibrary.model.Book;
 import com.example.cplibrary.model.User;
-import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.concurrent.Task;
 
 import java.util.List;
-import java.util.Optional;
 
-public class UserLibController {
+public class UserRcmController {
 
     @FXML
     private GridPane gridPane;
@@ -34,11 +29,7 @@ public class UserLibController {
     @FXML
     private Label nameLabel;
 
-    @FXML
-    private TextField searchTextField;
-
     private final StaffService staffService = new StaffService();
-    String keyword;
     private final User currentUser = UserSession.getInstance().getCurrentUser();
 
     private void loadImageAsync(String imageUrl, ImageView imageView) {
@@ -49,39 +40,43 @@ public class UserLibController {
             }
         };
 
-        imageTask.setOnSucceeded(e -> {
-            imageView.setImage(imageTask.getValue());
-        });
-
-        imageTask.setOnFailed(e -> {
-            imageView.setImage(new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true));
-        });
+        imageTask.setOnSucceeded(e -> imageView.setImage(imageTask.getValue()));
+        imageTask.setOnFailed(e -> imageView.setImage(new Image(getClass().getResource("/image/img.png").toExternalForm(), 200, 300, true, true)));
 
         new Thread(imageTask).start();
     }
 
-    public void onSearchEnter(KeyCode keyCode) {
-        if (keyCode == KeyCode.ENTER) {
-            initialize();
-        }
-    }
-
     @FXML
     public void initialize() {
-        searchTextField.setOnKeyPressed(event -> onSearchEnter(event.getCode()));
-        keyword = searchTextField.getText();
-        boolean flagSearch = !keyword.isEmpty();
-
-        System.out.println(keyword + " " + flagSearch);
-
-        int numCols = 5;
-        int numRows = 0;
-
         nameLabel.setText(currentUser.getName());
+        loadRecommendedBooks();
+    }
 
+    private void loadRecommendedBooks() {
+        Task<List<Book>> task = new Task<>() {
+            @Override
+            protected List<Book> call() {
+                return ApiClient.getRecommendedBooks(currentUser.getUserId());
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            List<Book> books = task.getValue();
+            displayBooks(books);
+        });
+
+        task.setOnFailed(event -> AlertManager.showInfoAlert("Error", "Failed to load recommendations.", ""));
+
+        new Thread(task).start();
+    }
+
+    private void displayBooks(List<Book> books) {
         gridPane.getColumnConstraints().clear();
         gridPane.getRowConstraints().clear();
         gridPane.getChildren().clear();
+
+        int numCols = 3;
+        int numRows = (int) Math.ceil(books.size() / (double) numCols);
 
         gridPane.setVgap(10);
         gridPane.setHgap(10);
@@ -91,16 +86,6 @@ public class UserLibController {
             col.setPercentWidth(100.0 / numCols);
             gridPane.getColumnConstraints().add(col);
         }
-
-        List<Book> books;
-
-        if (!flagSearch) {
-            books = staffService.getAllBooks();
-        } else {
-            books = staffService.searchBook(keyword);
-        }
-
-        numRows = (int) Math.ceil(books.size() / (double) numCols);
 
         for (int i = 0; i < numRows; i++) {
             RowConstraints row = new RowConstraints();
@@ -124,14 +109,13 @@ public class UserLibController {
 
             imageView.setOnMouseClicked(mouseEvent -> {
                 NavigationManager.switchScene("/userScene/userBookDetail.fxml",
-                        (controller,selectedBook) -> {
+                        (controller, selectedBook) -> {
                             UserBookDetailController userBookDetailController = (UserBookDetailController) controller;
                             userBookDetailController.setBookDetails((Book) selectedBook);
                         },
                         book
                 );
             });
-
 
             imageView.setOnMouseEntered(event -> {
                 imageView.setScaleX(1.1);
@@ -169,7 +153,7 @@ public class UserLibController {
     }
 
     public void switchSceneLogout() {
-        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?" ,"All unsaved changes will be lost.");
+        boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?", "All unsaved changes will be lost.");
         if (confirmed) {
             NavigationManager.switchScene("/commonScene/login.fxml");
         }

@@ -203,6 +203,10 @@ public class UserBookDetailController {
         NavigationManager.switchScene("/userScene/userReservation.fxml");
     }
 
+    public void switchSceneRcm(MouseEvent mouseEvent) {
+        NavigationManager.switchScene("/userScene/userRcm.fxml");
+    }
+
     public void switchSceneLogout() {
         boolean confirmed = AlertManager.showConfirmationAlert("CONFIRMATION", "Are you sure you want to logout?" ,"All unsaved changes will be lost.");
         if (confirmed) {

@@ -93,7 +93,7 @@ public class UserLoansController {
                     String bookName = (String) currentRow[0];
                     Book book = staffService.viewBookDetails(bookName);
 //                    System.out.println(book.getTitle() );
-                    NavigationManager.switchSceneWithData("/userScene/userBookDetail.fxml",
+                    NavigationManager.switchScene("/userScene/userBookDetail.fxml",
                             (controller, data) -> {
                                 UserBookDetailController userBookDetailController = (UserBookDetailController) controller;
                                 userBookDetailController.setBookDetails((Book) data);
@@ -120,6 +120,10 @@ public class UserLoansController {
 
     public void switchSceneLoans(MouseEvent mouseEvent) {
         NavigationManager.switchScene("/userScene/userLoans.fxml");
+    }
+
+    public void switchSceneRcm(MouseEvent mouseEvent) {
+        NavigationManager.switchScene("/userScene/userRcm.fxml");
     }
 
     public void switchSceneReservation(MouseEvent mouseEvent) {

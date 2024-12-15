@@ -15,7 +15,12 @@ public class Book {
     public Book() {
     }
 
-    // Constructor với đầy đủ thông tin
+    public Book(String title, String author, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+    }
+
     public Book(int book_id, int quantity, String isbn, String title, String author, String subject, String publisher, String shelfLocation, String review, String imageUrl) {
         this.book_id = book_id;
         this.quantity = quantity;
