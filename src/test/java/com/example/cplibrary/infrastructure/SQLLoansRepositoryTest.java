@@ -20,7 +20,7 @@ class SQLLoansRepositoryTest {
 
     @Test
     void testFetchLoanData() throws SQLException {
-        ObservableList<Object[]> loanData = loansRepository.fetchLoanData(1);
+        ObservableList<Object[]> loanData = loansRepository.fetchLoanData(2);
 
         assertTrue(loanData.size() > 0);
 
