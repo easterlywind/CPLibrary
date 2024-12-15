@@ -75,7 +75,7 @@ public class StaffUserController {
                 btnEdit.setOnAction(event -> {
                     User user = getTableView().getItems().get(getIndex());
 
-                    NavigationManager.switchSceneWithData("/staffScene/staffUserDetails.fxml",
+                    NavigationManager.switchScene("/staffScene/staffUserDetails.fxml",
                             (controller, selectedUser) -> {
 //                                User receiverUser = (User) selectedUser;
 //                                System.out.println("Before passing to controller: " + receiverUser.getUserId());

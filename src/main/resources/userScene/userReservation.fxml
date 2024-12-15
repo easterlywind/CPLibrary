@@ -65,7 +65,7 @@
                         </AnchorPane>
                     </children>
                 </HBox>
-                <HBox layoutY="600.0" onMouseClicked="#switchSceneLogout" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
+                <HBox layoutY="700.0" onMouseClicked="#switchSceneLogout" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
                     <children>
                         <AnchorPane prefHeight="212.0" prefWidth="271.0">
                             <children>
@@ -79,6 +79,20 @@
                         </AnchorPane>
                     </children>
                 </HBox>
+            <HBox layoutY="600.0" onMouseClicked="#switchSceneRcm" prefHeight="71.0" prefWidth="280.0" styleClass="hbox-menu">
+               <children>
+                  <AnchorPane prefHeight="212.0" prefWidth="271.0">
+                     <children>
+                        <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="28.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/logout.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="96.0" layoutY="18.0" prefHeight="21.0" prefWidth="121.0" text="Recommend" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
             </children>
         </AnchorPane>
     </left>

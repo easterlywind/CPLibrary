@@ -69,6 +69,10 @@ public class UserReservationController {
         NavigationManager.switchScene("/userScene/userLoans.fxml");
     }
 
+    public void switchSceneRcm(MouseEvent mouseEvent) {
+        NavigationManager.switchScene("/userScene/userRcm.fxml");
+    }
+
     public void switchSceneReservation(MouseEvent mouseEvent) {
         NavigationManager.switchScene("/userScene/userReservation.fxml");
     }

@@ -123,7 +123,7 @@ public class StaffLibController {
             vBox.getChildren().addAll(imageView, titleLabel);
 
             imageView.setOnMouseClicked(mouseEvent -> {
-                NavigationManager.switchSceneWithData("/staffScene/staffBookDetail.fxml",
+                NavigationManager.switchScene("/staffScene/staffBookDetail.fxml",
                         (controller,selectedBook) -> {
                             StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
                             staffBookDetailController.setBookDetails((Book) selectedBook);

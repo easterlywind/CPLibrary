@@ -30,7 +30,7 @@ public class NavigationManager {
         }
     }
 
-    public static <T> void switchSceneWithData(String fxmlFilePath, DataInitializer initializer, Object data) {
+    public static <T> void switchScene(String fxmlFilePath, DataInitializer initializer, Object data) {
         try {
             FXMLLoader loader = new FXMLLoader(NavigationManager.class.getResource(fxmlFilePath));
             Parent root = loader.load();

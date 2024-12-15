@@ -32,9 +32,6 @@ public class StaffBookController {
     private ScrollPane booksScrollPane;
 
     @FXML
-    private ProgressIndicator loadingSpinner;
-
-    @FXML
     private Label nameLabel;
 
     private final SQLBookRepository sqlBookRepository = new SQLBookRepository();
@@ -52,7 +49,7 @@ public class StaffBookController {
             return;
         }
         lastSearchKeyword = keyword;
-        flag = keyword.matches("\\d{10}|\\d{13}");
+        flag = isValidIsbn(keyword);
 
         booksListContainer.getChildren().clear();
         currentPageIndex = 0;
@@ -62,8 +59,13 @@ public class StaffBookController {
     private void loadMoreBooks() {
         if (isLoading) return;
 
+        if (!lastSearchKeyword.equals(searchField.getText().trim())) {
+            lastSearchKeyword = searchField.getText().trim();
+            currentPageIndex = 0;
+            booksListContainer.getChildren().clear();
+        }
+
         isLoading = true;
-        loadingSpinner.setVisible(true);
 
         Task<List<Book>> loadTask = new Task<>() {
             @Override
@@ -95,24 +97,28 @@ public class StaffBookController {
             }
         };
 
+
+
+
         loadTask.setOnSucceeded(event -> {
             List<Book> books = loadTask.getValue();
 
-            for (Book book : books) {
-                booksListContainer.getChildren().add(createBookItem(book));
-            }
-
-            if (books.size() == 10) {
-                currentPageIndex++;
+            if (books.isEmpty() && currentPageIndex == 0) {
+                AlertManager.showInfoAlert("No Results", "No books found", "Please try a different search keyword.");
+            } else {
+                for (Book book : books) {
+                    booksListContainer.getChildren().add(createBookItem(book));
+                }
+                if (books.size() == 10) {
+                    currentPageIndex++;
+                }
             }
 
             isLoading = false;
-            loadingSpinner.setVisible(false);
         });
 
         loadTask.setOnFailed(event -> {
             isLoading = false;
-            loadingSpinner.setVisible(false);
             System.err.println("Failed to fetch more books: " + loadTask.getException());
         });
 
@@ -187,7 +193,7 @@ public class StaffBookController {
         });
 
         viewButton.setOnAction(event -> {
-            NavigationManager.switchSceneWithData("/staffScene/staffBookDetail.fxml",
+            NavigationManager.switchScene("/staffScene/staffBookDetail.fxml",
                     (controller, selectedBook) -> {
                         StaffBookDetailController staffBookDetailController = (StaffBookDetailController) controller;
                         staffBookDetailController.setBookDetails((Book) selectedBook);
@@ -233,12 +239,38 @@ public class StaffBookController {
         }
     }
 
+    public boolean isValidIsbn(String isbn) {
+        isbn = isbn.replaceAll("[^\\dX]", "").toUpperCase();
+
+        if (isbn.length() == 10) {
+            int sum = 0;
+            for (int i = 0; i < 9; i++) {
+                sum += (isbn.charAt(i) - '0') * (10 - i);
+            }
+            char checkDigit = isbn.charAt(9);
+            sum += (checkDigit == 'X') ? 10 : (checkDigit - '0');
+            return sum % 11 == 0;
+        }
+
+        if (isbn.length() == 13) {
+            int sum = 0;
+            for (int i = 0; i < 13; i++) {
+                int digit = isbn.charAt(i) - '0';
+                sum += (i % 2 == 0) ? digit : digit * 3;
+            }
+            return sum % 10 == 0;
+        }
+
+        return false;
+    }
+
+
     @FXML
     public void initialize() {
         nameLabel.setText(currentUser.getName());
 
         booksScrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.doubleValue() >= 0.9) {
+            if (newValue.doubleValue() >= 0.9 && !isLoading) {
                 loadMoreBooks();
             }
         });
